@@ -1,0 +1,1122 @@
+<%- include('partials/header', { title: 'Admin Dashboard - Binance Plus' }) %>
+
+<div class="admin-container">
+    <!-- Admin Sidebar -->
+    <aside class="admin-sidebar">
+        <div class="sidebar-header">
+            <div class="admin-profile">
+                <div class="admin-avatar">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <div class="admin-info">
+                    <div class="admin-name">Administrator</div>
+                    <div class="admin-role">Super Admin</div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="admin-nav">
+            <a href="/admin" class="nav-item <%= currentSection === 'overview' ? 'active' : '' %>">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard</span>
+            </a>
+            
+            <a href="/admin/users" class="nav-item <%= currentSection === 'users' ? 'active' : '' %>">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
+                <span class="nav-badge"><%= stats.totalUsers %></span>
+            </a>
+            
+            <a href="/admin/transactions" class="nav-item <%= currentSection === 'transactions' ? 'active' : '' %>">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Transactions</span>
+                <span class="nav-badge"><%= stats.totalTransactions %></span>
+            </a>
+            
+            <a href="/admin/investment-plans" class="nav-item <%= currentSection === 'investment-plans' ? 'active' : '' %>">
+                <i class="fas fa-chart-pie"></i>
+                <span>Investment Plans</span>
+            </a>
+            
+            <a href="/admin/wallets" class="nav-item <%= currentSection === 'wallets' ? 'active' : '' %>">
+                <i class="fas fa-wallet"></i>
+                <span>Wallet Management</span>
+            </a>
+            
+            <a href="/admin/support-tickets" class="nav-item <%= currentSection === 'support-tickets' ? 'active' : '' %>">
+                <i class="fas fa-headset"></i>
+                <span>Support Tickets</span>
+                <span class="nav-badge">12</span>
+            </a>
+            
+            <a href="/admin/settings" class="nav-item <%= currentSection === 'settings' ? 'active' : '' %>">
+                <i class="fas fa-cog"></i>
+                <span>System Settings</span>
+            </a>
+            
+            <div class="nav-divider"></div>
+            
+            <a href="/dashboard" class="nav-item">
+                <i class="fas fa-arrow-left"></i>
+                <span>Back to User Panel</span>
+            </a>
+            
+            <a href="/logout" class="nav-item logout">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>Logout</span>
+            </a>
+        </nav>
+    </aside>
+
+    <!-- Admin Main Content -->
+    <main class="admin-main">
+        <% if (currentSection === 'overview') { %>
+            <!-- Admin Dashboard Overview -->
+            <div class="admin-header">
+                <h1>Admin Dashboard</h1>
+                <p>Welcome to Binance Plus Administration Panel</p>
+            </div>
+
+            <!-- Stats Overview -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= stats.totalUsers.toLocaleString() %></div>
+                        <div class="stat-label">Total Users</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        <%= ((stats.newUsersToday / stats.totalUsers) * 100).toFixed(1) %>%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-check"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= stats.activeUsers.toLocaleString() %></div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= stats.newUsersToday %></div>
+                        <div class="stat-label">New Today</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= stats.totalTransactions.toLocaleString() %></div>
+                        <div class="stat-label">Total Transactions</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= stats.pendingTransactions %></div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= (stats.totalDeposits / 1000).toFixed(1) %>K</div>
+                        <div class="stat-label">Total Deposits</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= (stats.totalWithdrawals / 1000).toFixed(1) %>K</div>
+                        <div class="stat-label">Total Withdrawals</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= ((stats.totalDeposits - stats.totalWithdrawals) / 1000).toFixed(1) %>K</div>
+                        <div class="stat-label">Net Flow</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Charts Row -->
+            <div class="charts-row">
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>User Growth</h3>
+                        <select class="chart-period">
+                            <option value="7d">7 Days</option>
+                            <option value="30d" selected>30 Days</option>
+                            <option value="90d">90 Days</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="userGrowthChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="chart-card">
+                    <div class="chart-header">
+                        <h3>Revenue Overview</h3>
+                        <select class="chart-period">
+                            <option value="7d">7 Days</option>
+                            <option value="30d" selected>30 Days</option>
+                            <option value="90d">90 Days</option>
+                        </select>
+                    </div>
+                    <div class="chart-container">
+                        <canvas id="revenueChart"></canvas>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="activity-row">
+                <div class="activity-card">
+                    <div class="card-header">
+                        <h3>Recent Users</h3>
+                        <a href="/admin/users" class="btn-link">View All</a>
+                    </div>
+                    <div class="activity-list">
+                        <% recentUsers.forEach(user => { %>
+                            <div class="activity-item">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="user-name"><%= user.firstName %> <%= user.lastName %></div>
+                                    <div class="user-email"><%= user.email %></div>
+                                    <div class="activity-time">
+                                        <%= new Date(user.registrationDate).toLocaleDateString() %>
+                                    </div>
+                                </div>
+                                <div class="activity-action">
+                                    <button class="btn btn-sm btn-outline view-user" data-user-id="<%= user._id %>">
+                                        View
+                                    </button>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+
+                <div class="activity-card">
+                    <div class="card-header">
+                        <h3>Recent Transactions</h3>
+                        <a href="/admin/transactions" class="btn-link">View All</a>
+                    </div>
+                    <div class="activity-list">
+                        <% recentTransactions.forEach(transaction => { %>
+                            <div class="activity-item">
+                                <div class="transaction-icon">
+                                    <% if (transaction.type === 'deposit') { %>
+                                        <i class="fas fa-arrow-down success"></i>
+                                    <% } else if (transaction.type === 'withdrawal') { %>
+                                        <i class="fas fa-arrow-up warning"></i>
+                                    <% } else if (transaction.type === 'investment') { %>
+                                        <i class="fas fa-chart-pie primary"></i>
+                                    <% } else { %>
+                                        <i class="fas fa-exchange-alt"></i>
+                                    <% } %>
+                                </div>
+                                <div class="activity-details">
+                                    <div class="transaction-type"><%= transaction.type.toUpperCase() %></div>
+                                    <div class="user-info">
+                                        <%= transaction.userId.firstName %> <%= transaction.userId.lastName %>
+                                    </div>
+                                    <div class="activity-time">
+                                        <%= new Date(transaction.createdAt).toLocaleDateString() %>
+                                    </div>
+                                </div>
+                                <div class="activity-amount <%= transaction.type === 'withdrawal' ? 'negative' : 'positive' %>">
+                                    <%= transaction.type === 'withdrawal' ? '-' : '+' %>$<%= transaction.amount %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="quick-actions">
+                <div class="section-header">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="actions-grid">
+                    <a href="/admin/users?status=pending" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-user-check"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Verify Users</h3>
+                            <p>Approve pending user registrations</p>
+                        </div>
+                    </a>
+
+                    <a href="/admin/transactions?status=pending" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Pending Transactions</h3>
+                            <p>Review and process transactions</p>
+                        </div>
+                    </a>
+
+                    <a href="/admin/investment-plans" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Manage Plans</h3>
+                            <p>Update investment plans</p>
+                        </div>
+                    </a>
+
+                    <a href="/admin/support-tickets" class="action-card">
+                        <div class="action-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Support Tickets</h3>
+                            <p>Respond to user inquiries</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+        <% } else if (currentSection === 'users') { %>
+            <!-- Users Management -->
+            <div class="admin-header">
+                <div class="header-content">
+                    <h1>Users Management</h1>
+                    <p>Manage user accounts and permissions</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="addUserBtn">
+                        <i class="fas fa-user-plus"></i>
+                        Add User
+                    </button>
+                </div>
+            </div>
+
+            <!-- Users Filters -->
+            <div class="filters-card">
+                <div class="filters-row">
+                    <div class="filter-group">
+                        <label>Search</label>
+                        <input type="text" id="searchUsers" placeholder="Search by name, email..." 
+                               value="<%= pagination.search %>" class="form-control">
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Status</label>
+                        <select id="statusFilter" class="form-control">
+                            <option value="all" <%= pagination.status === 'all' ? 'selected' : '' %>>All Users</option>
+                            <option value="active" <%= pagination.status === 'active' ? 'selected' : '' %>>Active Only</option>
+                            <option value="inactive" <%= pagination.status === 'inactive' ? 'selected' : '' %>>Inactive Only</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-group">
+                        <label>Sort By</label>
+                        <select id="sortUsers" class="form-control">
+                            <option value="newest">Newest First</option>
+                            <option value="oldest">Oldest First</option>
+                            <option value="name">Name A-Z</option>
+                        </select>
+                    </div>
+                    
+                    <div class="filter-actions">
+                        <button class="btn btn-outline" id="resetFilters">
+                            <i class="fas fa-redo"></i>
+                            Reset
+                        </button>
+                        <button class="btn btn-primary" id="applyFilters">
+                            <i class="fas fa-filter"></i>
+                            Apply
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-info">
+                        Showing <%= users.length %> of <%= pagination.totalUsers %> users
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline btn-sm" id="exportUsers">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table" id="usersTable">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <input type="checkbox" id="selectAllUsers">
+                                </th>
+                                <th>User</th>
+                                <th>Email</th>
+                                <th>Country</th>
+                                <th>Balance</th>
+                                <th>Status</th>
+                                <th>Joined</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% users.forEach(user => { %>
+                                <tr data-user-id="<%= user._id %>">
+                                    <td>
+                                        <input type="checkbox" class="user-checkbox" value="<%= user._id %>">
+                                    </td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div class="user-details">
+                                                <div class="user-name"><%= user.firstName %> <%= user.lastName %></div>
+                                                <div class="user-ref">Ref: <%= user.referralCode %></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td><%= user.email %></td>
+                                    <td><%= user.country %></td>
+                                    <td>
+                                        <div class="balance-cell">
+                                            $<%= (user.walletBalance.usdt + user.walletBalance.btc * 45000 + user.walletBalance.eth * 2400).toFixed(2) %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="status-cell">
+                                            <label class="switch">
+                                                <input type="checkbox" <%= user.isActive ? 'checked' : '' %> 
+                                                       class="user-status-toggle" data-user-id="<%= user._id %>">
+                                                <span class="slider"></span>
+                                            </label>
+                                            <span class="status-text <%= user.isActive ? 'active' : 'inactive' %>">
+                                                <%= user.isActive ? 'Active' : 'Inactive' %>
+                                            </span>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="date-cell">
+                                            <%= new Date(user.registrationDate).toLocaleDateString() %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-cell">
+                                            <button class="btn-icon view-user" data-user-id="<%= user._id %>" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-icon edit-user" data-user-id="<%= user._id %>" title="Edit User">
+                                                <i class="fas fa-edit"></i>
+                                            </button>
+                                            <button class="btn-icon delete-user" data-user-id="<%= user._id %>" title="Delete User">
+                                                <i class="fas fa-trash"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination -->
+                <% if (pagination.totalPages > 1) { %>
+                    <div class="table-footer">
+                        <div class="pagination-info">
+                            Page <%= pagination.page %> of <%= pagination.totalPages %>
+                        </div>
+                        <div class="pagination-controls">
+                            <% if (pagination.page > 1) { %>
+                                <a href="?page=<%= pagination.page - 1 %>&search=<%= pagination.search %>&status=<%= pagination.status %>" 
+                                   class="pagination-link">
+                                    <i class="fas fa-chevron-left"></i>
+                                    Previous
+                                </a>
+                            <% } %>
+                            
+                            <% for (let i = 1; i <= pagination.totalPages; i++) { %>
+                                <% if (i === pagination.page) { %>
+                                    <span class="pagination-link active"><%= i %></span>
+                                <% } else if (i >= pagination.page - 2 && i <= pagination.page + 2) { %>
+                                    <a href="?page=<%= i %>&search=<%= pagination.search %>&status=<%= pagination.status %>" 
+                                       class="pagination-link"><%= i %></a>
+                                <% } %>
+                            <% } %>
+                            
+                            <% if (pagination.page < pagination.totalPages) { %>
+                                <a href="?page=<%= pagination.page + 1 %>&search=<%= pagination.search %>&status=<%= pagination.status %>" 
+                                   class="pagination-link">
+                                    Next
+                                    <i class="fas fa-chevron-right"></i>
+                                </a>
+                            <% } %>
+                        </div>
+                    </div>
+                <% } %>
+            </div>
+
+            <!-- Bulk Actions -->
+            <div class="bulk-actions" id="bulkActions" style="display: none;">
+                <div class="bulk-info">
+                    <span id="selectedCount">0</span> users selected
+                </div>
+                <div class="bulk-controls">
+                    <select id="bulkAction" class="form-control">
+                        <option value="">Choose action...</option>
+                        <option value="activate">Activate</option>
+                        <option value="deactivate">Deactivate</option>
+                        <option value="delete">Delete</option>
+                    </select>
+                    <button class="btn btn-primary btn-sm" id="applyBulkAction">Apply</button>
+                </div>
+            </div>
+
+        <% } else if (currentSection === 'transactions') { %>
+            <!-- Transactions Management -->
+            <div class="admin-header">
+                <div class="header-content">
+                    <h1>Transactions Management</h1>
+                    <p>Monitor and manage all financial transactions</p>
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-outline" id="refreshTransactions">
+                        <i class="fas fa-sync-alt"></i>
+                        Refresh
+                    </button>
+                </div>
+            </div>
+
+            <!-- Transaction Stats -->
+            <div class="stats-grid compact">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-exchange-alt"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= transactionStats.total.toLocaleString() %></div>
+                        <div class="stat-label">Total Transactions</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-clock"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= transactionStats.pending %></div>
+                        <div class="stat-label">Pending</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= transactionStats.completed %></div>
+                        <div class="stat-label">Completed</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-times-circle"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= transactionStats.failed %></div>
+                        <div class="stat-label">Failed</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Transactions Table -->
+            <div class="table-card">
+                <div class="table-header">
+                    <div class="table-info">
+                        Showing <%= transactions.length %> of <%= pagination.totalTransactions %> transactions
+                    </div>
+                    <div class="table-actions">
+                        <button class="btn btn-outline btn-sm" id="exportTransactions">
+                            <i class="fas fa-download"></i>
+                            Export
+                        </button>
+                    </div>
+                </div>
+
+                <div class="table-responsive">
+                    <table class="admin-table" id="transactionsTable">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>User</th>
+                                <th>Type</th>
+                                <th>Amount</th>
+                                <th>Currency</th>
+                                <th>Status</th>
+                                <th>Date</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% transactions.forEach(transaction => { %>
+                                <tr class="status-<%= transaction.status %>" data-transaction-id="<%= transaction._id %>">
+                                    <td>
+                                        <div class="id-cell">
+                                            #<%= transaction._id.toString().substring(18, 24) %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="user-cell">
+                                            <div class="user-avatar">
+                                                <i class="fas fa-user"></i>
+                                            </div>
+                                            <div class="user-details">
+                                                <div class="user-name">
+                                                    <%= transaction.userId.firstName %> <%= transaction.userId.lastName %>
+                                                </div>
+                                                <div class="user-email"><%= transaction.userId.email %></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="type-cell <%= transaction.type %>">
+                                            <i class="fas fa-<%= getTransactionIcon(transaction.type) %>"></i>
+                                            <%= transaction.type.toUpperCase() %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="amount-cell">
+                                            $<%= transaction.amount.toFixed(2) %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="currency-cell">
+                                            <%= transaction.currency %>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="status-cell">
+                                            <select class="status-select" data-transaction-id="<%= transaction._id %>">
+                                                <option value="pending" <%= transaction.status === 'pending' ? 'selected' : '' %>>Pending</option>
+                                                <option value="completed" <%= transaction.status === 'completed' ? 'selected' : '' %>>Completed</option>
+                                                <option value="failed" <%= transaction.status === 'failed' ? 'selected' : '' %>>Failed</option>
+                                                <option value="cancelled" <%= transaction.status === 'cancelled' ? 'selected' : '' %>>Cancelled</option>
+                                            </select>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="date-cell">
+                                            <%= new Date(transaction.createdAt).toLocaleDateString() %>
+                                            <br>
+                                            <small><%= new Date(transaction.createdAt).toLocaleTimeString() %></small>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="action-cell">
+                                            <button class="btn-icon view-transaction" 
+                                                    data-transaction-id="<%= transaction._id %>" 
+                                                    title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="btn-icon approve-transaction" 
+                                                    data-transaction-id="<%= transaction._id %>" 
+                                                    title="Approve"
+                                                    <%= transaction.status !== 'pending' ? 'disabled' : '' %>>
+                                                <i class="fas fa-check"></i>
+                                            </button>
+                                            <button class="btn-icon reject-transaction" 
+                                                    data-transaction-id="<%= transaction._id %>" 
+                                                    title="Reject"
+                                                    <%= transaction.status !== 'pending' ? 'disabled' : '' %>>
+                                                <i class="fas fa-times"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+
+                <!-- Pagination would go here similar to users table -->
+            </div>
+
+        <% } else if (currentSection === 'user-details') { %>
+            <!-- User Details Page -->
+            <div class="admin-header">
+                <div class="header-content">
+                    <h1>User Details</h1>
+                    <p>Detailed information about user account</p>
+                </div>
+                <div class="header-actions">
+                    <a href="/admin/users" class="btn btn-outline">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Users
+                    </a>
+                </div>
+            </div>
+
+            <!-- User Profile Card -->
+            <div class="user-profile-card">
+                <div class="profile-header">
+                    <div class="profile-avatar">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div class="profile-info">
+                        <h2><%= userDetails.firstName %> <%= userDetails.lastName %></h2>
+                        <p><%= userDetails.email %></p>
+                        <div class="profile-meta">
+                            <span class="meta-item">
+                                <i class="fas fa-calendar"></i>
+                                Joined <%= new Date(userDetails.registrationDate).toLocaleDateString() %>
+                            </span>
+                            <span class="meta-item">
+                                <i class="fas fa-map-marker-alt"></i>
+                                <%= userDetails.city %>, <%= userDetails.country %>
+                            </span>
+                            <span class="meta-item status <%= userDetails.isActive ? 'active' : 'inactive' %>">
+                                <i class="fas fa-circle"></i>
+                                <%= userDetails.isActive ? 'Active' : 'Inactive' %>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="profile-actions">
+                        <button class="btn btn-outline edit-user" data-user-id="<%= userDetails._id %>">
+                            <i class="fas fa-edit"></i>
+                            Edit
+                        </button>
+                        <button class="btn <%= userDetails.isActive ? 'btn-warning' : 'btn-success' %> toggle-status" 
+                                data-user-id="<%= userDetails._id %>">
+                            <i class="fas fa-power-off"></i>
+                            <%= userDetails.isActive ? 'Deactivate' : 'Activate' %>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Wallet Balance -->
+                <div class="wallet-section">
+                    <h3>Wallet Balance</h3>
+                    <div class="wallet-grid">
+                        <div class="wallet-item">
+                            <div class="wallet-icon usdt">
+                                <i class="fab fa-usd"></i>
+                            </div>
+                            <div class="wallet-info">
+                                <div class="wallet-amount">$<%= userDetails.walletBalance.usdt.toFixed(2) %></div>
+                                <div class="wallet-label">USDT Balance</div>
+                            </div>
+                        </div>
+                        <div class="wallet-item">
+                            <div class="wallet-icon btc">
+                                <i class="fab fa-btc"></i>
+                            </div>
+                            <div class="wallet-info">
+                                <div class="wallet-amount"><%= userDetails.walletBalance.btc.toFixed(8) %></div>
+                                <div class="wallet-label">BTC Balance</div>
+                            </div>
+                        </div>
+                        <div class="wallet-item">
+                            <div class="wallet-icon eth">
+                                <i class="fab fa-ethereum"></i>
+                            </div>
+                            <div class="wallet-info">
+                                <div class="wallet-amount"><%= userDetails.walletBalance.eth.toFixed(6) %></div>
+                                <div class="wallet-label">ETH Balance</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Transactions -->
+                <div class="transactions-section">
+                    <h3>Recent Transactions</h3>
+                    <div class="transactions-list">
+                        <% userTransactions.forEach(transaction => { %>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <i class="fas fa-<%= getTransactionIcon(transaction.type) %>"></i>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-type"><%= transaction.type.toUpperCase() %></div>
+                                    <div class="transaction-date">
+                                        <%= new Date(transaction.createdAt).toLocaleDateString() %>
+                                    </div>
+                                </div>
+                                <div class="transaction-amount <%= transaction.type === 'withdrawal' ? 'negative' : 'positive' %>">
+                                    <%= transaction.type === 'withdrawal' ? '-' : '+' %>$<%= transaction.amount.toFixed(2) %>
+                                </div>
+                                <div class="transaction-status <%= transaction.status %>">
+                                    <%= transaction.status %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+
+        <% } %>
+    </main>
+</div>
+
+<!-- Admin Modals -->
+<div class="modal" id="userDetailsModal">
+    <!-- User details modal content -->
+</div>
+
+<div class="modal" id="editUserModal">
+    <!-- Edit user modal content -->
+</div>
+
+<div class="modal" id="transactionDetailsModal">
+    <!-- Transaction details modal content -->
+</div>
+
+<style>
+.admin-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: 100vh;
+    background: var(--background-dark);
+}
+
+/* Admin Sidebar */
+.admin-sidebar {
+    background: var(--secondary-color);
+    border-right: 1px solid var(--border-color);
+    padding: 2rem 0;
+}
+
+.admin-profile {
+    padding: 0 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 1rem;
+}
+
+.admin-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+}
+
+.admin-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.admin-role {
+    color: var(--text-muted);
+    font-size: 0.9rem;
+}
+
+.admin-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem;
+}
+
+.nav-divider {
+    height: 1px;
+    background: var(--border-color);
+    margin: 1rem 0;
+}
+
+/* Admin Main Content */
+.admin-main {
+    padding: 2rem;
+    background: var(--background-dark);
+    overflow-y: auto;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.admin-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stats-grid.compact {
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+.stat-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: var(--primary-color);
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.25rem;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.stat-trend.positive {
+    color: var(--success-color);
+}
+
+/* Charts */
+.charts-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.chart-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.chart-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.chart-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.chart-container {
+    height: 250px;
+}
+
+/* Activity Row */
+.activity-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.activity-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.card-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.activity-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.activity-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem;
+    background: var(--accent-color);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.user-avatar {
+    width: 40px;
+    height: 40px;
+    background: var(--primary-color);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1rem;
+}
+
+.activity-details {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.user-email, .activity-time {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* Tables */
+.table-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.table-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.table-responsive {
+    overflow-x: auto;
+}
+
+.admin-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.admin-table th {
+    background: var(--accent-color);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.admin-table tr:hover {
+    background: var(--accent-color);
+}
+
+/* Additional admin-specific styles... */
+</style>
+
+<script>
+// Admin panel JavaScript functionality
+// This would integrate with the admin.js file
+</script>
+
+<%- include('partials/footer') %>
+
+<% function getTransactionIcon(type) {
+    const icons = {
+        'deposit': 'arrow-down',
+        'withdrawal': 'arrow-up', 
+        'investment': 'chart-pie',
+        'referral_bonus': 'gift',
+        'buy': 'shopping-cart',
+        'sell': 'dollar-sign'
+    };
+    return icons[type] || 'exchange-alt';
+} %>

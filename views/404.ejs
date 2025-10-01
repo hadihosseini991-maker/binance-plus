@@ -1,0 +1,459 @@
+<%- include('partials/header', { title: 'Page Not Found - Binance Plus' }) %>
+
+<div class="error-page">
+    <div class="error-container">
+        <div class="error-content">
+            <div class="error-graphic">
+                <div class="error-number">4<span>0</span>4</div>
+                <div class="error-illustration">
+                    <div class="crypto-astronaut">
+                        <div class="helmet">
+                            <div class="visor"></div>
+                        </div>
+                        <div class="body"></div>
+                        <div class="arm left"></div>
+                        <div class="arm right"></div>
+                        <div class="coin btc"></div>
+                        <div class="coin eth"></div>
+                        <div class="coin bnb"></div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="error-message">
+                <h1>Page Lost in Space</h1>
+                <p>The page you're looking for seems to have drifted into the crypto cosmos. Don't worry, even the best traders sometimes take wrong turns!</p>
+                
+                <div class="error-suggestions">
+                    <div class="suggestion">
+                        <i class="fas fa-search"></i>
+                        <div>
+                            <h3>Check the URL</h3>
+                            <p>Make sure you've entered the correct address</p>
+                        </div>
+                    </div>
+                    <div class="suggestion">
+                        <i class="fas fa-home"></i>
+                        <div>
+                            <h3>Return to Safety</h3>
+                            <p>Go back to our homepage and start fresh</p>
+                        </div>
+                    </div>
+                    <div class="suggestion">
+                        <i class="fas fa-headset"></i>
+                        <div>
+                            <h3>Get Help</h3>
+                            <p>Contact our support team for assistance</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="error-actions">
+                    <a href="/" class="btn btn-primary btn-lg">
+                        <i class="fas fa-rocket"></i>
+                        Launch to Homepage
+                    </a>
+                    <a href="javascript:history.back()" class="btn btn-outline btn-lg">
+                        <i class="fas fa-arrow-left"></i>
+                        Go Back in Time
+                    </a>
+                    <a href="/support" class="btn btn-outline btn-lg">
+                        <i class="fas fa-life-ring"></i>
+                        Request Rescue
+                    </a>
+                </div>
+                
+                <div class="error-stats">
+                    <div class="stat">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">150K+</div>
+                        <div class="stat-label">Happy Traders</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Support</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.error-page {
+    min-height: 100vh;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0c0c0c 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+}
+
+.error-container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.error-content {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+}
+
+.error-graphic {
+    text-align: center;
+    position: relative;
+}
+
+.error-number {
+    font-size: 12rem;
+    font-weight: 900;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    line-height: 1;
+    margin-bottom: 2rem;
+    position: relative;
+}
+
+.error-number span {
+    background: linear-gradient(135deg, #627eea, #8a9cff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.error-illustration {
+    position: relative;
+    height: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.crypto-astronaut {
+    position: relative;
+    width: 120px;
+    height: 160px;
+    animation: float 3s ease-in-out infinite;
+}
+
+.helmet {
+    width: 80px;
+    height: 80px;
+    background: linear-gradient(135deg, #333, #555);
+    border-radius: 50%;
+    position: absolute;
+    top: 0;
+    left: 20px;
+    border: 3px solid var(--primary-color);
+}
+
+.visor {
+    width: 50px;
+    height: 30px;
+    background: linear-gradient(135deg, #0af, #5cf);
+    border-radius: 15px;
+    position: absolute;
+    top: 25px;
+    left: 15px;
+    border: 2px solid #333;
+}
+
+.body {
+    width: 60px;
+    height: 70px;
+    background: linear-gradient(135deg, #444, #666);
+    border-radius: 30px;
+    position: absolute;
+    top: 70px;
+    left: 30px;
+    border: 2px solid var(--primary-color);
+}
+
+.arm {
+    width: 20px;
+    height: 40px;
+    background: linear-gradient(135deg, #444, #666);
+    border-radius: 10px;
+    position: absolute;
+    border: 2px solid var(--primary-color);
+}
+
+.arm.left {
+    top: 80px;
+    left: 5px;
+    transform: rotate(-30deg);
+}
+
+.arm.right {
+    top: 80px;
+    right: 5px;
+    transform: rotate(30deg);
+}
+
+.coin {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    position: absolute;
+    animation: coin-float 4s ease-in-out infinite;
+}
+
+.coin.btc {
+    background: linear-gradient(135deg, #f7931a, #f9aa4b);
+    top: 20px;
+    right: 10px;
+    animation-delay: 0s;
+}
+
+.coin.eth {
+    background: linear-gradient(135deg, #627eea, #8a9cff);
+    bottom: 30px;
+    left: 10px;
+    animation-delay: 1.3s;
+}
+
+.coin.bnb {
+    background: linear-gradient(135deg, #f3ba2f, #f7d36a);
+    bottom: 10px;
+    right: 30px;
+    animation-delay: 2.6s;
+}
+
+@keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+}
+
+@keyframes coin-float {
+    0%, 100% { 
+        transform: translateY(0px) rotate(0deg);
+        opacity: 1;
+    }
+    25% { 
+        transform: translateY(-30px) rotate(90deg);
+        opacity: 0.8;
+    }
+    50% { 
+        transform: translateY(-60px) rotate(180deg);
+        opacity: 0.6;
+    }
+    75% { 
+        transform: translateY(-30px) rotate(270deg);
+        opacity: 0.8;
+    }
+}
+
+.error-message {
+    color: var(--text-primary);
+}
+
+.error-message h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    background: linear-gradient(135deg, var(--text-primary), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.error-message p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-bottom: 3rem;
+    line-height: 1.6;
+}
+
+.error-suggestions {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin-bottom: 3rem;
+}
+
+.suggestion {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: all 0.3s ease;
+}
+
+.suggestion:hover {
+    background: rgba(255, 255, 255, 0.08);
+    border-color: var(--primary-color);
+    transform: translateX(10px);
+}
+
+.suggestion i {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.suggestion h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.suggestion p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.error-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 3rem;
+    flex-wrap: wrap;
+}
+
+.error-actions .btn {
+    flex: 1;
+    min-width: 200px;
+    justify-content: center;
+}
+
+.error-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+}
+
+.stat {
+    text-align: center;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 15px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .error-content {
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        text-align: center;
+    }
+    
+    .error-number {
+        font-size: 8rem;
+    }
+    
+    .error-message h1 {
+        font-size: 2.5rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .error-actions {
+        flex-direction: column;
+    }
+    
+    .error-actions .btn {
+        min-width: auto;
+    }
+    
+    .error-stats {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .suggestion {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .suggestion i {
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .error-number {
+        font-size: 6rem;
+    }
+    
+    .error-message h1 {
+        font-size: 2rem;
+    }
+    
+    .error-message p {
+        font-size: 1rem;
+    }
+    
+    .crypto-astronaut {
+        transform: scale(0.8);
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add some interactive elements
+    const astronaut = document.querySelector('.crypto-astronaut');
+    const coins = document.querySelectorAll('.coin');
+    
+    // Make coins interactive
+    coins.forEach(coin => {
+        coin.addEventListener('mouseenter', function() {
+            this.style.animationPlayState = 'paused';
+        });
+        
+        coin.addEventListener('mouseleave', function() {
+            this.style.animationPlayState = 'running';
+        });
+    });
+    
+    // Add click effect to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function() {
+            this.style.transform = 'scale(0.95)';
+            setTimeout(() => {
+                this.style.transform = 'scale(1)';
+            }, 150);
+        });
+    });
+    
+    // Add parallax effect to astronaut
+    document.addEventListener('mousemove', function(e) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        astronaut.style.transform = `translate(${x}px, ${y}px)`;
+    });
+});
+</script>
+
+<%- include('partials/footer') %>

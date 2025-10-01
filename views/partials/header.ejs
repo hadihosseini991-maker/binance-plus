@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="<%= currentLang %>" dir="<%= currentLang === 'fa' || currentLang === 'ar' ? 'rtl' : 'ltr' %>">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="<%= __('slogan') %>">
+    <meta name="keywords" content="cryptocurrency, investment, trading, bitcoin, ethereum, binance">
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+
+    <!-- Content Security Policy -->
+    <meta http-equiv="Content-Security-Policy" content="
+        default-src 'self';
+        script-src 'self' 'unsafe-inline';
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com;
+        font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com;
+        img-src 'self' data: https:;
+        connect-src 'self' https:;
+        frame-src 'self' https:;
+        object-src 'none';
+    ">
+
+    <!-- Styles -->
+    <link rel="stylesheet" href="/css/style.css">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- Optional: Preconnect for faster font loading -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <!-- Optional: JS Libraries -->
+    <!-- اگر لایبرری خارجی نیاز داری، CSP باید اجازه بده -->
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/xyz/1.2.3/xyz.min.js" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer"></script> -->
+</head>
+<body class="dark-theme">
+    <!-- Loading Spinner -->
+    <div id="loadingSpinner" class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="container">
+            <nav class="nav">
+                <!-- Logo -->
+                <div class="nav-brand">
+                    <a href="/" class="logo">
+                        <i class="fas fa-coins"></i>
+                        <span>Binance Plus</span>
+                    </a>
+                </div>
+
+                <!-- Navigation Menu -->
+                <div class="nav-menu" id="navMenu">
+                    <a href="/" class="nav-link <%= currentPath === '/' ? 'active' : '' %>">
+                        <i class="fas fa-home"></i>
+                        <%= __('navigation.home') %>
+                    </a>
+
+                    <% if (user) { %>
+                        <a href="/dashboard" class="nav-link <%= currentPath.includes('/dashboard') ? 'active' : '' %>">
+                            <i class="fas fa-chart-line"></i>
+                            <%= __('navigation.dashboard') %>
+                        </a>
+
+                        <a href="/investment" class="nav-link <%= currentPath.includes('/investment') ? 'active' : '' %>">
+                            <i class="fas fa-chart-pie"></i>
+                            <%= __('navigation.investment') %>
+                        </a>
+
+                        <a href="/crypto" class="nav-link <%= currentPath.includes('/crypto') ? 'active' : '' %>">
+                            <i class="fas fa-exchange-alt"></i>
+                            <%= __('navigation.crypto') %>
+                        </a>
+                    <% } %>
+                </div>
+
+                <!-- Right Section -->
+                <div class="nav-actions">
+                    <!-- Language Switcher -->
+                    <div class="language-switcher">
+                        <button class="lang-btn" id="langBtn">
+                            <i class="fas fa-globe"></i>
+                            <span><%= currentLang.toUpperCase() %></span>
+                            <i class="fas fa-chevron-down"></i>
+                        </button>
+                        <div class="lang-dropdown" id="langDropdown">
+                            <a href="/change-language/en" class="lang-option <%= currentLang === 'en' ? 'active' : '' %>">🇺🇸 English</a>
+                            <a href="/change-language/fa" class="lang-option <%= currentLang === 'fa' ? 'active' : '' %>">🇮🇷 فارسی</a>
+                            <a href="/change-language/ar" class="lang-option <%= currentLang === 'ar' ? 'active' : '' %>">🇸🇦 العربية</a>
+                            <a href="/change-language/tr" class="lang-option <%= currentLang === 'tr' ? 'active' : '' %>">🇹🇷 Türkçe</a>
+                        </div>
+                    </div>
+
+                    <!-- User Menu -->
+                    <% if (user) { %>
+                        <div class="user-menu">
+                            <button class="user-btn" id="userBtn">
+                                <div class="user-avatar"><i class="fas fa-user"></i></div>
+                                <span class="user-name"><%= user.firstName %></span>
+                                <i class="fas fa-chevron-down"></i>
+                            </button>
+                            <div class="user-dropdown" id="userDropdown">
+                                <a href="/dashboard" class="user-dropdown-item">
+                                    <i class="fas fa-tachometer-alt"></i>
+                                    <%= __('navigation.dashboard') %>
+                                </a>
+                                <a href="/dashboard/profile" class="user-dropdown-item">
+                                    <i class="fas fa-user-cog"></i> Profile Settings
+                                </a>
+                                <a href="/dashboard/wallet" class="user-dropdown-item">
+                                    <i class="fas fa-wallet"></i> My Wallet
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a href="/logout" class="user-dropdown-item logout">
+                                    <i class="fas fa-sign-out-alt"></i> <%= __('navigation.logout') %>
+                                </a>
+                            </div>
+                        </div>
+                    <% } else { %>
+                        <div class="auth-buttons">
+                            <a href="/login" class="btn btn-outline">
+                                <i class="fas fa-sign-in-alt"></i> <%= __('navigation.login') %>
+                            </a>
+                            <a href="/register" class="btn btn-primary">
+                                <i class="fas fa-user-plus"></i> <%= __('navigation.register') %>
+                            </a>
+                        </div>
+                    <% } %>
+
+                    <!-- Mobile Menu Toggle -->
+                    <button class="mobile-toggle" id="mobileToggle">
+                        <span></span>
+                        <span></span>
+                        <span></span>
+                    </button>
+                </div>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Crypto Ticker -->
+    <div class="crypto-ticker">
+        <div class="ticker-container">
+            <div class="ticker-label">
+                <i class="fas fa-chart-line"></i>
+                <span>Live Prices:</span>
+            </div>
+            <div class="ticker-content" id="cryptoTicker">
+                <!-- Ticker items populated by JS securely -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <main class="main-content">

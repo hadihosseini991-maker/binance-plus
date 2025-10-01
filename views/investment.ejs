@@ -1,0 +1,940 @@
+<%- include('partials/header', { title: __('investment.title') }) %>
+
+<div class="investment-container">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><%= __('investment.title') %></h1>
+            <p>Choose from our premium investment plans and start earning daily profits</p>
+        </div>
+
+        <!-- Investment Plans Grid -->
+        <div class="investment-plans-grid">
+            <% investmentPlans.forEach((plan, index) => { %>
+                <div class="investment-plan-card <%= index === 1 ? 'featured' : '' %>">
+                    <% if (index === 1) { %>
+                        <div class="plan-badge">Most Popular</div>
+                    <% } %>
+                    
+                    <div class="plan-header">
+                        <h3><%= plan.name %></h3>
+                        <div class="plan-amount">$<%= plan.amount %></div>
+                    </div>
+
+                    <div class="plan-profit">
+                        <div class="profit-percentage"><%= plan.dailyProfit %>%</div>
+                        <div class="profit-label">Daily Profit</div>
+                    </div>
+
+                    <div class="plan-features">
+                        <% plan.features.forEach(feature => { %>
+                            <div class="feature-item">
+                                <i class="fas fa-check"></i>
+                                <span><%= feature %></span>
+                            </div>
+                        <% }) %>
+                    </div>
+
+                    <div class="plan-stats">
+                        <div class="stat">
+                            <div class="stat-value">30</div>
+                            <div class="stat-label">Days</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-value">$<%= (plan.amount * plan.dailyProfit / 100 * 30).toFixed(0) %></div>
+                            <div class="stat-label">Total Profit</div>
+                        </div>
+                    </div>
+
+                    <div class="plan-action">
+                        <% if (user) { %>
+                            <button class="btn btn-primary btn-block invest-btn" 
+                                    data-plan-id="<%= plan._id %>"
+                                    data-plan-name="<%= plan.name %>"
+                                    data-plan-amount="<%= plan.amount %>">
+                                <i class="fas fa-chart-pie"></i>
+                                Invest Now
+                            </button>
+                        <% } else { %>
+                            <a href="/login" class="btn btn-outline btn-block">
+                                <i class="fas fa-sign-in-alt"></i>
+                                Login to Invest
+                            </a>
+                        <% } %>
+                    </div>
+                </div>
+            <% }) %>
+        </div>
+
+        <!-- Investment Calculator -->
+        <div class="calculator-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Investment Calculator</h2>
+                    <p>Calculate your potential earnings</p>
+                </div>
+                
+                <div class="calculator-form">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="calcPlan">Select Plan</label>
+                            <select id="calcPlan" class="form-control">
+                                <% investmentPlans.forEach(plan => { %>
+                                    <option value="<%= plan._id %>" 
+                                            data-profit="<%= plan.dailyProfit %>"
+                                            data-amount="<%= plan.amount %>">
+                                        <%= plan.name %> - $<%= plan.amount %> (<%= plan.dailyProfit %>% daily)
+                                    </option>
+                                <% }) %>
+                            </select>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="calcAmount">Investment Amount ($)</label>
+                            <input type="number" id="calcAmount" class="form-control" 
+                                   min="0" step="1" value="300">
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="calcDays">Investment Period (Days)</label>
+                            <input type="number" id="calcDays" class="form-control" 
+                                   min="1" max="365" value="30">
+                        </div>
+                    </div>
+                    
+                    <button class="btn btn-outline" id="calculateBtn">
+                        <i class="fas fa-calculator"></i>
+                        Calculate Profit
+                    </button>
+                </div>
+                
+                <div class="calculator-results" id="calculatorResults" style="display: none;">
+                    <h4>Projected Earnings</h4>
+                    <div class="results-grid">
+                        <div class="result-item">
+                            <div class="result-label">Daily Profit</div>
+                            <div class="result-value" id="dailyProfit">$0.00</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Total Profit</div>
+                            <div class="result-value" id="totalProfit">$0.00</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">Total Return</div>
+                            <div class="result-value" id="totalReturn">$0.00</div>
+                        </div>
+                        <div class="result-item">
+                            <div class="result-label">ROI</div>
+                            <div class="result-value" id="roiPercentage">0%</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Active Investments -->
+        <% if (user && userInvestments && userInvestments.length > 0) { %>
+            <div class="active-investments-section">
+                <div class="section-card">
+                    <div class="section-header">
+                        <h2>Your Active Investments</h2>
+                        <p>Track your current investments and earnings</p>
+                    </div>
+                    
+                    <div class="investments-list">
+                        <% userInvestments.forEach(investment => { %>
+                            <div class="investment-item">
+                                <div class="investment-icon">
+                                    <i class="fas fa-chart-pie"></i>
+                                </div>
+                                
+                                <div class="investment-details">
+                                    <div class="investment-name"><%= investment.planName %></div>
+                                    <div class="investment-meta">
+                                        <span class="investment-amount">$<%= investment.amount %></span>
+                                        <span class="investment-date">
+                                            Started <%= new Date(investment.startDate).toLocaleDateString() %>
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div class="investment-earnings">
+                                    <div class="earnings-amount">+$<%= investment.totalEarned %></div>
+                                    <div class="earnings-label">Total Earned</div>
+                                </div>
+                                
+                                <div class="investment-status <%= investment.status %>">
+                                    <%= investment.status %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                </div>
+            </div>
+        <% } %>
+
+        <!-- Investment FAQ -->
+        <div class="faq-section">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Frequently Asked Questions</h2>
+                </div>
+                
+                <div class="faq-list">
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>How do the investment plans work?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Our investment plans work by pooling funds from investors and using advanced trading algorithms to generate daily profits. Each plan has a fixed duration and daily profit percentage.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>When are profits distributed?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Profits are calculated and distributed daily at 00:00 UTC. You can see your earnings updated in your wallet balance every morning.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Can I withdraw my investment early?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>Investments are locked for the duration of the plan. Early withdrawal is not available to ensure consistent returns for all investors.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="faq-item">
+                        <div class="faq-question">
+                            <h4>Is there any risk involved?</h4>
+                            <i class="fas fa-chevron-down"></i>
+                        </div>
+                        <div class="faq-answer">
+                            <p>While we employ advanced risk management strategies, all investments carry some degree of risk. However, our track record shows consistent positive returns across all investment plans.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Investment Modal -->
+<div class="modal" id="investmentModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Investment</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="investment-summary">
+                <div class="summary-item">
+                    <span>Plan:</span>
+                    <span id="modalPlanName">-</span>
+                </div>
+                <div class="summary-item">
+                    <span>Amount:</span>
+                    <span id="modalPlanAmount">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Daily Profit:</span>
+                    <span id="modalDailyProfit">0%</span>
+                </div>
+                <div class="summary-item">
+                    <span>Duration:</span>
+                    <span>30 Days</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Estimated Total Profit:</span>
+                    <span id="modalTotalProfit">$0.00</span>
+                </div>
+            </div>
+            
+            <form id="investmentForm">
+                <input type="hidden" id="selectedPlanId" name="planId">
+                <input type="hidden" id="selectedAmount" name="amount">
+                
+                <div class="form-group">
+                    <label for="investmentWallet">Select Funding Wallet</label>
+                    <select id="investmentWallet" name="wallet" class="form-control" required>
+                        <option value="">Select wallet</option>
+                        <option value="usdt">USDT Wallet ($<%= walletBalance.usdt.toFixed(2) %> available)</option>
+                        <option value="btc">BTC Wallet (<%= walletBalance.btc.toFixed(8) %> BTC available)</option>
+                        <option value="eth">ETH Wallet (<%= walletBalance.eth.toFixed(6) %> ETH available)</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label class="checkbox">
+                        <input type="checkbox" name="agreeTerms" required>
+                        <span class="checkmark"></span>
+                        I agree to the <a href="/terms" target="_blank">Investment Terms</a> and understand the risks involved
+                    </label>
+                </div>
+            </form>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelInvestment">Cancel</button>
+            <button class="btn btn-primary" id="confirmInvestment">
+                <i class="fas fa-check"></i>
+                Confirm Investment
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.investment-container {
+    min-height: 100vh;
+    background: var(--background-dark);
+    padding: 2rem 0;
+}
+
+.page-header {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.page-header h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.page-header p {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.investment-plans-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 2rem;
+    margin-bottom: 4rem;
+}
+
+.investment-plan-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 2.5rem;
+    position: relative;
+    transition: all 0.3s ease;
+}
+
+.investment-plan-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--shadow-xl);
+}
+
+.investment-plan-card.featured {
+    border-color: var(--primary-color);
+    transform: scale(1.05);
+}
+
+.investment-plan-card.featured:hover {
+    transform: scale(1.05) translateY(-5px);
+}
+
+.plan-badge {
+    position: absolute;
+    top: -10px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--primary-color);
+    color: #000;
+    padding: 0.5rem 1.5rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    font-weight: 700;
+}
+
+.plan-header {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding-bottom: 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.plan-header h3 {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+}
+
+.plan-amount {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.plan-profit {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(240, 185, 11, 0.1);
+    border-radius: 15px;
+    border: 1px solid rgba(240, 185, 11, 0.2);
+}
+
+.profit-percentage {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    margin-bottom: 0.5rem;
+}
+
+.profit-label {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+.plan-features {
+    margin-bottom: 2rem;
+}
+
+.feature-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 0;
+    color: var(--text-secondary);
+}
+
+.feature-item i {
+    color: var(--success-color);
+    width: 20px;
+}
+
+.plan-stats {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: var(--accent-color);
+    border-radius: 15px;
+}
+
+.stat {
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.calculator-section {
+    margin-bottom: 4rem;
+}
+
+.calculator-form {
+    margin-bottom: 2rem;
+}
+
+.calculator-results {
+    background: var(--accent-color);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.calculator-results h4 {
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.results-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1.5rem;
+}
+
+.result-item {
+    text-align: center;
+    padding: 1rem;
+    background: var(--secondary-color);
+    border-radius: 10px;
+}
+
+.result-label {
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+}
+
+.result-value {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--primary-color);
+}
+
+.active-investments-section {
+    margin-bottom: 4rem;
+}
+
+.investments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.investment-item {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    transition: all 0.3s ease;
+}
+
+.investment-item:hover {
+    border-color: var(--primary-color);
+    transform: translateX(5px);
+}
+
+.investment-icon {
+    width: 50px;
+    height: 50px;
+    background: var(--primary-color);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.25rem;
+}
+
+.investment-details {
+    flex: 1;
+}
+
+.investment-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+}
+
+.investment-meta {
+    display: flex;
+    gap: 1.5rem;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.investment-amount {
+    color: var(--primary-color);
+    font-weight: 600;
+}
+
+.investment-earnings {
+    text-align: right;
+}
+
+.earnings-amount {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--success-color);
+    margin-bottom: 0.25rem;
+}
+
+.earnings-label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.investment-status {
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.investment-status.active {
+    background: rgba(46, 213, 115, 0.2);
+    color: var(--success-color);
+    border: 1px solid rgba(46, 213, 115, 0.3);
+}
+
+.faq-section {
+    margin-bottom: 2rem;
+}
+
+.faq-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.faq-item {
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.faq-question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem;
+    background: var(--accent-color);
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.faq-question:hover {
+    background: var(--secondary-color);
+}
+
+.faq-question h4 {
+    margin: 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.faq-question i {
+    color: var(--text-secondary);
+    transition: transform 0.3s ease;
+}
+
+.faq-item.active .faq-question i {
+    transform: rotate(180deg);
+}
+
+.faq-answer {
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.faq-item.active .faq-answer {
+    padding: 1.5rem;
+    max-height: 500px;
+}
+
+.faq-answer p {
+    margin: 0;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+/* Modal Styles */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 1000;
+    align-items: center;
+    justify-content: center;
+}
+
+.modal.active {
+    display: flex;
+}
+
+.modal-content {
+    background: var(--secondary-color);
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    border: 1px solid var(--border-color);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.5rem 2rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.modal-header h3 {
+    margin: 0;
+    color: var(--text-primary);
+}
+
+.modal-close {
+    background: none;
+    border: none;
+    color: var(--text-secondary);
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s ease;
+}
+
+.modal-close:hover {
+    color: var(--error-color);
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+.investment-summary {
+    background: var(--accent-color);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border-color);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.75rem 0;
+    color: var(--text-secondary);
+}
+
+.summary-item:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.summary-item.total {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.modal-footer {
+    display: flex;
+    gap: 1rem;
+    padding: 1.5rem 2rem;
+    border-top: 1px solid var(--border-color);
+}
+
+.modal-footer .btn {
+    flex: 1;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .investment-plans-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .investment-plan-card.featured {
+        transform: none;
+    }
+    
+    .investment-item {
+        flex-direction: column;
+        text-align: center;
+        gap: 1rem;
+    }
+    
+    .investment-meta {
+        justify-content: center;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 1rem;
+    }
+    
+    .modal-footer {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 480px) {
+    .page-header h1 {
+        font-size: 2.5rem;
+    }
+    
+    .investment-plan-card {
+        padding: 2rem 1.5rem;
+    }
+    
+    .plan-amount {
+        font-size: 2rem;
+    }
+    
+    .profit-percentage {
+        font-size: 2rem;
+    }
+    
+    .results-grid {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Investment calculator
+    const calcPlan = document.getElementById('calcPlan');
+    const calcAmount = document.getElementById('calcAmount');
+    const calcDays = document.getElementById('calcDays');
+    const calculateBtn = document.getElementById('calculateBtn');
+    const calculatorResults = document.getElementById('calculatorResults');
+    
+    // Set default amount to selected plan's amount
+    calcPlan.addEventListener('change', function() {
+        const selectedOption = this.options[this.selectedIndex];
+        const planAmount = selectedOption.dataset.amount;
+        calcAmount.value = planAmount;
+        calculateProfit();
+    });
+    
+    // Calculate profit when inputs change
+    [calcPlan, calcAmount, calcDays].forEach(input => {
+        input.addEventListener('input', calculateProfit);
+    });
+    
+    calculateBtn.addEventListener('click', calculateProfit);
+    
+    function calculateProfit() {
+        const selectedOption = calcPlan.options[calcPlan.selectedIndex];
+        const dailyProfitPercent = parseFloat(selectedOption.dataset.profit);
+        const investmentAmount = parseFloat(calcAmount.value) || 0;
+        const days = parseInt(calcDays.value) || 30;
+        
+        if (investmentAmount > 0 && days > 0) {
+            const dailyProfit = (investmentAmount * dailyProfitPercent) / 100;
+            const totalProfit = dailyProfit * days;
+            const totalReturn = investmentAmount + totalProfit;
+            const roi = (totalProfit / investmentAmount) * 100;
+            
+            document.getElementById('dailyProfit').textContent = '$' + dailyProfit.toFixed(2);
+            document.getElementById('totalProfit').textContent = '$' + totalProfit.toFixed(2);
+            document.getElementById('totalReturn').textContent = '$' + totalReturn.toFixed(2);
+            document.getElementById('roiPercentage').textContent = roi.toFixed(1) + '%';
+            
+            calculatorResults.style.display = 'block';
+        }
+    }
+    
+    // Initialize calculator
+    calculateProfit();
+    
+    // Investment modal
+    const investButtons = document.querySelectorAll('.invest-btn');
+    const investmentModal = document.getElementById('investmentModal');
+    const cancelInvestment = document.getElementById('cancelInvestment');
+    const confirmInvestment = document.getElementById('confirmInvestment');
+    
+    investButtons.forEach(button => {
+        button.addEventListener('click', function() {
+            const planId = this.dataset.planId;
+            const planName = this.dataset.planName;
+            const planAmount = this.dataset.planAmount;
+            const dailyProfit = this.closest('.investment-plan-card').querySelector('.profit-percentage').textContent;
+            
+            document.getElementById('modalPlanName').textContent = planName;
+            document.getElementById('modalPlanAmount').textContent = '$' + planAmount;
+            document.getElementById('modalDailyProfit').textContent = dailyProfit;
+            document.getElementById('selectedPlanId').value = planId;
+            document.getElementById('selectedAmount').value = planAmount;
+            
+            // Calculate total profit
+            const totalProfit = (parseFloat(planAmount) * parseFloat(dailyProfit) / 100 * 30).toFixed(2);
+            document.getElementById('modalTotalProfit').textContent = '$' + totalProfit;
+            
+            investmentModal.classList.add('active');
+        });
+    });
+    
+    // Close modal
+    cancelInvestment.addEventListener('click', function() {
+        investmentModal.classList.remove('active');
+    });
+    
+    document.querySelector('.modal-close').addEventListener('click', function() {
+        investmentModal.classList.remove('active');
+    });
+    
+    // Confirm investment
+    confirmInvestment.addEventListener('click', function() {
+        const form = document.getElementById('investmentForm');
+        const formData = new FormData(form);
+        
+        if (!form.checkValidity()) {
+            form.reportValidity();
+            return;
+        }
+        
+        // Show loading state
+        this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+        this.disabled = true;
+        
+        // Simulate API call
+        setTimeout(() => {
+            // In real app, you would submit to server
+            alert('Investment successful! Your investment has been activated.');
+            investmentModal.classList.remove('active');
+            
+            // Reset button
+            this.innerHTML = '<i class="fas fa-check"></i> Confirm Investment';
+            this.disabled = false;
+            
+            // Redirect to dashboard or refresh
+            window.location.href = '/dashboard';
+        }, 2000);
+    });
+    
+    // FAQ functionality
+    const faqItems = document.querySelectorAll('.faq-item');
+    
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        
+        question.addEventListener('click', function() {
+            // Close all other items
+            faqItems.forEach(otherItem => {
+                if (otherItem !== item) {
+                    otherItem.classList.remove('active');
+                }
+            });
+            
+            // Toggle current item
+            item.classList.toggle('active');
+        });
+    });
+    
+    // Close modal when clicking outside
+    investmentModal.addEventListener('click', function(e) {
+        if (e.target === this) {
+            this.classList.remove('active');
+        }
+    });
+});
+</script>
+
+<%- include('partials/footer') %>

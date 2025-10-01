@@ -1,0 +1,1291 @@
+<%- include('partials/header', { title: __('dashboard.title') }) %>
+
+<div class="dashboard-container">
+    <!-- Sidebar -->
+    <aside class="dashboard-sidebar">
+        <div class="sidebar-header">
+            <div class="user-profile">
+                <div class="user-avatar">
+                    <i class="fas fa-user"></i>
+                </div>
+                <div class="user-info">
+                    <div class="user-name"><%= user.firstName %> <%= user.lastName %></div>
+                    <div class="user-email"><%= user.email %></div>
+                </div>
+            </div>
+        </div>
+
+        <nav class="sidebar-nav">
+            <a href="/dashboard" class="nav-item <%= currentSection === 'overview' ? 'active' : '' %>">
+                <i class="fas fa-tachometer-alt"></i>
+                <span>Dashboard Overview</span>
+            </a>
+            
+            <a href="/dashboard/wallet" class="nav-item <%= currentSection === 'wallet' ? 'active' : '' %>">
+                <i class="fas fa-wallet"></i>
+                <span>My Wallet</span>
+            </a>
+            
+            <a href="/investment" class="nav-item">
+                <i class="fas fa-chart-pie"></i>
+                <span>Investment Plans</span>
+            </a>
+            
+            <a href="/crypto" class="nav-item">
+                <i class="fas fa-exchange-alt"></i>
+                <span>Buy/Sell Crypto</span>
+            </a>
+            
+            <a href="/dashboard/deposit" class="nav-item <%= currentSection === 'deposit' ? 'active' : '' %>">
+                <i class="fas fa-arrow-down"></i>
+                <span>Deposit Funds</span>
+            </a>
+            
+            <a href="/dashboard/withdraw" class="nav-item <%= currentSection === 'withdraw' ? 'active' : '' %>">
+                <i class="fas fa-arrow-up"></i>
+                <span>Withdraw Funds</span>
+            </a>
+            
+            <a href="/dashboard/referral" class="nav-item <%= currentSection === 'referral' ? 'active' : '' %>">
+                <i class="fas fa-user-friends"></i>
+                <span>Referral Program</span>
+                <span class="nav-badge">$20</span>
+            </a>
+            
+            <a href="/dashboard/investment-history" class="nav-item <%= currentSection === 'investment-history' ? 'active' : '' %>">
+                <i class="fas fa-history"></i>
+                <span>Investment History</span>
+            </a>
+            
+            <a href="/dashboard/trading-history" class="nav-item <%= currentSection === 'trading-history' ? 'active' : '' %>">
+                <i class="fas fa-chart-line"></i>
+                <span>Trading History</span>
+            </a>
+            
+            <a href="/dashboard/profile" class="nav-item <%= currentSection === 'profile' ? 'active' : '' %>">
+                <i class="fas fa-user-cog"></i>
+                <span>Profile Settings</span>
+            </a>
+            
+            <a href="/dashboard/support" class="nav-item <%= currentSection === 'support' ? 'active' : '' %>">
+                <i class="fas fa-headset"></i>
+                <span>Customer Support</span>
+            </a>
+        </nav>
+
+        <div class="sidebar-footer">
+            <div class="referral-card">
+                <div class="referral-header">
+                    <i class="fas fa-gift"></i>
+                    <span>Refer & Earn</span>
+                </div>
+                <p>Invite friends and earn $20 for each referral</p>
+                <a href="/dashboard/referral" class="btn btn-sm btn-outline">Get Link</a>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="dashboard-main">
+        <% if (currentSection === 'overview') { %>
+            <!-- Dashboard Overview -->
+            <div class="dashboard-header">
+                <h1>Dashboard Overview</h1>
+                <p>Welcome back, <%= user.firstName %>! Here's your investment summary.</p>
+            </div>
+
+            <!-- Stats Cards -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= dashboardData.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        <div class="stat-label">Total Balance</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        12.5%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= dashboardData.totalEarnings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        <div class="stat-label">Total Earnings</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        8.3%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= dashboardData.referralEarnings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        <div class="stat-label">Referral Earnings</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        15.2%
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-pie"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= dashboardData.activeInvestments %></div>
+                        <div class="stat-label">Active Investments</div>
+                    </div>
+                    <div class="stat-trend positive">
+                        <i class="fas fa-arrow-up"></i>
+                        5.7%
+                    </div>
+                </div>
+            </div>
+
+            <!-- Wallet Balance -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Wallet Balance</h2>
+                    <div class="section-actions">
+                        <a href="/dashboard/deposit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i>
+                            Deposit
+                        </a>
+                        <a href="/dashboard/withdraw" class="btn btn-outline btn-sm">
+                            <i class="fas fa-arrow-up"></i>
+                            Withdraw
+                        </a>
+                    </div>
+                </div>
+                <div class="wallet-grid">
+                    <div class="wallet-item">
+                        <div class="wallet-icon usdt">
+                            <i class="fab fa-usd"></i>
+                        </div>
+                        <div class="wallet-info">
+                            <div class="wallet-amount">$<%= user.walletBalance.usdt.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                            <div class="wallet-label">USDT Balance</div>
+                        </div>
+                    </div>
+
+                    <div class="wallet-item">
+                        <div class="wallet-icon btc">
+                            <i class="fab fa-btc"></i>
+                        </div>
+                        <div class="wallet-info">
+                            <div class="wallet-amount"><%= user.walletBalance.btc.toFixed(8) %></div>
+                            <div class="wallet-label">BTC Balance</div>
+                        </div>
+                    </div>
+
+                    <div class="wallet-item">
+                        <div class="wallet-icon eth">
+                            <i class="fab fa-ethereum"></i>
+                        </div>
+                        <div class="wallet-info">
+                            <div class="wallet-amount"><%= user.walletBalance.eth.toFixed(6) %></div>
+                            <div class="wallet-label">ETH Balance</div>
+                        </div>
+                    </div>
+
+                    <div class="wallet-item">
+                        <div class="wallet-icon bnb">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="wallet-info">
+                            <div class="wallet-amount"><%= user.walletBalance.bnb.toFixed(4) %></div>
+                            <div class="wallet-label">BNB Balance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Quick Actions -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Quick Actions</h2>
+                </div>
+                <div class="actions-grid">
+                    <a href="/dashboard/deposit" class="action-card">
+                        <div class="action-icon deposit">
+                            <i class="fas fa-arrow-down"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Deposit Funds</h3>
+                            <p>Add funds to your wallet</p>
+                        </div>
+                    </a>
+
+                    <a href="/investment" class="action-card">
+                        <div class="action-icon invest">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Invest Now</h3>
+                            <p>Start earning daily profits</p>
+                        </div>
+                    </a>
+
+                    <a href="/crypto" class="action-card">
+                        <div class="action-icon trade">
+                            <i class="fas fa-exchange-alt"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Trade Crypto</h3>
+                            <p>Buy/Sell cryptocurrencies</p>
+                        </div>
+                    </a>
+
+                    <a href="/dashboard/referral" class="action-card">
+                        <div class="action-icon referral">
+                            <i class="fas fa-user-friends"></i>
+                        </div>
+                        <div class="action-content">
+                            <h3>Refer Friends</h3>
+                            <p>Earn $20 per referral</p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+
+            <!-- Recent Transactions -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Recent Transactions</h2>
+                    <a href="/dashboard/transactions" class="btn btn-outline btn-sm">View All</a>
+                </div>
+                <div class="transactions-list">
+                    <% if (transactions && transactions.length > 0) { %>
+                        <% transactions.forEach(transaction => { %>
+                            <div class="transaction-item">
+                                <div class="transaction-icon">
+                                    <% if (transaction.type === 'deposit') { %>
+                                        <i class="fas fa-arrow-down success"></i>
+                                    <% } else if (transaction.type === 'withdrawal') { %>
+                                        <i class="fas fa-arrow-up warning"></i>
+                                    <% } else if (transaction.type === 'investment') { %>
+                                        <i class="fas fa-chart-pie primary"></i>
+                                    <% } else if (transaction.type === 'referral_bonus') { %>
+                                        <i class="fas fa-gift secondary"></i>
+                                    <% } else { %>
+                                        <i class="fas fa-exchange-alt"></i>
+                                    <% } %>
+                                </div>
+                                <div class="transaction-details">
+                                    <div class="transaction-type"><%= transaction.type.replace('_', ' ').toUpperCase() %></div>
+                                    <div class="transaction-date"><%= new Date(transaction.createdAt).toLocaleDateString() %></div>
+                                </div>
+                                <div class="transaction-amount <%= transaction.type === 'withdrawal' ? 'negative' : 'positive' %>">
+                                    <%= transaction.type === 'withdrawal' ? '-' : '+' %>$<%= transaction.amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %>
+                                </div>
+                                <div class="transaction-status <%= transaction.status %>">
+                                    <%= transaction.status %>
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-receipt"></i>
+                            <h3>No transactions yet</h3>
+                            <p>Your transactions will appear here once you start using the platform</p>
+                            <a href="/dashboard/deposit" class="btn btn-primary">Make First Deposit</a>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <!-- Investment Plans -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Investment Plans</h2>
+                    <a href="/investment" class="btn btn-outline btn-sm">View All Plans</a>
+                </div>
+                <div class="plans-grid compact">
+                    <% investmentPlans.slice(0, 3).forEach(plan => { %>
+                        <div class="plan-card compact">
+                            <div class="plan-header">
+                                <h3><%= plan.name %></h3>
+                                <div class="plan-price">$<%= plan.amount %></div>
+                            </div>
+                            <div class="plan-profit">
+                                <div class="profit-percentage"><%= plan.dailyProfit %>%</div>
+                                <div class="profit-label">Daily Profit</div>
+                            </div>
+                            <div class="plan-action">
+                                <a href="/investment?plan=<%= plan._id %>" class="btn btn-primary btn-sm">Invest Now</a>
+                            </div>
+                        </div>
+                    <% }) %>
+                </div>
+            </div>
+
+        <% } else if (currentSection === 'wallet') { %>
+            <!-- Wallet Management -->
+            <div class="dashboard-header">
+                <h1>My Wallet</h1>
+                <p>Manage your cryptocurrency balances and transactions</p>
+            </div>
+
+            <!-- Wallet Overview -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Balance Overview</h2>
+                    <div class="section-actions">
+                        <a href="/dashboard/deposit" class="btn btn-primary btn-sm">
+                            <i class="fas fa-plus"></i>
+                            Deposit
+                        </a>
+                        <a href="/dashboard/withdraw" class="btn btn-outline btn-sm">
+                            <i class="fas fa-arrow-up"></i>
+                            Withdraw
+                        </a>
+                    </div>
+                </div>
+                
+                <div class="wallet-detailed-grid">
+                    <div class="balance-card total">
+                        <div class="balance-icon">
+                            <i class="fas fa-wallet"></i>
+                        </div>
+                        <div class="balance-info">
+                            <div class="balance-label">Total Balance</div>
+                            <div class="balance-amount">$<%= dashboardData.totalBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                    </div>
+
+                    <div class="balance-card available">
+                        <div class="balance-icon">
+                            <i class="fas fa-coins"></i>
+                        </div>
+                        <div class="balance-info">
+                            <div class="balance-label">Available Balance</div>
+                            <div class="balance-amount">$<%= dashboardData.availableBalance.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                    </div>
+
+                    <div class="balance-card invested">
+                        <div class="balance-icon">
+                            <i class="fas fa-chart-pie"></i>
+                        </div>
+                        <div class="balance-info">
+                            <div class="balance-label">Invested Amount</div>
+                            <div class="balance-amount">$<%= dashboardData.totalInvested.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                    </div>
+
+                    <div class="balance-card profit">
+                        <div class="balance-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="balance-info">
+                            <div class="balance-label">Total Profit</div>
+                            <div class="balance-amount">$<%= dashboardData.totalProfit.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Cryptocurrency Balances -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Cryptocurrency Balances</h2>
+                </div>
+                
+                <div class="crypto-balances">
+                    <div class="crypto-balance-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon usdt">
+                                <i class="fab fa-usd"></i>
+                            </div>
+                            <div class="crypto-details">
+                                <div class="crypto-name">Tether (USDT)</div>
+                                <div class="crypto-symbol">USDT</div>
+                            </div>
+                        </div>
+                        <div class="crypto-amounts">
+                            <div class="crypto-balance"><%= user.walletBalance.usdt.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %> USDT</div>
+                            <div class="crypto-value">$<%= user.walletBalance.usdt.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                        <div class="crypto-actions">
+                            <a href="/dashboard/deposit?currency=USDT" class="btn btn-outline btn-xs">Deposit</a>
+                            <a href="/dashboard/withdraw?currency=USDT" class="btn btn-outline btn-xs">Withdraw</a>
+                        </div>
+                    </div>
+
+                    <div class="crypto-balance-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon btc">
+                                <i class="fab fa-btc"></i>
+                            </div>
+                            <div class="crypto-details">
+                                <div class="crypto-name">Bitcoin (BTC)</div>
+                                <div class="crypto-symbol">BTC</div>
+                            </div>
+                        </div>
+                        <div class="crypto-amounts">
+                            <div class="crypto-balance"><%= user.walletBalance.btc.toFixed(8) %> BTC</div>
+                            <div class="crypto-value">$<%= (user.walletBalance.btc * 45123.45).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                        <div class="crypto-actions">
+                            <a href="/dashboard/deposit?currency=BTC" class="btn btn-outline btn-xs">Deposit</a>
+                            <a href="/dashboard/withdraw?currency=BTC" class="btn btn-outline btn-xs">Withdraw</a>
+                        </div>
+                    </div>
+
+                    <div class="crypto-balance-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon eth">
+                                <i class="fab fa-ethereum"></i>
+                            </div>
+                            <div class="crypto-details">
+                                <div class="crypto-name">Ethereum (ETH)</div>
+                                <div class="crypto-symbol">ETH</div>
+                            </div>
+                        </div>
+                        <div class="crypto-amounts">
+                            <div class="crypto-balance"><%= user.walletBalance.eth.toFixed(6) %> ETH</div>
+                            <div class="crypto-value">$<%= (user.walletBalance.eth * 2389.67).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                        <div class="crypto-actions">
+                            <a href="/dashboard/deposit?currency=ETH" class="btn btn-outline btn-xs">Deposit</a>
+                            <a href="/dashboard/withdraw?currency=ETH" class="btn btn-outline btn-xs">Withdraw</a>
+                        </div>
+                    </div>
+
+                    <div class="crypto-balance-item">
+                        <div class="crypto-info">
+                            <div class="crypto-icon bnb">
+                                <i class="fas fa-coins"></i>
+                            </div>
+                            <div class="crypto-details">
+                                <div class="crypto-name">Binance Coin (BNB)</div>
+                                <div class="crypto-symbol">BNB</div>
+                            </div>
+                        </div>
+                        <div class="crypto-amounts">
+                            <div class="crypto-balance"><%= user.walletBalance.bnb.toFixed(4) %> BNB</div>
+                            <div class="crypto-value">$<%= (user.walletBalance.bnb * 312.89).toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        </div>
+                        <div class="crypto-actions">
+                            <a href="/dashboard/deposit?currency=BNB" class="btn btn-outline btn-xs">Deposit</a>
+                            <a href="/dashboard/withdraw?currency=BNB" class="btn btn-outline btn-xs">Withdraw</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        <% } else if (currentSection === 'deposit') { %>
+            <!-- Deposit Funds -->
+            <div class="dashboard-header">
+                <h1>Deposit Funds</h1>
+                <p>Add funds to your wallet using cryptocurrency</p>
+            </div>
+
+            <div class="section-card">
+                <div class="deposit-form">
+                    <div class="form-group">
+                        <label for="depositCurrency">Select Currency</label>
+                        <select id="depositCurrency" name="currency" required>
+                            <option value="">Choose currency</option>
+                            <% currencies.forEach(currency => { %>
+                                <option value="<%= currency.symbol %>"><%= currency.name %> (<%= currency.symbol %>)</option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="depositAmount">Amount</label>
+                        <input type="number" id="depositAmount" name="amount" placeholder="Enter amount" min="10" step="0.01" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="depositNetwork">Select Network</label>
+                        <select id="depositNetwork" name="network" required>
+                            <option value="">Choose network</option>
+                        </select>
+                    </div>
+
+                    <div class="wallet-address" id="walletAddress" style="display: none;">
+                        <label>Wallet Address</label>
+                        <div class="address-container">
+                            <code id="addressText"></code>
+                            <button type="button" class="btn btn-outline btn-sm" onclick="copyAddress()">
+                                <i class="fas fa-copy"></i>
+                                Copy
+                            </button>
+                        </div>
+                        <p class="address-note">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            Send only <span id="currencyName"></span> to this address. Sending other currencies may result in permanent loss.
+                        </p>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-block" onclick="generateDeposit()">
+                        Generate Deposit Address
+                    </button>
+                </div>
+            </div>
+
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Deposit Instructions</h2>
+                </div>
+                <div class="instructions-list">
+                    <div class="instruction-step">
+                        <div class="step-number">1</div>
+                        <div class="step-content">
+                            <h3>Select Currency and Network</h3>
+                            <p>Choose the cryptocurrency and network you want to deposit</p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">2</div>
+                        <div class="step-content">
+                            <h3>Generate Deposit Address</h3>
+                            <p>Click the button to generate a unique wallet address</p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">3</div>
+                        <div class="step-content">
+                            <h3>Send Funds</h3>
+                            <p>Send your cryptocurrency to the generated address</p>
+                        </div>
+                    </div>
+                    <div class="instruction-step">
+                        <div class="step-number">4</div>
+                        <div class="step-content">
+                            <h3>Wait for Confirmation</h3>
+                            <p>Your deposit will be credited after network confirmation</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <script>
+            const depositCurrency = document.getElementById('depositCurrency');
+            const depositNetwork = document.getElementById('depositNetwork');
+            const walletAddress = document.getElementById('walletAddress');
+            const addressText = document.getElementById('addressText');
+            const currencyName = document.getElementById('currencyName');
+
+            const networks = {
+                'USDT': ['ERC20', 'TRC20', 'BEP20'],
+                'BTC': ['BTC'],
+                'ETH': ['ERC20'],
+                'BNB': ['BEP20']
+            };
+
+            depositCurrency.addEventListener('change', function() {
+                const currency = this.value;
+                depositNetwork.innerHTML = '<option value="">Choose network</option>';
+                
+                if (currency && networks[currency]) {
+                    networks[currency].forEach(network => {
+                        const option = document.createElement('option');
+                        option.value = network;
+                        option.textContent = network;
+                        depositNetwork.appendChild(option);
+                    });
+                }
+                
+                walletAddress.style.display = 'none';
+            });
+
+            function generateDeposit() {
+                const currency = depositCurrency.value;
+                const network = depositNetwork.value;
+                const amount = document.getElementById('depositAmount').value;
+
+                if (!currency || !network || !amount) {
+                    alert('Please fill all fields');
+                    return;
+                }
+
+                if (parseFloat(amount) < 10) {
+                    alert('Minimum deposit amount is $10');
+                    return;
+                }
+
+                // Generate mock wallet address
+                const addresses = {
+                    'USDT_ERC20': '0x742d35Cc6634C0532925a3b8D6f3984C6e2F1451',
+                    'USDT_TRC20': 'TYASr8vY7e2pP9gTJ7e2iSdR4A7hVrR7yR',
+                    'USDT_BEP20': '0x2170ed0880ac9a755fd29b2688956bd959f933f8',
+                    'BTC_BTC': '1A1zP1eP5QGefi2DMPTfTL5SLmv7DivfNa',
+                    'ETH_ERC20': '0x742d35Cc6634C0532925a3b8D6f3984C6e2F1451',
+                    'BNB_BEP20': 'bnb136ns6lfw4zs5hg4n85vdthaad7hq5m4gtkgf23'
+                };
+
+                const addressKey = `${currency}_${network}`;
+                const address = addresses[addressKey] || '0x' + Math.random().toString(16).substr(2, 40);
+
+                addressText.textContent = address;
+                currencyName.textContent = currency;
+                walletAddress.style.display = 'block';
+
+                // Scroll to address
+                walletAddress.scrollIntoView({ behavior: 'smooth' });
+            }
+
+            function copyAddress() {
+                const address = addressText.textContent;
+                navigator.clipboard.writeText(address).then(() => {
+                    const btn = event.target;
+                    btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+                    setTimeout(() => {
+                        btn.innerHTML = '<i class="fas fa-copy"></i> Copy';
+                    }, 2000);
+                });
+            }
+            </script>
+
+        <% } else if (currentSection === 'withdraw') { %>
+            <!-- Withdraw Funds -->
+            <div class="dashboard-header">
+                <h1>Withdraw Funds</h1>
+                <p>Withdraw your funds to external wallet</p>
+            </div>
+
+            <div class="section-card">
+                <div class="withdraw-form">
+                    <div class="form-group">
+                        <label for="withdrawCurrency">Select Currency</label>
+                        <select id="withdrawCurrency" name="currency" required>
+                            <option value="">Choose currency</option>
+                            <% currencies.forEach(currency => { %>
+                                <option value="<%= currency.symbol %>"><%= currency.name %> (<%= currency.symbol %>)</option>
+                            <% }) %>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="withdrawAmount">Amount</label>
+                        <input type="number" id="withdrawAmount" name="amount" placeholder="Enter amount" min="10" step="0.01" required>
+                        <div class="balance-info">
+                            Available: <span id="availableBalance">$0.00</span>
+                            <button type="button" class="btn-link" onclick="setMaxAmount()">Max</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="withdrawNetwork">Select Network</label>
+                        <select id="withdrawNetwork" name="network" required>
+                            <option value="">Choose network</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="walletAddress">Your Wallet Address</label>
+                        <input type="text" id="externalWalletAddress" name="walletAddress" placeholder="Enter your external wallet address" required>
+                    </div>
+
+                    <div class="withdraw-summary" id="withdrawSummary" style="display: none;">
+                        <h4>Withdrawal Summary</h4>
+                        <div class="summary-item">
+                            <span>Amount:</span>
+                            <span id="summaryAmount">$0.00</span>
+                        </div>
+                        <div class="summary-item">
+                            <span>Network Fee:</span>
+                            <span id="summaryFee">$0.00</span>
+                        </div>
+                        <div class="summary-item total">
+                            <span>You'll Receive:</span>
+                            <span id="summaryReceive">$0.00</span>
+                        </div>
+                    </div>
+
+                    <button type="button" class="btn btn-primary btn-block" onclick="submitWithdrawal()">
+                        Submit Withdrawal Request
+                    </button>
+                </div>
+            </div>
+
+            <script>
+            const withdrawCurrency = document.getElementById('withdrawCurrency');
+            const withdrawNetwork = document.getElementById('withdrawNetwork');
+            const withdrawAmount = document.getElementById('withdrawAmount');
+            const availableBalance = document.getElementById('availableBalance');
+            const withdrawSummary = document.getElementById('withdrawSummary');
+
+            const balances = {
+                'USDT': <%= user.walletBalance.usdt %>,
+                'BTC': <%= user.walletBalance.btc %>,
+                'ETH': <%= user.walletBalance.eth %>,
+                'BNB': <%= user.walletBalance.bnb %>
+            };
+
+            const fees = {
+                'USDT_ERC20': 10,
+                'USDT_TRC20': 1,
+                'USDT_BEP20': 0.3,
+                'BTC_BTC': 0.0005,
+                'ETH_ERC20': 0.005,
+                'BNB_BEP20': 0.001
+            };
+
+            withdrawCurrency.addEventListener('change', function() {
+                const currency = this.value;
+                withdrawNetwork.innerHTML = '<option value="">Choose network</option>';
+                
+                if (currency && networks[currency]) {
+                    networks[currency].forEach(network => {
+                        const option = document.createElement('option');
+                        option.value = network;
+                        option.textContent = network;
+                        withdrawNetwork.appendChild(option);
+                    });
+                }
+                
+                availableBalance.textContent = balances[currency] || '0.00';
+                updateSummary();
+            });
+
+            withdrawAmount.addEventListener('input', updateSummary);
+            withdrawNetwork.addEventListener('change', updateSummary);
+
+            function updateSummary() {
+                const currency = withdrawCurrency.value;
+                const network = withdrawNetwork.value;
+                const amount = parseFloat(withdrawAmount.value) || 0;
+
+                if (currency && network && amount > 0) {
+                    const feeKey = `${currency}_${network}`;
+                    const fee = fees[feeKey] || 0;
+                    const receive = amount - fee;
+
+                    document.getElementById('summaryAmount').textContent = amount + ' ' + currency;
+                    document.getElementById('summaryFee').textContent = fee + ' ' + currency;
+                    document.getElementById('summaryReceive').textContent = receive + ' ' + currency;
+                    
+                    withdrawSummary.style.display = 'block';
+                } else {
+                    withdrawSummary.style.display = 'none';
+                }
+            }
+
+            function setMaxAmount() {
+                const currency = withdrawCurrency.value;
+                if (currency && balances[currency]) {
+                    withdrawAmount.value = balances[currency];
+                    updateSummary();
+                }
+            }
+
+            function submitWithdrawal() {
+                const currency = withdrawCurrency.value;
+                const network = withdrawNetwork.value;
+                const amount = parseFloat(withdrawAmount.value);
+                const address = document.getElementById('externalWalletAddress').value;
+
+                if (!currency || !network || !amount || !address) {
+                    alert('Please fill all fields');
+                    return;
+                }
+
+                if (amount > balances[currency]) {
+                    alert('Insufficient balance');
+                    return;
+                }
+
+                if (amount < 10) {
+                    alert('Minimum withdrawal amount is $10');
+                    return;
+                }
+
+                if (confirm(`Confirm withdrawal of ${amount} ${currency} to ${address}?`)) {
+                    // In real app, you would submit to server
+                    alert('Withdrawal request submitted successfully! It will be processed within 24 hours.');
+                    window.location.href = '/dashboard';
+                }
+            }
+            </script>
+
+        <% } else if (currentSection === 'referral') { %>
+            <!-- Referral Program -->
+            <div class="dashboard-header">
+                <h1>Referral Program</h1>
+                <p>Invite friends and earn $20 for each successful referral</p>
+            </div>
+
+            <!-- Referral Stats -->
+            <div class="stats-grid">
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-user-friends"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= referralData.stats.totalReferrals %></div>
+                        <div class="stat-label">Total Referrals</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-money-bill-wave"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$<%= referralData.stats.totalEarnings.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                        <div class="stat-label">Total Earnings</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value"><%= referralData.stats.activeReferrals %></div>
+                        <div class="stat-label">Active Referrals</div>
+                    </div>
+                </div>
+
+                <div class="stat-card">
+                    <div class="stat-icon">
+                        <i class="fas fa-gift"></i>
+                    </div>
+                    <div class="stat-info">
+                        <div class="stat-value">$20</div>
+                        <div class="stat-label">Per Referral</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Referral Link -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Your Referral Link</h2>
+                </div>
+                <div class="referral-link-container">
+                    <div class="referral-link-input">
+                        <input type="text" value="<%= referralData.link %>" id="referralLink" readonly>
+                        <button type="button" class="btn btn-primary" onclick="copyReferralLink()">
+                            <i class="fas fa-copy"></i>
+                            Copy Link
+                        </button>
+                    </div>
+                    <p class="referral-note">
+                        <i class="fas fa-info-circle"></i>
+                        Share this link with your friends. You'll earn $20 USDT when they sign up and verify their account.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Share Options -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Share Your Link</h2>
+                </div>
+                <div class="share-options">
+                    <button class="share-option" onclick="shareOnSocial('facebook')">
+                        <i class="fab fa-facebook"></i>
+                        Facebook
+                    </button>
+                    <button class="share-option" onclick="shareOnSocial('twitter')">
+                        <i class="fab fa-twitter"></i>
+                        Twitter
+                    </button>
+                    <button class="share-option" onclick="shareOnSocial('telegram')">
+                        <i class="fab fa-telegram"></i>
+                        Telegram
+                    </button>
+                    <button class="share-option" onclick="shareOnSocial('whatsapp')">
+                        <i class="fab fa-whatsapp"></i>
+                        WhatsApp
+                    </button>
+                    <button class="share-option" onclick="shareViaEmail()">
+                        <i class="fas fa-envelope"></i>
+                        Email
+                    </button>
+                    <button class="share-option" onclick="copyReferralLink()">
+                        <i class="fas fa-copy"></i>
+                        Copy Link
+                    </button>
+                </div>
+            </div>
+
+            <!-- Referred Users -->
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Your Referred Users</h2>
+                </div>
+                <div class="referred-users">
+                    <% if (referralData.users && referralData.users.length > 0) { %>
+                        <% referralData.users.forEach(user => { %>
+                            <div class="referred-user">
+                                <div class="user-avatar">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                                <div class="user-info">
+                                    <div class="user-name"><%= user.firstName %> <%= user.lastName %></div>
+                                    <div class="user-email"><%= user.email %></div>
+                                    <div class="referral-date">Joined <%= new Date(user.registrationDate).toLocaleDateString() %></div>
+                                </div>
+                                <div class="referral-bonus">
+                                    +$20.00
+                                </div>
+                            </div>
+                        <% }) %>
+                    <% } else { %>
+                        <div class="empty-state">
+                            <i class="fas fa-user-friends"></i>
+                            <h3>No referrals yet</h3>
+                            <p>Start sharing your referral link to earn bonuses</p>
+                        </div>
+                    <% } %>
+                </div>
+            </div>
+
+            <script>
+            function copyReferralLink() {
+                const link = document.getElementById('referralLink');
+                link.select();
+                document.execCommand('copy');
+                
+                // Show notification
+                alert('Referral link copied to clipboard!');
+            }
+
+            function shareOnSocial(platform) {
+                const link = encodeURIComponent('<%= referralData.link %>');
+                const text = encodeURIComponent('Join Binance Plus and start earning daily profits with cryptocurrency investment! Use my referral link to get started.');
+                
+                const urls = {
+                    facebook: `https://www.facebook.com/sharer/sharer.php?u=${link}`,
+                    twitter: `https://twitter.com/intent/tweet?text=${text}&url=${link}`,
+                    telegram: `https://t.me/share/url?url=${link}&text=${text}`,
+                    whatsapp: `https://wa.me/?text=${text} ${link}`
+                };
+                
+                window.open(urls[platform], '_blank', 'width=600,height=400');
+            }
+
+            function shareViaEmail() {
+                const subject = encodeURIComponent('Join Binance Plus - Cryptocurrency Investment Platform');
+                const body = encodeURIComponent(`Hi there!
+
+I wanted to share Binance Plus with you - it's an amazing cryptocurrency investment platform where you can earn daily profits.
+
+Use my referral link to sign up and get started:
+<%= referralData.link %>
+
+We'll both get $20 bonus when you verify your account!
+
+Best regards,
+<%= user.firstName %>`);
+
+                window.location.href = `mailto:?subject=${subject}&body=${body}`;
+            }
+            </script>
+
+        <% } %>
+    </main>
+</div>
+
+<style>
+.dashboard-container {
+    display: grid;
+    grid-template-columns: 280px 1fr;
+    min-height: calc(100vh - 140px);
+    background: #0a0a0a;
+}
+
+/* Sidebar Styles */
+.dashboard-sidebar {
+    background: #111;
+    border-right: 1px solid #222;
+    padding: 2rem 0;
+}
+
+.sidebar-header {
+    padding: 0 1.5rem 2rem;
+    border-bottom: 1px solid #222;
+    margin-bottom: 1rem;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f0b90b, #f8d33a);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.2rem;
+}
+
+.user-info {
+    flex: 1;
+}
+
+.user-name {
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.user-email {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+.sidebar-nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    padding: 0 1rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: #ccc;
+    text-decoration: none;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+    position: relative;
+}
+
+.nav-item:hover {
+    background: rgba(240, 185, 11, 0.1);
+    color: #f0b90b;
+}
+
+.nav-item.active {
+    background: rgba(240, 185, 11, 0.2);
+    color: #f0b90b;
+    border-left: 3px solid #f0b90b;
+}
+
+.nav-item i {
+    width: 20px;
+    text-align: center;
+}
+
+.nav-badge {
+    background: #f0b90b;
+    color: #000;
+    padding: 0.25rem 0.5rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    margin-left: auto;
+}
+
+.sidebar-footer {
+    padding: 1.5rem;
+    margin-top: auto;
+}
+
+.referral-card {
+    background: linear-gradient(135deg, rgba(240, 185, 11, 0.1), rgba(248, 211, 58, 0.1));
+    border: 1px solid rgba(240, 185, 11, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    text-align: center;
+}
+
+.referral-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: #f0b90b;
+    font-weight: 600;
+}
+
+.referral-card p {
+    color: #ccc;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+/* Main Content Styles */
+.dashboard-main {
+    padding: 2rem;
+    background: #0a0a0a;
+    overflow-y: auto;
+}
+
+.dashboard-header {
+    margin-bottom: 2rem;
+}
+
+.dashboard-header h1 {
+    font-size: 2.5rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #f0b90b, #f8d33a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.dashboard-header p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 15px;
+    padding: 1.5rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    transition: all 0.3s ease;
+}
+
+.stat-card:hover {
+    border-color: #f0b90b;
+    transform: translateY(-2px);
+}
+
+.stat-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, #f0b90b, #f8d33a);
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.5rem;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+.stat-trend {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    font-size: 0.9rem;
+    font-weight: 600;
+}
+
+.stat-trend.positive {
+    color: #2ed573;
+}
+
+.stat-trend.negative {
+    color: #ff4757;
+}
+
+/* Section Cards */
+.section-card {
+    background: #111;
+    border: 1px solid #222;
+    border-radius: 15px;
+    padding: 2rem;
+    margin-bottom: 2rem;
+}
+
+.section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.section-header h2 {
+    color: #fff;
+    font-size: 1.5rem;
+    margin: 0;
+}
+
+.section-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Wallet Grid */
+.wallet-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+}
+
+.wallet-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1.5rem;
+    background: #1a1a1a;
+    border-radius: 10px;
+    border: 1px solid #333;
+}
+
+.wallet-icon {
+    width: 50px;
+    height: 50px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.5rem;
+}
+
+.wallet-icon.usdt { background: #26a17b; color: #fff; }
+.wallet-icon.btc { background: #f7931a; color: #fff; }
+.wallet-icon.eth { background: #627eea; color: #fff; }
+.wallet-icon.bnb { background: #f3ba2f; color: #000; }
+
+.wallet-amount {
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: #fff;
+    margin-bottom: 0.25rem;
+}
+
+.wallet-label {
+    color: #888;
+    font-size: 0.9rem;
+}
+
+/* Additional styles for other sections... */
+</style>
+
+<%- include('partials/footer') %>

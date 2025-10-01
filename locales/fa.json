@@ -1,0 +1,92 @@
+{
+	"app_name": "بایننس پلاس",
+	"welcome": "به بایننس پلاس خوش آمدید",
+	"slogan": "پلتفرم حرفه‌ای سرمایه‌گذاری ارز دیجیتال",
+	"navigation": {
+		"home": "خانه",
+		"dashboard": "داشبورد",
+		"investment": "طرح‌های سرمایه‌گذاری",
+		"crypto": "خرید/فروش ارز",
+		"login": "ورود",
+		"register": "ثبت‌نام",
+		"logout": "خروج"
+	},
+	"auth": {
+		"email": "آدرس ایمیل",
+		"password": "رمز عبور",
+		"confirm_password": "تکرار رمز عبور",
+		"first_name": "نام",
+		"last_name": "نام خانوادگی",
+		"birth_date": "تاریخ تولد",
+		"country": "کشور",
+		"city": "شهر",
+		"referral_code": "کد معرف (اختیاری)",
+		"have_account": "قبلاً ثبت‌نام کرده‌اید؟",
+		"no_account": "حساب کاربری ندارید؟",
+		"forgot_password": "رمز عبور را فراموش کرده‌اید؟",
+		"remember_me": "مرا به خاطر بسپار"
+	},
+	"dashboard": {
+		"title": "داشبورد",
+		"welcome": "خوش آمدید",
+		"total_balance": "موجودی کل",
+		"available_balance": "موجودی قابل استفاده",
+		"total_earnings": "درآمد کل",
+		"active_investments": "سرمایه‌گذاری‌های فعال",
+		"referral_earnings": "درآمد از معرفی",
+		"recent_transactions": "تراکنش‌های اخیر",
+		"investment_plans": "طرح‌های سرمایه‌گذاری",
+		"quick_actions": "عملیات سریع"
+	},
+	"investment": {
+		"title": "طرح‌های سرمایه‌گذاری",
+		"choose_plan": "طرح سرمایه‌گذاری خود را انتخاب کنید",
+		"daily_profit": "سود روزانه",
+		"investment_amount": "مبلغ سرمایه‌گذاری",
+		"plan_features": "امکانات طرح",
+		"select_plan": "انتخاب طرح",
+		"current_investments": "سرمایه‌گذاری‌های جاری"
+	},
+	"crypto": {
+		"title": "خرید و فروش ارز دیجیتال",
+		"buy": "خرید",
+		"sell": "فروش",
+		"currency": "ارز",
+		"amount": "مبلغ",
+		"network": "شبکه",
+		"wallet_address": "آدرس کیف پول",
+		"copy_address": "کپی آدرس",
+		"deposit": "واریز",
+		"withdraw": "برداشت"
+	},
+	"buttons": {
+		"login": "ورود",
+		"register": "ثبت‌نام",
+		"invest_now": "سرمایه‌گذاری کنید",
+		"buy_now": "خرید کنید",
+		"sell_now": "فروش کنید",
+		"deposit": "واریز",
+		"withdraw": "برداشت",
+		"copy": "کپی",
+		"submit": "ثبت",
+		"cancel": "انصراف",
+		"confirm": "تایید"
+	},
+	"footer": {
+		"about": "درباره ما",
+		"contact": "تماس با ما",
+		"support": "پشتیبانی",
+		"terms": "قوانین و مقررات",
+		"privacy": "حریم خصوصی",
+		"rights": "تمامی حقوق محفوظ است"
+	},
+	"navigation.home": "navigation.home",
+	"navigation.login": "navigation.login",
+	"navigation.register": "navigation.register",
+	"navigation.investment": "navigation.investment",
+	"navigation.crypto": "navigation.crypto",
+	"footer.terms": "footer.terms",
+	"footer.privacy": "footer.privacy",
+	"footer.support": "footer.support",
+	"footer.rights": "footer.rights"
+}

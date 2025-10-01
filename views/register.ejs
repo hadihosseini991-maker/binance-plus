@@ -1,0 +1,543 @@
+<%- include('partials/header', { title: __('navigation.register') }) %>
+
+<div class="auth-container">
+    <div class="auth-background">
+        <div class="auth-overlay"></div>
+    </div>
+    
+    <div class="container">
+        <div class="auth-content">
+            <!-- Left Side - Form -->
+            <div class="auth-form-container">
+                <div class="auth-header">
+                    <a href="/" class="auth-logo">
+                        <i class="fas fa-coins"></i>
+                        <span>Binance Plus</span>
+                    </a>
+                    <h1>Create Account</h1>
+                    <p>Join thousands of investors earning daily profits</p>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form class="auth-form" method="POST" action="/register">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="firstName">
+                                <i class="fas fa-user"></i>
+                                <%= __('auth.first_name') %>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="firstName" 
+                                name="firstName" 
+                                value="<%= formData ? formData.firstName : '' %>"
+                                required 
+                                placeholder="Enter your first name"
+                            >
+                        </div>
+
+                        <div class="form-group">
+                            <label for="lastName">
+                                <i class="fas fa-user"></i>
+                                <%= __('auth.last_name') %>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="lastName" 
+                                name="lastName" 
+                                value="<%= formData ? formData.lastName : '' %>"
+                                required 
+                                placeholder="Enter your last name"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="birthDate">
+                            <i class="fas fa-calendar"></i>
+                            <%= __('auth.birth_date') %>
+                        </label>
+                        <input 
+                            type="date" 
+                            id="birthDate" 
+                            name="birthDate" 
+                            value="<%= formData ? formData.birthDate : '' %>"
+                            required 
+                            max="<%= new Date().toISOString().split('T')[0] %>"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            <%= __('auth.email') %>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            value="<%= formData ? formData.email : '' %>"
+                            required 
+                            placeholder="Enter your email address"
+                        >
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="country">
+                                <i class="fas fa-globe"></i>
+                                <%= __('auth.country') %>
+                            </label>
+                            <select id="country" name="country" required>
+                                <option value="">Select Country</option>
+                                <option value="USA" <%= formData && formData.country === 'USA' ? 'selected' : '' %>>United States</option>
+                                <option value="UK" <%= formData && formData.country === 'UK' ? 'selected' : '' %>>United Kingdom</option>
+                                <option value="Canada" <%= formData && formData.country === 'Canada' ? 'selected' : '' %>>Canada</option>
+                                <option value="Australia" <%= formData && formData.country === 'Australia' ? 'selected' : '' %>>Australia</option>
+                                <option value="Germany" <%= formData && formData.country === 'Germany' ? 'selected' : '' %>>Germany</option>
+                                <option value="France" <%= formData && formData.country === 'France' ? 'selected' : '' %>>France</option>
+                                <option value="UAE" <%= formData && formData.country === 'UAE' ? 'selected' : '' %>>United Arab Emirates</option>
+                                <option value="Turkey" <%= formData && formData.country === 'Turkey' ? 'selected' : '' %>>Turkey</option>
+                                <option value="Iran" <%= formData && formData.country === 'Iran' ? 'selected' : '' %>>Iran</option>
+                                <option value="Other" <%= formData && formData.country === 'Other' ? 'selected' : '' %>>Other</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="city">
+                                <i class="fas fa-city"></i>
+                                <%= __('auth.city') %>
+                            </label>
+                            <input 
+                                type="text" 
+                                id="city" 
+                                name="city" 
+                                value="<%= formData ? formData.city : '' %>"
+                                required 
+                                placeholder="Enter your city"
+                            >
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="password">
+                                <i class="fas fa-lock"></i>
+                                <%= __('auth.password') %>
+                            </label>
+                            <input 
+                                type="password" 
+                                id="password" 
+                                name="password" 
+                                required 
+                                placeholder="Create password"
+                                minlength="6"
+                            >
+                            <div class="password-strength" id="passwordStrength">
+                                <div class="strength-bar"></div>
+                                <div class="strength-text">Password strength</div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="confirmPassword">
+                                <i class="fas fa-lock"></i>
+                                <%= __('auth.confirm_password') %>
+                            </label>
+                            <input 
+                                type="password" 
+                                id="confirmPassword" 
+                                name="confirmPassword" 
+                                required 
+                                placeholder="Confirm password"
+                            >
+                            <div class="password-match" id="passwordMatch">
+                                <i class="fas fa-check"></i>
+                                Passwords match
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="referralCode">
+                            <i class="fas fa-user-friends"></i>
+                            <%= __('auth.referral_code') %>
+                        </label>
+                        <input 
+                            type="text" 
+                            id="referralCode" 
+                            name="referralCode" 
+                            value="<%= referralCode || (formData ? formData.referralCode : '') %>"
+                            placeholder="Enter referral code (optional)"
+                        >
+                        <% if (referralCode) { %>
+                            <div class="referral-bonus">
+                                <i class="fas fa-gift"></i>
+                                You'll get $20 bonus after verification
+                            </div>
+                        <% } %>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="checkbox">
+                            <input type="checkbox" name="agreeTerms" required>
+                            <span class="checkmark"></span>
+                            I agree to the <a href="/terms" target="_blank">Terms of Service</a> and <a href="/privacy" target="_blank">Privacy Policy</a>
+                        </label>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg" id="submitBtn">
+                        <i class="fas fa-user-plus"></i>
+                        <%= __('buttons.register') %>
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <div class="social-auth">
+                    <button type="button" class="btn btn-social btn-google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button type="button" class="btn btn-social btn-facebook">
+                        <i class="fab fa-facebook"></i>
+                        Facebook
+                    </button>
+                </div>
+
+                <div class="auth-footer">
+                    <p>
+                        <%= __('auth.have_account') %>
+                        <a href="/login"> <%= __('navigation.login') %></a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side - Info -->
+            <div class="auth-info">
+                <div class="info-content">
+                    <h2>Why Join Binance Plus?</h2>
+                    <p>Experience the future of cryptocurrency investment with our advanced platform</p>
+                    
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-rocket"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Instant Registration</h4>
+                                <p>Get started in minutes with our quick and easy signup process</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-gift"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>$20 Welcome Bonus</h4>
+                                <p>Receive $20 USDT when you verify your account with a referral code</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-chart-line"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>High Returns</h4>
+                                <p>Earn up to 500% daily profits with our premium investment plans</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Secure Platform</h4>
+                                <p>Your funds are protected with bank-level security measures</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-headset"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>24/7 Support</h4>
+                                <p>Our support team is available around the clock to help you</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="referral-highlight">
+                        <div class="referral-badge">
+                            <i class="fas fa-star"></i>
+                            Referral Program
+                        </div>
+                        <h3>Earn $20 Per Friend</h3>
+                        <p>Invite friends and earn $20 USDT for each successful referral</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Password strength checker
+const passwordInput = document.getElementById('password');
+const strengthBar = document.querySelector('.strength-bar');
+const strengthText = document.querySelector('.strength-text');
+const confirmPasswordInput = document.getElementById('confirmPassword');
+const passwordMatch = document.getElementById('passwordMatch');
+const submitBtn = document.getElementById('submitBtn');
+
+passwordInput.addEventListener('input', function() {
+    const password = this.value;
+    let strength = 0;
+    let text = '';
+    let color = '';
+
+    // Check password strength
+    if (password.length >= 8) strength++;
+    if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength++;
+    if (password.match(/\d/)) strength++;
+    if (password.match(/[^a-zA-Z\d]/)) strength++;
+
+    switch(strength) {
+        case 0:
+            text = 'Very Weak';
+            color = '#ff4757';
+            break;
+        case 1:
+            text = 'Weak';
+            color = '#ff6348';
+            break;
+        case 2:
+            text = 'Fair';
+            color = '#ffa502';
+            break;
+        case 3:
+            text = 'Good';
+            color = '#2ed573';
+            break;
+        case 4:
+            text = 'Strong';
+            color = '#1e90ff';
+            break;
+    }
+
+    strengthBar.style.width = (strength * 25) + '%';
+    strengthBar.style.background = color;
+    strengthText.textContent = text;
+    strengthText.style.color = color;
+});
+
+// Password match checker
+function checkPasswordMatch() {
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+    
+    if (confirmPassword.length === 0) {
+        passwordMatch.style.display = 'none';
+        return;
+    }
+    
+    if (password === confirmPassword && password.length >= 6) {
+        passwordMatch.style.display = 'flex';
+        passwordMatch.style.color = '#2ed573';
+    } else {
+        passwordMatch.style.display = 'flex';
+        passwordMatch.style.color = '#ff4757';
+    }
+}
+
+passwordInput.addEventListener('input', checkPasswordMatch);
+confirmPasswordInput.addEventListener('input', checkPasswordMatch);
+
+// Form validation
+document.querySelector('form').addEventListener('submit', function(e) {
+    const password = passwordInput.value;
+    const confirmPassword = confirmPasswordInput.value;
+    
+    if (password !== confirmPassword) {
+        e.preventDefault();
+        alert('Passwords do not match!');
+        return;
+    }
+    
+    if (password.length < 6) {
+        e.preventDefault();
+        alert('Password must be at least 6 characters long!');
+        return;
+    }
+    
+    // Show loading state
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Creating Account...';
+    submitBtn.disabled = true;
+});
+
+// Age validation
+const birthDateInput = document.getElementById('birthDate');
+const today = new Date();
+const minDate = new Date(today.getFullYear() - 18, today.getMonth(), today.getDate());
+birthDateInput.max = minDate.toISOString().split('T')[0];
+</script>
+
+<style>
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+}
+
+.password-strength {
+    margin-top: 0.5rem;
+}
+
+.strength-bar {
+    height: 4px;
+    background: #444;
+    border-radius: 2px;
+    margin-bottom: 0.25rem;
+    transition: all 0.3s ease;
+    width: 0%;
+}
+
+.strength-text {
+    font-size: 0.8rem;
+    color: #888;
+    transition: color 0.3s ease;
+}
+
+.password-match {
+    display: none;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+    color: #2ed573;
+}
+
+.password-match i {
+    font-size: 0.7rem;
+}
+
+.referral-bonus {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(240, 185, 11, 0.1);
+    border: 1px solid rgba(240, 185, 11, 0.2);
+    border-radius: 5px;
+    color: #f0b90b;
+    font-size: 0.9rem;
+}
+
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.benefit-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, #f0b90b, #f8d33a);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.benefit-content h4 {
+    margin: 0 0 0.5rem 0;
+    color: #fff;
+    font-size: 1.1rem;
+}
+
+.benefit-content p {
+    margin: 0;
+    color: #ccc;
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.referral-highlight {
+    text-align: center;
+    padding: 2rem;
+    background: linear-gradient(135deg, rgba(240, 185, 11, 0.1), rgba(248, 211, 58, 0.1));
+    border: 1px solid rgba(240, 185, 11, 0.2);
+    border-radius: 15px;
+    margin-top: 2rem;
+}
+
+.referral-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.5rem 1rem;
+    background: #f0b90b;
+    color: #000;
+    border-radius: 20px;
+    font-weight: 600;
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.referral-highlight h3 {
+    margin: 0 0 0.5rem 0;
+    color: #f0b90b;
+    font-size: 1.5rem;
+}
+
+.referral-highlight p {
+    margin: 0;
+    color: #ccc;
+    font-size: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+    
+    .benefit-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .benefit-icon {
+        align-self: center;
+    }
+}
+</style>
+
+<%- include('partials/footer') %>

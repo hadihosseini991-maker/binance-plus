@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Binance Plus</title>
+
+    <!-- Favicon -->
+    <link rel="icon" href="/images/favicon.ico" type="image/x-icon">
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+    <!-- Navbar -->
+    <nav class="nav">
+        <div class="nav-left">
+            <a href="/" class="logo">Binance Plus</a>
+        </div>
+        <div class="nav-actions">
+            <div class="auth-buttons">
+                <a href="/auth/login" class="btn">Login</a>
+                <a href="/auth/register" class="btn btn-primary">Register</a>
+            </div>
+            <button id="mobileToggle" class="mobile-toggle">
+                <span></span><span></span><span></span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome to Binance Plus</h1>
+            <p>Your platform for crypto trading, investment, and portfolio tracking.</p>
+            <a href="/auth/register" class="btn btn-primary">Get Started</a>
+        </div>
+        <div class="hero-bg">
+            <img src="/images/crypto-bg.jpg" alt="Crypto Background">
+        </div>
+    </section>
+
+    <!-- Crypto Ticker -->
+    <section class="ticker-section">
+        <div id="cryptoTicker" class="crypto-ticker"></div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="features">
+        <div class="feature">
+            <img src="/images/bitcoin-bg.jpg" alt="Bitcoin">
+            <h3>Bitcoin Trading</h3>
+            <p>Trade BTC easily and securely on Binance Plus.</p>
+        </div>
+        <div class="feature">
+            <img src="/images/ethereum-bg.jpg" alt="Ethereum">
+            <h3>Ethereum Trading</h3>
+            <p>Invest and track your ETH portfolio effortlessly.</p>
+        </div>
+        <div class="feature">
+            <img src="/images/crypto-bg.jpg" alt="Other Cryptos">
+            <h3>Other Cryptos</h3>
+            <p>Access dozens of altcoins with real-time updates.</p>
+        </div>
+    </section>
+
+    <!-- Support Widget -->
+    <div class="support-widget">
+        <button id="supportToggle" class="support-toggle">Support</button>
+        <div id="supportContent" class="support-content">
+            <div id="supportClose" class="support-close">&times;</div>
+            <div class="support-options">
+                <button class="support-option" data-issue="account">Account Issue</button>
+                <button class="support-option" data-issue="trading">Trading Issue</button>
+            </div>
+            <div id="supportChat" class="support-chat">
+                <div id="chatMessages" class="chat-messages"></div>
+                <input type="text" id="chatInput" placeholder="Type your message...">
+                <button id="sendMessage" class="btn">Send</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/script.js" type="module"></script>
+</body>
+</html>

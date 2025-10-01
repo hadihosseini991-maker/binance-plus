@@ -1,0 +1,458 @@
+<%- include('partials/header', { title: 'Verify Email - Binance Plus' }) %>
+
+<div class="auth-container">
+    <div class="auth-background">
+        <div class="auth-overlay"></div>
+    </div>
+    
+    <div class="container">
+        <div class="auth-content">
+            <div class="auth-form-container">
+                <div class="auth-header">
+                    <a href="/" class="auth-logo">
+                        <i class="fas fa-coins"></i>
+                        <span>Binance Plus</span>
+                    </a>
+                    <h1>Verify Your Email</h1>
+                    <p>We've sent a 6-digit verification code to your email address</p>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form class="auth-form" method="POST" action="/verify-email">
+                    <div class="form-group">
+                        <label for="code">Verification Code</label>
+                        <div class="code-inputs">
+                            <input type="text" id="digit1" name="digit1" maxlength="1" required>
+                            <input type="text" id="digit2" name="digit2" maxlength="1" required>
+                            <input type="text" id="digit3" name="digit3" maxlength="1" required>
+                            <input type="text" id="digit4" name="digit4" maxlength="1" required>
+                            <input type="text" id="digit5" name="digit5" maxlength="1" required>
+                            <input type="text" id="digit6" name="digit6" maxlength="1" required>
+                        </div>
+                        <input type="hidden" id="verificationCode" name="code">
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-check"></i>
+                        Verify Email
+                    </button>
+                </form>
+
+                <div class="verification-info">
+                    <div class="info-item">
+                        <i class="fas fa-clock"></i>
+                        <span>Code expires in <strong id="countdown">5:00</strong></span>
+                    </div>
+                    <div class="info-item">
+                        <i class="fas fa-envelope"></i>
+                        <span>Check your spam folder if you don't see the email</span>
+                    </div>
+                </div>
+
+                <div class="resend-section">
+                    <p>Didn't receive the code?</p>
+                    <button type="button" class="btn btn-outline btn-block" id="resendCode" disabled>
+                        <i class="fas fa-redo"></i>
+                        <span id="resendText">Resend Code (60s)</span>
+                    </button>
+                </div>
+
+                <div class="auth-footer">
+                    <p>
+                        Having trouble? 
+                        <a href="/support">Contact Support</a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="auth-info">
+                <div class="info-content">
+                    <h2>Why Verify Your Email?</h2>
+                    <p>Email verification helps us secure your account and ensure you receive important notifications.</p>
+                    
+                    <div class="benefits-list">
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-shield-alt"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Account Security</h4>
+                                <p>Protect your account from unauthorized access</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-bell"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Important Notifications</h4>
+                                <p>Receive alerts about your investments and transactions</p>
+                            </div>
+                        </div>
+
+                        <div class="benefit-item">
+                            <div class="benefit-icon">
+                                <i class="fas fa-key"></i>
+                            </div>
+                            <div class="benefit-content">
+                                <h4>Password Recovery</h4>
+                                <p>Reset your password if you forget it</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="security-tip">
+                        <div class="tip-header">
+                            <i class="fas fa-lightbulb"></i>
+                            <span>Security Tip</span>
+                        </div>
+                        <p>Never share your verification code with anyone. Binance Plus will never ask for your code.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.code-inputs {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: center;
+    margin: 1rem 0;
+}
+
+.code-inputs input {
+    width: 50px;
+    height: 60px;
+    text-align: center;
+    font-size: 1.5rem;
+    font-weight: bold;
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    background: var(--accent-color);
+    color: var(--text-primary);
+    transition: all 0.3s ease;
+}
+
+.code-inputs input:focus {
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(240, 185, 11, 0.1);
+    transform: scale(1.05);
+}
+
+.code-inputs input.filled {
+    border-color: var(--success-color);
+    background: rgba(46, 213, 115, 0.1);
+}
+
+.verification-info {
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+}
+
+.info-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    color: var(--text-secondary);
+}
+
+.info-item:last-child {
+    margin-bottom: 0;
+}
+
+.info-item i {
+    color: var(--primary-color);
+    width: 20px;
+}
+
+#countdown {
+    color: var(--warning-color);
+    font-weight: bold;
+}
+
+.resend-section {
+    text-align: center;
+    margin: 2rem 0;
+}
+
+.resend-section p {
+    color: var(--text-secondary);
+    margin-bottom: 1rem;
+}
+
+#resendCode:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.benefits-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+    margin: 2rem 0;
+}
+
+.benefit-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.benefit-icon {
+    width: 50px;
+    height: 50px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+}
+
+.benefit-content h4 {
+    margin: 0 0 0.5rem 0;
+    color: var(--text-primary);
+    font-size: 1.1rem;
+}
+
+.benefit-content p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+.security-tip {
+    background: linear-gradient(135deg, rgba(255, 165, 2, 0.1), rgba(255, 193, 7, 0.1));
+    border: 1px solid rgba(255, 165, 2, 0.2);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin-top: 2rem;
+}
+
+.tip-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--warning-color);
+    font-weight: 600;
+}
+
+.security-tip p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    line-height: 1.4;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .code-inputs input {
+        width: 45px;
+        height: 55px;
+        font-size: 1.25rem;
+    }
+    
+    .benefit-item {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .benefit-icon {
+        align-self: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .code-inputs {
+        gap: 0.25rem;
+    }
+    
+    .code-inputs input {
+        width: 40px;
+        height: 50px;
+        font-size: 1.1rem;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const codeInputs = document.querySelectorAll('.code-inputs input');
+    const verificationCode = document.getElementById('verificationCode');
+    const resendBtn = document.getElementById('resendCode');
+    const resendText = document.getElementById('resendText');
+    const countdown = document.getElementById('countdown');
+    
+    // Auto-focus first input
+    codeInputs[0].focus();
+    
+    // Handle code input
+    codeInputs.forEach((input, index) => {
+        // Handle input
+        input.addEventListener('input', function(e) {
+            const value = e.target.value;
+            
+            if (value.length === 1) {
+                // Move to next input
+                if (index < codeInputs.length - 1) {
+                    codeInputs[index + 1].focus();
+                }
+                
+                // Add filled class
+                this.classList.add('filled');
+                
+                // Update hidden field
+                updateVerificationCode();
+            }
+        });
+        
+        // Handle backspace
+        input.addEventListener('keydown', function(e) {
+            if (e.key === 'Backspace' && !this.value && index > 0) {
+                codeInputs[index - 1].focus();
+                codeInputs[index - 1].classList.remove('filled');
+            }
+        });
+        
+        // Handle paste
+        input.addEventListener('paste', function(e) {
+            e.preventDefault();
+            const pastedData = e.clipboardData.getData('text');
+            if (pastedData.length === 6 && /^\d+$/.test(pastedData)) {
+                pastedData.split('').forEach((digit, idx) => {
+                    if (codeInputs[idx]) {
+                        codeInputs[idx].value = digit;
+                        codeInputs[idx].classList.add('filled');
+                    }
+                });
+                updateVerificationCode();
+                codeInputs[5].focus();
+            }
+        });
+    });
+    
+    function updateVerificationCode() {
+        const code = Array.from(codeInputs).map(input => input.value).join('');
+        verificationCode.value = code;
+    }
+    
+    // Countdown timer
+    let timeLeft = 300; // 5 minutes
+    function updateCountdown() {
+        const minutes = Math.floor(timeLeft / 60);
+        const seconds = timeLeft % 60;
+        countdown.textContent = `${minutes}:${seconds.toString().padStart(2, '0')}`;
+        
+        if (timeLeft === 0) {
+            clearInterval(timer);
+            countdown.textContent = 'Expired';
+            countdown.style.color = '#ff4757';
+        }
+        
+        timeLeft--;
+    }
+    
+    let timer = setInterval(updateCountdown, 1000);
+    
+    // Resend code countdown
+    let resendTime = 60;
+    function updateResendTimer() {
+        if (resendTime > 0) {
+            resendText.textContent = `Resend Code (${resendTime}s)`;
+            resendTime--;
+        } else {
+            clearInterval(resendTimer);
+            resendBtn.disabled = false;
+            resendText.textContent = 'Resend Code';
+            resendText.innerHTML = '<i class="fas fa-redo"></i> Resend Code';
+        }
+    }
+    
+    let resendTimer = setInterval(updateResendTimer, 1000);
+    
+    // Resend code functionality
+    resendBtn.addEventListener('click', function() {
+        if (!this.disabled) {
+            this.disabled = true;
+            this.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            
+            fetch('/resend-verification', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Reset inputs
+                    codeInputs.forEach(input => {
+                        input.value = '';
+                        input.classList.remove('filled');
+                    });
+                    codeInputs[0].focus();
+                    verificationCode.value = '';
+                    
+                    // Reset timers
+                    timeLeft = 300;
+                    resendTime = 60;
+                    clearInterval(timer);
+                    clearInterval(resendTimer);
+                    timer = setInterval(updateCountdown, 1000);
+                    resendTimer = setInterval(updateResendTimer, 1000);
+                    
+                    // Update UI
+                    countdown.textContent = '5:00';
+                    countdown.style.color = '';
+                    this.innerHTML = '<i class="fas fa-redo"></i> Resend Code (60s)';
+                    
+                    alert('New verification code sent successfully!');
+                } else {
+                    alert('Failed to resend code. Please try again.');
+                    this.disabled = false;
+                    this.innerHTML = '<i class="fas fa-redo"></i> Resend Code';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Failed to resend code. Please try again.');
+                this.disabled = false;
+                this.innerHTML = '<i class="fas fa-redo"></i> Resend Code';
+            });
+        }
+    });
+    
+    // Form submission
+    document.querySelector('form').addEventListener('submit', function(e) {
+        const code = verificationCode.value;
+        if (code.length !== 6) {
+            e.preventDefault();
+            alert('Please enter the complete 6-digit verification code.');
+            codeInputs[0].focus();
+        }
+    });
+});
+</script>
+
+<%- include('partials/footer') %>

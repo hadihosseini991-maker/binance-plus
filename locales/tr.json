@@ -1,0 +1,92 @@
+{
+	"app_name": "Binance Plus",
+	"welcome": "Binance Plus'a Hoş Geldiniz",
+	"slogan": "Profesyonel Kripto Para Yatırım Platformu",
+	"navigation": {
+		"home": "Ana Sayfa",
+		"dashboard": "Kontrol Paneli",
+		"investment": "Yatırım Planları",
+		"crypto": "Al/Sat",
+		"login": "Giriş Yap",
+		"register": "Kayıt Ol",
+		"logout": "Çıkış Yap"
+	},
+	"auth": {
+		"email": "E-posta Adresi",
+		"password": "Şifre",
+		"confirm_password": "Şifreyi Onayla",
+		"first_name": "Ad",
+		"last_name": "Soyad",
+		"birth_date": "Doğum Tarihi",
+		"country": "Ülke",
+		"city": "Şehir",
+		"referral_code": "Referans Kodu (İsteğe Bağlı)",
+		"have_account": "Zaten hesabınız var mı?",
+		"no_account": "Hesabınız yok mu?",
+		"forgot_password": "Şifrenizi mi unuttunuz?",
+		"remember_me": "Beni Hatırla"
+	},
+	"dashboard": {
+		"title": "Kontrol Paneli",
+		"welcome": "Tekrar hoş geldiniz",
+		"total_balance": "Toplam Bakiye",
+		"available_balance": "Kullanılabilir Bakiye",
+		"total_earnings": "Toplam Kazanç",
+		"active_investments": "Aktif Yatırımlar",
+		"referral_earnings": "Referans Kazançları",
+		"recent_transactions": "Son İşlemler",
+		"investment_plans": "Yatırım Planları",
+		"quick_actions": "Hızlı İşlemler"
+	},
+	"investment": {
+		"title": "Yatırım Planları",
+		"choose_plan": "Yatırım Planınızı Seçin",
+		"daily_profit": "Günlük Kar",
+		"investment_amount": "Yatırım Miktarı",
+		"plan_features": "Plan Özellikleri",
+		"select_plan": "Planı Seç",
+		"current_investments": "Mevcut Yatırımlar"
+	},
+	"crypto": {
+		"title": "Kripto Para Al & Sat",
+		"buy": "Al",
+		"sell": "Sat",
+		"currency": "Para Birimi",
+		"amount": "Miktar",
+		"network": "Ağ",
+		"wallet_address": "Cüzdan Adresi",
+		"copy_address": "Adresi Kopyala",
+		"deposit": "Yatır",
+		"withdraw": "Çek"
+	},
+	"buttons": {
+		"login": "Giriş Yap",
+		"register": "Kayıt Ol",
+		"invest_now": "Şimdi Yatırım Yap",
+		"buy_now": "Şimdi Al",
+		"sell_now": "Şimdi Sat",
+		"deposit": "Yatır",
+		"withdraw": "Çek",
+		"copy": "Kopyala",
+		"submit": "Gönder",
+		"cancel": "İptal",
+		"confirm": "Onayla"
+	},
+	"footer": {
+		"about": "Hakkımızda",
+		"contact": "İletişim",
+		"support": "Destek",
+		"terms": "Hizmet Şartları",
+		"privacy": "Gizlilik Politikası",
+		"rights": "Tüm hakları saklıdır"
+	},
+	"navigation.home": "navigation.home",
+	"navigation.login": "navigation.login",
+	"navigation.register": "navigation.register",
+	"navigation.investment": "navigation.investment",
+	"navigation.crypto": "navigation.crypto",
+	"footer.terms": "footer.terms",
+	"footer.privacy": "footer.privacy",
+	"footer.support": "footer.support",
+	"footer.rights": "footer.rights"
+}

@@ -1,0 +1,886 @@
+<%- include('partials/header', { title: __('crypto.title') }) %>
+
+<div class="crypto-container">
+    <div class="container">
+        <!-- Page Header -->
+        <div class="page-header">
+            <h1><%= __('crypto.title') %></h1>
+            <p>Trade cryptocurrencies instantly with competitive rates and low fees</p>
+        </div>
+
+        <!-- Trading View -->
+        <div class="trading-section">
+            <div class="trading-container">
+                <!-- Left Side - Trading Pairs -->
+                <div class="trading-pairs">
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3> Trading Pairs</h3>
+                            <div class="search-box">
+                                <i class="fas fa-search"></i>
+                                <input type="text" placeholder="Search cryptocurrencies..." id="searchCrypto">
+                            </div>
+                        </div>
+                        
+                        <div class="pairs-list" id="pairsList">
+                            <% cryptoData.forEach(crypto => { %>
+                                <div class="pair-item" data-symbol="<%= crypto.symbol %>">
+                                    <div class="pair-info">
+                                        <div class="crypto-icon">
+                                            <i class="fab fa-<%= crypto.symbol.toLowerCase() %>"></i>
+                                        </div>
+                                        <div class="pair-details">
+                                            <div class="pair-name"><%= crypto.symbol %></div>
+                                            <div class="pair-fullname"><%= crypto.name %></div>
+                                        </div>
+                                    </div>
+                                    <div class="pair-price">
+                                        <div class="price">$<%= crypto.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                                        <div class="change <%= crypto.change >= 0 ? 'positive' : 'negative' %>">
+                                            <%= crypto.change >= 0 ? '+' : '' %><%= crypto.change %>%
+                                        </div>
+                                    </div>
+                                </div>
+                            <% }) %>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Center - Trading Interface -->
+                <div class="trading-interface">
+                    <div class="trading-tabs">
+                        <button class="tab-btn active" data-tab="buy">Buy</button>
+                        <button class="tab-btn" data-tab="sell">Sell</button>
+                        <button class="tab-btn" data-tab="convert">Convert</button>
+                    </div>
+
+                    <!-- Buy Tab -->
+                    <div class="tab-content active" id="buyTab">
+                        <div class="trading-form">
+                            <div class="form-group">
+                                <label for="buyCurrency">Currency</label>
+                                <select id="buyCurrency" class="form-control">
+                                    <% cryptoData.slice(0, 5).forEach(crypto => { %>
+                                        <option value="<%= crypto.symbol %>"><%= crypto.name %> (<%= crypto.symbol %>)</option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="buyAmount">Amount (USD)</label>
+                                <input type="number" id="buyAmount" class="form-control" placeholder="0.00" min="10" step="0.01">
+                                <div class="amount-options">
+                                    <button class="amount-option" data-amount="100">$100</button>
+                                    <button class="amount-option" data-amount="500">$500</button>
+                                    <button class="amount-option" data-amount="1000">$1,000</button>
+                                    <button class="amount-option" data-amount="5000">$5,000</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="buyNetwork">Network</label>
+                                <select id="buyNetwork" class="form-control">
+                                    <option value="ERC20">ERC20 (Ethereum)</option>
+                                    <option value="BEP20">BEP20 (Binance Smart Chain)</option>
+                                    <option value="TRC20">TRC20 (Tron)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="trade-summary">
+                                <div class="summary-item">
+                                    <span>You'll get:</span>
+                                    <span id="buyCryptoAmount">0.00000000</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Fee (0.1%):</span>
+                                    <span id="buyFee">$0.00</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total cost:</span>
+                                    <span id="buyTotal">$0.00</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-block" id="buyBtn">
+                                <i class="fas fa-shopping-cart"></i>
+                                Buy Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Sell Tab -->
+                    <div class="tab-content" id="sellTab">
+                        <div class="trading-form">
+                            <div class="form-group">
+                                <label for="sellCurrency">Currency</label>
+                                <select id="sellCurrency" class="form-control">
+                                    <% cryptoData.slice(0, 5).forEach(crypto => { %>
+                                        <option value="<%= crypto.symbol %>"><%= crypto.name %> (<%= crypto.symbol %>)</option>
+                                    <% }) %>
+                                </select>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sellAmount">Amount (<span id="sellCurrencySymbol">BTC</span>)</label>
+                                <input type="number" id="sellAmount" class="form-control" placeholder="0.00000000" step="0.00000001">
+                                <div class="balance-info">
+                                    Available: <span id="sellBalance">0.00000000</span>
+                                    <button class="btn-link" id="sellMax">Max</button>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="sellNetwork">Network</label>
+                                <select id="sellNetwork" class="form-control">
+                                    <option value="ERC20">ERC20 (Ethereum)</option>
+                                    <option value="BEP20">BEP20 (Binance Smart Chain)</option>
+                                    <option value="TRC20">TRC20 (Tron)</option>
+                                </select>
+                            </div>
+                            
+                            <div class="trade-summary">
+                                <div class="summary-item">
+                                    <span>You'll receive:</span>
+                                    <span id="sellUsdtAmount">$0.00</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Fee (0.1%):</span>
+                                    <span id="sellFee">$0.00</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Total received:</span>
+                                    <span id="sellTotal">$0.00</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-block" id="sellBtn">
+                                <i class="fas fa-dollar-sign"></i>
+                                Sell Now
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Convert Tab -->
+                    <div class="tab-content" id="convertTab">
+                        <div class="trading-form">
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <label for="fromCurrency">From</label>
+                                    <select id="fromCurrency" class="form-control">
+                                        <% cryptoData.slice(0, 5).forEach(crypto => { %>
+                                            <option value="<%= crypto.symbol %>"><%= crypto.symbol %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label for="toCurrency">To</label>
+                                    <select id="toCurrency" class="form-control">
+                                        <% cryptoData.slice(0, 5).forEach(crypto => { %>
+                                            <option value="<%= crypto.symbol %>"><%= crypto.symbol %></option>
+                                        <% }) %>
+                                    </select>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label for="convertAmount">Amount</label>
+                                <input type="number" id="convertAmount" class="form-control" placeholder="0.00000000" step="0.00000001">
+                                <div class="balance-info">
+                                    Available: <span id="convertBalance">0.00000000</span>
+                                    <button class="btn-link" id="convertMax">Max</button>
+                                </div>
+                            </div>
+                            
+                            <div class="exchange-rate">
+                                <div class="rate-info">
+                                    <span>Exchange rate:</span>
+                                    <span id="exchangeRate">1 BTC = 0.00000000 ETH</span>
+                                </div>
+                                <div class="rate-info">
+                                    <span>Inverse rate:</span>
+                                    <span id="inverseRate">1 ETH = 0.00000000 BTC</span>
+                                </div>
+                            </div>
+                            
+                            <div class="trade-summary">
+                                <div class="summary-item">
+                                    <span>You'll get:</span>
+                                    <span id="convertResult">0.00000000</span>
+                                </div>
+                                <div class="summary-item">
+                                    <span>Fee (0.1%):</span>
+                                    <span id="convertFee">0.00000000</span>
+                                </div>
+                                <div class="summary-item total">
+                                    <span>Final amount:</span>
+                                    <span id="convertTotal">0.00000000</span>
+                                </div>
+                            </div>
+                            
+                            <button class="btn btn-primary btn-block" id="convertBtn">
+                                <i class="fas fa-exchange-alt"></i>
+                                Convert Now
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Side - Order Book & Chart -->
+                <div class="trading-sidebar">
+                    <!-- Price Chart -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Price Chart</h3>
+                            <div class="chart-options">
+                                <button class="chart-option active" data-period="1h">1H</button>
+                                <button class="chart-option" data-period="1d">1D</button>
+                                <button class="chart-option" data-period="1w">1W</button>
+                                <button class="chart-option" data-period="1m">1M</button>
+                            </div>
+                        </div>
+                        <div class="chart-container">
+                            <canvas id="priceChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Order Book -->
+                    <div class="section-card">
+                        <div class="section-header">
+                            <h3>Order Book</h3>
+                            <div class="order-book-pair">BTC/USDT</div>
+                        </div>
+                        <div class="order-book">
+                            <div class="order-book-side asks">
+                                <div class="order-book-header">
+                                    <span>Price (USDT)</span>
+                                    <span>Amount (BTC)</span>
+                                    <span>Total</span>
+                                </div>
+                                <div class="order-book-entries" id="askOrders">
+                                    <!-- Asks will be populated by JavaScript -->
+                                </div>
+                            </div>
+                            
+                            <div class="order-book-spread">
+                                <span>Spread: </span>
+                                <span id="spreadAmount">0.00%</span>
+                            </div>
+                            
+                            <div class="order-book-side bids">
+                                <div class="order-book-header">
+                                    <span>Price (USDT)</span>
+                                    <span>Amount (BTC)</span>
+                                    <span>Total</span>
+                                </div>
+                                <div class="order-book-entries" id="bidOrders">
+                                    <!-- Bids will be populated by JavaScript -->
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Market Overview -->
+        <div class="market-overview">
+            <div class="section-card">
+                <div class="section-header">
+                    <h2>Market Overview</h2>
+                    <div class="market-filters">
+                        <button class="filter-btn active" data-filter="all">All</button>
+                        <button class="filter-btn" data-filter="gainers">Gainers</button>
+                        <button class="filter-btn" data-filter="losers">Losers</button>
+                        <button class="filter-btn" data-filter="volume">Volume</button>
+                    </div>
+                </div>
+                
+                <div class="market-table">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Asset</th>
+                                <th>Price</th>
+                                <th>24h Change</th>
+                                <th>24h Volume</th>
+                                <th>Market Cap</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <% cryptoData.forEach(crypto => { %>
+                                <tr class="market-row" data-symbol="<%= crypto.symbol %>">
+                                    <td>
+                                        <div class="asset-info">
+                                            <div class="asset-icon">
+                                                <i class="fab fa-<%= crypto.symbol.toLowerCase() %>"></i>
+                                            </div>
+                                            <div class="asset-details">
+                                                <div class="asset-symbol"><%= crypto.symbol %></div>
+                                                <div class="asset-name"><%= crypto.name %></div>
+                                            </div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="asset-price">$<%= crypto.price.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2}) %></div>
+                                    </td>
+                                    <td>
+                                        <div class="asset-change <%= crypto.change >= 0 ? 'positive' : 'negative' %>">
+                                            <%= crypto.change >= 0 ? '+' : '' %><%= crypto.change %>%
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="asset-volume">$<%= (crypto.price * 1000000 * (1 + Math.random())).toLocaleString(undefined, {maximumFractionDigits: 0}) %></div>
+                                    </td>
+                                    <td>
+                                        <div class="asset-marketcap">$<%= (crypto.price * 21000000).toLocaleString(undefined, {maximumFractionDigits: 0}) %></div>
+                                    </td>
+                                    <td>
+                                        <div class="asset-actions">
+                                            <button class="btn btn-sm btn-primary buy-asset" data-symbol="<%= crypto.symbol %>">
+                                                Buy
+                                            </button>
+                                            <button class="btn btn-sm btn-outline sell-asset" data-symbol="<%= crypto.symbol %>">
+                                                Sell
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            <% }) %>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Trading Modals -->
+<div class="modal" id="buyModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Buy Order</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span>Asset:</span>
+                    <span id="confirmBuyAsset">BTC</span>
+                </div>
+                <div class="summary-item">
+                    <span>Amount:</span>
+                    <span id="confirmBuyAmount">0.00000000</span>
+                </div>
+                <div class="summary-item">
+                    <span>Price:</span>
+                    <span id="confirmBuyPrice">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Fee:</span>
+                    <span id="confirmBuyFee">$0.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>Total:</span>
+                    <span id="confirmBuyTotal">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="wallet-address" id="buyWalletAddress" style="display: none;">
+                <label>Deposit Address</label>
+                <div class="address-container">
+                    <code id="buyAddressText"></code>
+                    <button class="btn btn-outline btn-sm" onclick="copyBuyAddress()">
+                        <i class="fas fa-copy"></i>
+                        Copy
+                    </button>
+                </div>
+                <p class="address-note">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    Send only <span id="buyCurrencyName"></span> to this address
+                </p>
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelBuy">Cancel</button>
+            <button class="btn btn-primary" id="confirmBuy">
+                <i class="fas fa-check"></i>
+                Confirm Buy
+            </button>
+        </div>
+    </div>
+</div>
+
+<div class="modal" id="sellModal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3>Confirm Sell Order</h3>
+            <button class="modal-close">&times;</button>
+        </div>
+        
+        <div class="modal-body">
+            <div class="order-summary">
+                <div class="summary-item">
+                    <span>Asset:</span>
+                    <span id="confirmSellAsset">BTC</span>
+                </div>
+                <div class="summary-item">
+                    <span>Amount:</span>
+                    <span id="confirmSellAmount">0.00000000</span>
+                </div>
+                <div class="summary-item">
+                    <span>Price:</span>
+                    <span id="confirmSellPrice">$0.00</span>
+                </div>
+                <div class="summary-item">
+                    <span>Fee:</span>
+                    <span id="confirmSellFee">$0.00</span>
+                </div>
+                <div class="summary-item total">
+                    <span>You'll receive:</span>
+                    <span id="confirmSellTotal">$0.00</span>
+                </div>
+            </div>
+            
+            <div class="form-group">
+                <label for="withdrawAddress">Withdrawal Address</label>
+                <input type="text" id="withdrawAddress" class="form-control" 
+                       placeholder="Enter your external wallet address">
+            </div>
+        </div>
+        
+        <div class="modal-footer">
+            <button class="btn btn-outline" id="cancelSell">Cancel</button>
+            <button class="btn btn-primary" id="confirmSell">
+                <i class="fas fa-check"></i>
+                Confirm Sell
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+.crypto-container {
+    min-height: 100vh;
+    background: var(--background-dark);
+    padding: 2rem 0;
+}
+
+.trading-container {
+    display: grid;
+    grid-template-columns: 300px 1fr 350px;
+    gap: 2rem;
+    margin-bottom: 3rem;
+}
+
+/* Trading Pairs */
+.pairs-list {
+    max-height: 600px;
+    overflow-y: auto;
+}
+
+.pair-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.pair-item:hover {
+    background: var(--accent-color);
+}
+
+.pair-item.active {
+    background: rgba(240, 185, 11, 0.1);
+    border: 1px solid rgba(240, 185, 11, 0.2);
+}
+
+.pair-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.crypto-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--accent-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.pair-details {
+    display: flex;
+    flex-direction: column;
+}
+
+.pair-name {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.pair-fullname {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.pair-price {
+    text-align: right;
+}
+
+.pair-price .price {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+}
+
+.pair-price .change {
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.pair-price .change.positive {
+    color: var(--success-color);
+}
+
+.pair-price .change.negative {
+    color: var(--error-color);
+}
+
+/* Trading Interface */
+.trading-interface {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 15px;
+    padding: 2rem;
+}
+
+.trading-tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
+.tab-btn {
+    background: none;
+    border: none;
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-weight: 600;
+}
+
+.tab-btn:hover {
+    background: var(--accent-color);
+    color: var(--text-primary);
+}
+
+.tab-btn.active {
+    background: var(--primary-color);
+    color: #000;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.trading-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.amount-options {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+    flex-wrap: wrap;
+}
+
+.amount-option {
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.amount-option:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+
+.balance-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.btn-link {
+    background: none;
+    border: none;
+    color: var(--primary-color);
+    cursor: pointer;
+    text-decoration: underline;
+}
+
+.trade-summary {
+    background: var(--accent-color);
+    border-radius: 10px;
+    padding: 1.5rem;
+    margin: 1.5rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.summary-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    color: var(--text-secondary);
+}
+
+.summary-item:not(:last-child) {
+    border-bottom: 1px solid var(--border-color);
+}
+
+.summary-item.total {
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 1.1rem;
+}
+
+.exchange-rate {
+    background: var(--accent-color);
+    border-radius: 10px;
+    padding: 1rem;
+    margin: 1rem 0;
+    border: 1px solid var(--border-color);
+}
+
+.rate-info {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.25rem 0;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Trading Sidebar */
+.chart-options {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chart-option {
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 5px;
+    padding: 0.25rem 0.75rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.chart-option.active {
+    background: var(--primary-color);
+    color: #000;
+    border-color: var(--primary-color);
+}
+
+.chart-container {
+    height: 200px;
+    margin-top: 1rem;
+}
+
+.order-book {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.order-book-side {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.order-book-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.5rem;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.order-book-entries {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+    max-height: 150px;
+    overflow-y: auto;
+}
+
+.order-book-entry {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 0.5rem;
+    padding: 0.25rem 0.5rem;
+    font-size: 0.8rem;
+}
+
+.order-book-entry.ask {
+    background: linear-gradient(90deg, rgba(255, 71, 87, 0.1) 0%, transparent 100%);
+}
+
+.order-book-entry.bid {
+    background: linear-gradient(90deg, rgba(46, 213, 115, 0.1) 0%, transparent 100%);
+}
+
+.order-book-spread {
+    text-align: center;
+    padding: 0.5rem;
+    background: var(--accent-color);
+    border-radius: 5px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+}
+
+/* Market Overview */
+.market-filters {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.filter-btn {
+    background: var(--accent-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    padding: 0.5rem 1rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 0.8rem;
+}
+
+.filter-btn.active {
+    background: var(--primary-color);
+    color: #000;
+    border-color: var(--primary-color);
+}
+
+.market-table {
+    overflow-x: auto;
+}
+
+.market-table table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.market-table th {
+    background: var(--accent-color);
+    padding: 1rem;
+    text-align: left;
+    font-weight: 600;
+    color: var(--text-secondary);
+    border-bottom: 1px solid var(--border-color);
+}
+
+.market-table td {
+    padding: 1rem;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.market-row:hover {
+    background: var(--accent-color);
+}
+
+.asset-info {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.asset-icon {
+    width: 40px;
+    height: 40px;
+    background: var(--accent-color);
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.25rem;
+}
+
+.asset-symbol {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.asset-name {
+    font-size: 0.8rem;
+    color: var(--text-muted);
+}
+
+.asset-price {
+    font-weight: 600;
+    color: var(--text-primary);
+}
+
+.asset-change {
+    font-weight: 600;
+}
+
+.asset-change.positive {
+    color: var(--success-color);
+}
+
+.asset-change.negative {
+    color: var(--error-color);
+}
+
+.asset-volume, .asset-marketcap {
+    color: var(--text-secondary);
+}
+
+.asset-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Additional responsive styles... */
+</style>
+
+<script>
+// Trading functionality will be implemented here
+// This is a simplified version for the template
+</script>
+
+<%- include('partials/footer') %>

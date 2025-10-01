@@ -1,0 +1,729 @@
+<!-- Sidebar for Dashboard -->
+<aside class="dashboard-sidebar">
+    <div class="sidebar-header">
+        <div class="user-profile">
+            <div class="user-avatar">
+                <% if (user && user.avatar) { %>
+                    <img src="<%= user.avatar %>" alt="<%= user.firstName %>">
+                <% } else { %>
+                    <i class="fas fa-user"></i>
+                <% } %>
+            </div>
+            <div class="user-info">
+                <div class="user-name"><%= user.firstName %> <%= user.lastName %></div>
+                <div class="user-email"><%= user.email %></div>
+                <div class="user-tier">
+                    <span class="tier-badge <%= user.tier || 'standard' %>">
+                        <i class="fas fa-<%= user.tier === 'vip' ? 'crown' : 'user' %>"></i>
+                        <%= (user.tier || 'Standard').toUpperCase() %>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="sidebar-nav">
+        <!-- Dashboard Sections -->
+        <div class="nav-section">
+            <div class="nav-section-title">Main</div>
+            <a href="/dashboard" class="nav-item <%= currentSection === 'overview' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-tachometer-alt"></i>
+                </div>
+                <span class="nav-text">Dashboard Overview</span>
+            </a>
+            
+            <a href="/dashboard/wallet" class="nav-item <%= currentSection === 'wallet' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-wallet"></i>
+                </div>
+                <span class="nav-text">My Wallet</span>
+                <span class="nav-badge">
+                    $<%= (user.walletBalance.usdt + user.walletBalance.btc * 45000 + user.walletBalance.eth * 2400).toFixed(2) %>
+                </span>
+            </a>
+        </div>
+
+        <!-- Investment Section -->
+        <div class="nav-section">
+            <div class="nav-section-title">Investment</div>
+            <a href="/investment" class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-chart-pie"></i>
+                </div>
+                <span class="nav-text">Investment Plans</span>
+                <span class="nav-badge new">New</span>
+            </a>
+            
+            <a href="/dashboard/investment-history" class="nav-item <%= currentSection === 'investment-history' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-history"></i>
+                </div>
+                <span class="nav-text">Investment History</span>
+            </a>
+            
+            <a href="/dashboard/active-investments" class="nav-item <%= currentSection === 'active-investments' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <span class="nav-text">Active Investments</span>
+                <span class="nav-badge"><%= dashboardData.activeInvestments || 0 %></span>
+            </a>
+        </div>
+
+        <!-- Trading Section -->
+        <div class="nav-section">
+            <div class="nav-section-title">Trading</div>
+            <a href="/crypto" class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <span class="nav-text">Buy/Sell Crypto</span>
+            </a>
+            
+            <a href="/dashboard/trading-history" class="nav-item <%= currentSection === 'trading-history' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-receipt"></i>
+                </div>
+                <span class="nav-text">Trading History</span>
+            </a>
+            
+            <a href="/dashboard/orders" class="nav-item <%= currentSection === 'orders' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-list-alt"></i>
+                </div>
+                <span class="nav-text">My Orders</span>
+            </a>
+        </div>
+
+        <!-- Transactions Section -->
+        <div class="nav-section">
+            <div class="nav-section-title">Transactions</div>
+            <a href="/dashboard/deposit" class="nav-item <%= currentSection === 'deposit' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-arrow-down"></i>
+                </div>
+                <span class="nav-text">Deposit Funds</span>
+            </a>
+            
+            <a href="/dashboard/withdraw" class="nav-item <%= currentSection === 'withdraw' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-arrow-up"></i>
+                </div>
+                <span class="nav-text">Withdraw Funds</span>
+            </a>
+            
+            <a href="/dashboard/transactions" class="nav-item <%= currentSection === 'transactions' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-exchange-alt"></i>
+                </div>
+                <span class="nav-text">Transaction History</span>
+            </a>
+        </div>
+
+        <!-- Referral Section -->
+        <div class="nav-section">
+            <div class="nav-section-title">Referral</div>
+            <a href="/dashboard/referral" class="nav-item <%= currentSection === 'referral' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-user-friends"></i>
+                </div>
+                <span class="nav-text">Referral Program</span>
+                <span class="nav-badge bonus">$20</span>
+            </a>
+            
+            <a href="/dashboard/referral-stats" class="nav-item <%= currentSection === 'referral-stats' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-chart-bar"></i>
+                </div>
+                <span class="nav-text">Referral Statistics</span>
+                <span class="nav-badge"><%= referralData ? referralData.stats.totalReferrals : 0 %></span>
+            </a>
+        </div>
+
+        <!-- Account Section -->
+        <div class="nav-section">
+            <div class="nav-section-title">Account</div>
+            <a href="/dashboard/profile" class="nav-item <%= currentSection === 'profile' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-user-cog"></i>
+                </div>
+                <span class="nav-text">Profile Settings</span>
+            </a>
+            
+            <a href="/dashboard/security" class="nav-item <%= currentSection === 'security' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-shield-alt"></i>
+                </div>
+                <span class="nav-text">Security</span>
+            </a>
+            
+            <a href="/dashboard/verification" class="nav-item <%= currentSection === 'verification' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-id-card"></i>
+                </div>
+                <span class="nav-text">Verification</span>
+                <span class="nav-badge <%= user.emailVerified ? 'verified' : 'pending' %>">
+                    <%= user.emailVerified ? 'Verified' : 'Pending' %>
+                </span>
+            </a>
+        </div>
+
+        <!-- Support Section -->
+        <div class="nav-section">
+            <div class="nav-section-title">Support</div>
+            <a href="/dashboard/support" class="nav-item <%= currentSection === 'support' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-headset"></i>
+                </div>
+                <span class="nav-text">Customer Support</span>
+            </a>
+            
+            <a href="/dashboard/tickets" class="nav-item <%= currentSection === 'tickets' ? 'active' : '' %>">
+                <div class="nav-icon">
+                    <i class="fas fa-ticket-alt"></i>
+                </div>
+                <span class="nav-text">My Tickets</span>
+                <span class="nav-badge">3</span>
+            </a>
+            
+            <a href="/help" class="nav-item">
+                <div class="nav-icon">
+                    <i class="fas fa-question-circle"></i>
+                </div>
+                <span class="nav-text">Help Center</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Sidebar Footer -->
+    <div class="sidebar-footer">
+        <!-- Quick Stats -->
+        <div class="quick-stats">
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-chart-line"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value">$<%= dashboardData.totalEarnings || '0.00' %></div>
+                    <div class="stat-label">Total Earnings</div>
+                </div>
+            </div>
+            
+            <div class="stat-item">
+                <div class="stat-icon">
+                    <i class="fas fa-users"></i>
+                </div>
+                <div class="stat-info">
+                    <div class="stat-value"><%= referralData ? referralData.stats.totalReferrals : 0 %></div>
+                    <div class="stat-label">Referrals</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Referral Card -->
+        <div class="referral-card">
+            <div class="referral-header">
+                <i class="fas fa-gift"></i>
+                <span>Earn $20 per friend</span>
+            </div>
+            <p>Invite friends and get $20 for each successful referral</p>
+            <a href="/dashboard/referral" class="btn btn-sm btn-outline btn-block">
+                <i class="fas fa-share-alt"></i>
+                Invite Friends
+            </a>
+        </div>
+
+        <!-- Support Card -->
+        <div class="support-card">
+            <div class="support-header">
+                <i class="fas fa-headset"></i>
+                <span>Need Help?</span>
+            </div>
+            <p>Our support team is available 24/7</p>
+            <div class="support-contacts">
+                <a href="mailto:support@binanceplus.com" class="contact-link">
+                    <i class="fas fa-envelope"></i>
+                    support@binanceplus.com
+                </a>
+                <a href="https://t.me/binanceplus_support" class="contact-link" target="_blank">
+                    <i class="fab fa-telegram"></i>
+                    Telegram
+                </a>
+            </div>
+        </div>
+    </div>
+</aside>
+
+<style>
+.dashboard-sidebar {
+    background: var(--secondary-color);
+    border-right: 1px solid var(--border-color);
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    position: sticky;
+    top: 0;
+    overflow-y: auto;
+}
+
+/* Sidebar Header */
+.sidebar-header {
+    padding: 2rem 1.5rem 1.5rem;
+    border-bottom: 1px solid var(--border-color);
+    background: linear-gradient(135deg, var(--accent-color) 0%, var(--secondary-color) 100%);
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.user-avatar {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 1.5rem;
+    flex-shrink: 0;
+}
+
+.user-avatar img {
+    width: 100%;
+    height: 100%;
+    border-radius: 15px;
+    object-fit: cover;
+}
+
+.user-info {
+    flex: 1;
+    min-width: 0;
+}
+
+.user-name {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.25rem;
+    font-size: 1.1rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-email {
+    color: var(--text-muted);
+    font-size: 0.85rem;
+    margin-bottom: 0.5rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.user-tier {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.tier-badge {
+    padding: 0.25rem 0.75rem;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.25rem;
+}
+
+.tier-badge.standard {
+    background: rgba(240, 185, 11, 0.2);
+    color: var(--primary-color);
+    border: 1px solid rgba(240, 185, 11, 0.3);
+}
+
+.tier-badge.vip {
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    color: #000;
+    border: 1px solid #ffd700;
+}
+
+.tier-badge.premium {
+    background: linear-gradient(135deg, #8b5cf6, #a78bfa);
+    color: #fff;
+    border: 1px solid #8b5cf6;
+}
+
+/* Navigation */
+.sidebar-nav {
+    flex: 1;
+    padding: 1.5rem 0;
+    overflow-y: auto;
+}
+
+.nav-section {
+    margin-bottom: 2rem;
+}
+
+.nav-section:last-child {
+    margin-bottom: 0;
+}
+
+.nav-section-title {
+    padding: 0 1.5rem 0.75rem;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: var(--text-muted);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--border-color);
+    margin-bottom: 0.5rem;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem 1.5rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    transition: all 0.3s ease;
+    position: relative;
+    border-left: 3px solid transparent;
+}
+
+.nav-item:hover {
+    background: rgba(240, 185, 11, 0.05);
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+}
+
+.nav-item.active {
+    background: rgba(240, 185, 11, 0.1);
+    color: var(--primary-color);
+    border-left-color: var(--primary-color);
+}
+
+.nav-icon {
+    width: 20px;
+    height: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-text {
+    flex: 1;
+    font-weight: 500;
+    font-size: 0.9rem;
+}
+
+.nav-badge {
+    background: var(--accent-color);
+    color: var(--text-secondary);
+    padding: 0.25rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    min-width: 20px;
+    text-align: center;
+}
+
+.nav-badge.new {
+    background: var(--success-color);
+    color: #000;
+}
+
+.nav-badge.bonus {
+    background: linear-gradient(135deg, var(--primary-color), var(--primary-light));
+    color: #000;
+}
+
+.nav-badge.verified {
+    background: var(--success-color);
+    color: #000;
+}
+
+.nav-badge.pending {
+    background: var(--warning-color);
+    color: #000;
+}
+
+/* Sidebar Footer */
+.sidebar-footer {
+    padding: 1.5rem;
+    border-top: 1px solid var(--border-color);
+    background: var(--accent-color);
+}
+
+.quick-stats {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 0.75rem;
+    background: var(--secondary-color);
+    border-radius: 10px;
+    border: 1px solid var(--border-color);
+}
+
+.stat-icon {
+    width: 32px;
+    height: 32px;
+    background: var(--primary-color);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #000;
+    font-size: 0.9rem;
+    flex-shrink: 0;
+}
+
+.stat-info {
+    flex: 1;
+}
+
+.stat-value {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.1rem;
+}
+
+.stat-label {
+    font-size: 0.7rem;
+    color: var(--text-muted);
+}
+
+.referral-card {
+    background: linear-gradient(135deg, rgba(240, 185, 11, 0.1), rgba(248, 211, 58, 0.1));
+    border: 1px solid rgba(240, 185, 11, 0.2);
+    border-radius: 12px;
+    padding: 1rem;
+    text-align: center;
+    margin-bottom: 1rem;
+}
+
+.referral-header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary-color);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.referral-card p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.support-card {
+    background: var(--secondary-color);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+}
+
+.support-header {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    font-weight: 600;
+    font-size: 0.9rem;
+}
+
+.support-card p {
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    margin-bottom: 1rem;
+    line-height: 1.4;
+}
+
+.support-contacts {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.contact-link {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: color 0.3s ease;
+    padding: 0.25rem 0;
+}
+
+.contact-link:hover {
+    color: var(--primary-color);
+}
+
+/* Scrollbar Styling */
+.sidebar-nav::-webkit-scrollbar {
+    width: 4px;
+}
+
+.sidebar-nav::-webkit-scrollbar-track {
+    background: var(--accent-color);
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb {
+    background: var(--primary-color);
+    border-radius: 2px;
+}
+
+.sidebar-nav::-webkit-scrollbar-thumb:hover {
+    background: var(--primary-light);
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .dashboard-sidebar {
+        position: fixed;
+        top: 0;
+        left: -280px;
+        width: 280px;
+        height: 100vh;
+        z-index: 1000;
+        transition: left 0.3s ease;
+    }
+    
+    .dashboard-sidebar.mobile-open {
+        left: 0;
+    }
+    
+    .sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        z-index: 999;
+    }
+    
+    .sidebar-overlay.active {
+        display: block;
+    }
+}
+
+@media (max-width: 768px) {
+    .user-profile {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .user-info {
+        text-align: center;
+    }
+    
+    .quick-stats {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation for active state */
+.nav-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 3px;
+    background: var(--primary-color);
+    transform: scaleY(0);
+    transition: transform 0.3s ease;
+}
+
+.nav-item.active::before {
+    transform: scaleY(1);
+}
+
+/* Loading state */
+.nav-item.loading {
+    pointer-events: none;
+    opacity: 0.7;
+}
+
+.nav-item.loading .nav-text::after {
+    content: '...';
+    animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+    0%, 33% { content: '.'; }
+    34%, 66% { content: '..'; }
+    67%, 100% { content: '...'; }
+}
+</style>
+
+<script>
+// Mobile sidebar functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const sidebar = document.querySelector('.dashboard-sidebar');
+    const mobileToggle = document.getElementById('mobileSidebarToggle');
+    const overlay = document.querySelector('.sidebar-overlay');
+    
+    if (mobileToggle) {
+        mobileToggle.addEventListener('click', function() {
+            sidebar.classList.toggle('mobile-open');
+            if (overlay) overlay.classList.toggle('active');
+        });
+    }
+    
+    if (overlay) {
+        overlay.addEventListener('click', function() {
+            sidebar.classList.remove('mobile-open');
+            this.classList.remove('active');
+        });
+    }
+    
+    // Add loading state to nav items when clicked
+    const navItems = document.querySelectorAll('.nav-item');
+    navItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            if (this.getAttribute('href') && !this.classList.contains('active')) {
+                this.classList.add('loading');
+                
+                // Remove loading state after navigation (or timeout)
+                setTimeout(() => {
+                    this.classList.remove('loading');
+                }, 2000);
+            }
+        });
+    });
+    
+    // Auto-collapse sidebar on mobile after navigation
+    if (window.innerWidth <= 1024) {
+        navItems.forEach(item => {
+            item.addEventListener('click', function() {
+                sidebar.classList.remove('mobile-open');
+                if (overlay) overlay.classList.remove('active');
+            });
+        });
+    }
+});
+</script>

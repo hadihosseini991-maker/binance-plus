@@ -1,0 +1,157 @@
+    </main>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <!-- Company Info -->
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <i class="fas fa-coins"></i>
+                        <span>Binance Plus</span>
+                    </div>
+                    <p class="footer-description">
+                        <%= __('slogan') %> - Your trusted partner in cryptocurrency investment and trading.
+                    </p>
+                    <div class="social-links">
+                        <a href="#" class="social-link">
+                            <i class="fab fa-telegram"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" class="social-link">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Quick Links -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Quick Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="/"><%= __('navigation.home') %></a></li>
+                        <li><a href="/investment"><%= __('navigation.investment') %></a></li>
+                        <li><a href="/crypto"><%= __('navigation.crypto') %></a></li>
+                        <li><a href="/about">About Us</a></li>
+                        <li><a href="/contact">Contact</a></li>
+                    </ul>
+                </div>
+
+                <!-- Services -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="/investment">Investment Plans</a></li>
+                        <li><a href="/crypto">Crypto Trading</a></li>
+                        <li><a href="/dashboard/wallet">Wallet Services</a></li>
+                        <li><a href="/dashboard/referral">Referral Program</a></li>
+                        <li><a href="/support">Customer Support</a></li>
+                    </ul>
+                </div>
+
+                <!-- Support -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Support</h3>
+                    <ul class="footer-links">
+                        <li><a href="/help">Help Center</a></li>
+                        <li><a href="/faq">FAQ</a></li>
+                        <li><a href="/terms"><%= __('footer.terms') %></a></li>
+                        <li><a href="/privacy"><%= __('footer.privacy') %></a></li>
+                        <li><a href="/support"><%= __('footer.support') %></a></li>
+                    </ul>
+                </div>
+
+                <!-- Contact Info -->
+                <div class="footer-section">
+                    <h3 class="footer-title">Contact Us</h3>
+                    <div class="contact-info">
+                        <div class="contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <span>support@binanceplus.com</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-phone"></i>
+                            <span>+1 (555) 123-4567</span>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Bottom Bar -->
+            <div class="footer-bottom">
+                <div class="footer-bottom-content">
+                    <p>&copy; <%= currentYear %> Binance Plus. <%= __('footer.rights') %></p>
+                    <div class="footer-bottom-links">
+                        <a href="/security">Security</a>
+                        <a href="/compliance">Compliance</a>
+                        <a href="/sitemap">Sitemap</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Support Chat Widget -->
+    <div class="support-widget" id="supportWidget">
+        <div class="support-toggle" id="supportToggle">
+            <i class="fas fa-headset"></i>
+        </div>
+        <div class="support-content" id="supportContent">
+            <div class="support-header">
+                <h4>Customer Support</h4>
+                <button class="support-close" id="supportClose">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+            <div class="support-body">
+                <p>How can we help you today?</p>
+                <div class="support-options">
+                    <button class="support-option" data-issue="deposit">
+                        <i class="fas fa-money-bill-wave"></i>
+                        Deposit Issue
+                    </button>
+                    <button class="support-option" data-issue="withdrawal">
+                        <i class="fas fa-wallet"></i>
+                        Withdrawal Issue
+                    </button>
+                    <button class="support-option" data-issue="investment">
+                        <i class="fas fa-chart-pie"></i>
+                        Investment Help
+                    </button>
+                    <button class="support-option" data-issue="general">
+                        <i class="fas fa-question-circle"></i>
+                        General Question
+                    </button>
+                </div>
+                <div class="support-chat" id="supportChat" style="display: none;">
+                    <div class="chat-messages" id="chatMessages"></div>
+                    <div class="chat-input">
+                        <input type="text" id="chatInput" placeholder="Type your message...">
+                        <button id="sendMessage">
+                            <i class="fas fa-paper-plane"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="/js/script.js"></script>
+    
+    <!-- Page-specific scripts -->
+    <% if (typeof scripts !== 'undefined') { %>
+        <% scripts.forEach(script => { %>
+            <script src="<%= script %>"></script>
+        <% }); %>
+    <% } %>
+</body>
+</html>

@@ -1,0 +1,435 @@
+<%- include('partials/header', { title: __('navigation.login') }) %>
+
+<div class="auth-container">
+    <div class="auth-background">
+        <div class="auth-overlay"></div>
+    </div>
+    
+    <div class="container">
+        <div class="auth-content">
+            <!-- Left Side - Form -->
+            <div class="auth-form-container">
+                <div class="auth-header">
+                    <a href="/" class="auth-logo">
+                        <i class="fas fa-coins"></i>
+                        <span>Binance Plus</span>
+                    </a>
+                    <h1>Welcome Back</h1>
+                    <p>Sign in to your account to continue</p>
+                </div>
+
+                <% if (error) { %>
+                    <div class="alert alert-error">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <%= error %>
+                    </div>
+                <% } %>
+
+                <form class="auth-form" method="POST" action="/login">
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            <%= __('auth.email') %>
+                        </label>
+                        <input 
+                            type="email" 
+                            id="email" 
+                            name="email" 
+                            value="<%= formData ? formData.email : '' %>"
+                            required 
+                            placeholder="Enter your email address"
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">
+                            <i class="fas fa-lock"></i>
+                            <%= __('auth.password') %>
+                        </label>
+                        <input 
+                            type="password" 
+                            id="password" 
+                            name="password" 
+                            required 
+                            placeholder="Enter your password"
+                        >
+                    </div>
+
+                    <div class="form-options">
+                        <label class="checkbox">
+                            <input type="checkbox" name="rememberMe">
+                            <span class="checkmark"></span>
+                            <%= __('auth.remember_me') %>
+                        </label>
+                        <a href="/forgot-password" class="forgot-password">
+                            <%= __('auth.forgot_password') %>
+                        </a>
+                    </div>
+
+                    <button type="submit" class="btn btn-primary btn-block btn-lg">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <%= __('buttons.login') %>
+                    </button>
+                </form>
+
+                <div class="auth-divider">
+                    <span>Or continue with</span>
+                </div>
+
+                <div class="social-auth">
+                    <button class="btn btn-social btn-google">
+                        <i class="fab fa-google"></i>
+                        Google
+                    </button>
+                    <button class="btn btn-social btn-facebook">
+                        <i class="fab fa-facebook"></i>
+                        Facebook
+                    </button>
+                </div>
+
+                <div class="auth-footer">
+                    <p>
+                        <%= __('auth.no_account') %>
+                        <a href="/register"> <%= __('navigation.register') %></a>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Right Side - Info -->
+            <div class="auth-info">
+                <div class="info-content">
+                    <h2>Start Your Investment Journey</h2>
+                    <p>Join thousands of investors earning daily profits with our secure platform</p>
+                    
+                    <div class="info-features">
+                        <div class="info-feature">
+                            <i class="fas fa-shield-alt"></i>
+                            <span>Bank-level Security</span>
+                        </div>
+                        <div class="info-feature">
+                            <i class="fas fa-chart-line"></i>
+                            <span>High Returns</span>
+                        </div>
+                        <div class="info-feature">
+                            <i class="fas fa-globe"></i>
+                            <span>Global Access</span>
+                        </div>
+                        <div class="info-feature">
+                            <i class="fas fa-headset"></i>
+                            <span>24/7 Support</span>
+                        </div>
+                    </div>
+
+                    <div class="info-stats">
+                        <div class="stat">
+                            <div class="stat-number">$2.1B+</div>
+                            <div class="stat-label">Trading Volume</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">150K+</div>
+                            <div class="stat-label">Active Users</div>
+                        </div>
+                        <div class="stat">
+                            <div class="stat-number">99.9%</div>
+                            <div class="stat-label">Uptime</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.auth-container {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, #0c0c0c 0%, #1a1a1a 100%);
+}
+
+.auth-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('/images/auth-bg.jpg') center/cover;
+    z-index: 0;
+}
+
+.auth-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+}
+
+.auth-content {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+}
+
+.auth-form-container {
+    background: rgba(30, 30, 30, 0.9);
+    padding: 3rem;
+    border-radius: 20px;
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.auth-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.auth-logo {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0b90b;
+    text-decoration: none;
+    margin-bottom: 1rem;
+}
+
+.auth-header h1 {
+    font-size: 2rem;
+    margin-bottom: 0.5rem;
+    background: linear-gradient(135deg, #f0b90b, #f8d33a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.auth-header p {
+    color: #888;
+    font-size: 1.1rem;
+}
+
+.auth-form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 500;
+    color: #ccc;
+}
+
+.form-group input {
+    padding: 1rem;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background: #1a1a1a;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.form-group input:focus {
+    outline: none;
+    border-color: #f0b90b;
+    box-shadow: 0 0 0 2px rgba(240, 185, 11, 0.1);
+}
+
+.form-options {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.checkbox {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    color: #ccc;
+}
+
+.forgot-password {
+    color: #f0b90b;
+    text-decoration: none;
+    font-size: 0.9rem;
+}
+
+.forgot-password:hover {
+    text-decoration: underline;
+}
+
+.auth-divider {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 1.5rem 0;
+    color: #666;
+}
+
+.auth-divider::before,
+.auth-divider::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: #444;
+}
+
+.social-auth {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.btn-social {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    border: 1px solid #444;
+    border-radius: 10px;
+    background: #1a1a1a;
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-social:hover {
+    border-color: #f0b90b;
+    transform: translateY(-2px);
+}
+
+.auth-footer {
+    text-align: center;
+    color: #888;
+}
+
+.auth-footer a {
+    color: #f0b90b;
+    text-decoration: none;
+}
+
+.auth-footer a:hover {
+    text-decoration: underline;
+}
+
+.auth-info {
+    color: #fff;
+}
+
+.info-content h2 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(135deg, #f0b90b, #f8d33a);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.info-content p {
+    font-size: 1.2rem;
+    color: #ccc;
+    margin-bottom: 2rem;
+}
+
+.info-features {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.info-feature {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    padding: 1rem;
+    background: rgba(240, 185, 11, 0.1);
+    border-radius: 10px;
+    border: 1px solid rgba(240, 185, 11, 0.2);
+}
+
+.info-feature i {
+    color: #f0b90b;
+    font-size: 1.2rem;
+}
+
+.info-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1rem;
+}
+
+.stat {
+    text-align: center;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+}
+
+.stat-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #f0b90b;
+    margin-bottom: 0.25rem;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #888;
+}
+
+/* Responsive */
+@media (max-width: 968px) {
+    .auth-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+    }
+    
+    .auth-info {
+        order: -1;
+    }
+    
+    .info-content {
+        text-align: center;
+    }
+}
+
+@media (max-width: 480px) {
+    .auth-form-container {
+        padding: 2rem 1.5rem;
+    }
+    
+    .social-auth {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-features {
+        grid-template-columns: 1fr;
+    }
+    
+    .info-stats {
+        grid-template-columns: 1fr;
+    }
+}
+</style>
+
+<%- include('partials/footer') %>

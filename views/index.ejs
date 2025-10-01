@@ -1,0 +1,382 @@
+<%- include('partials/header', { title: __('app_name') }) %>
+
+<!-- Hero Section -->
+<section class="hero">
+    <div class="hero-background">
+        <div class="crypto-slider">
+            <div class="crypto-slide active">
+                <img src="/images/bitcoin-bg.jpg" alt="Bitcoin" class="slide-image">
+            </div>
+            <div class="crypto-slide">
+                <img src="/images/ethereum-bg.jpg" alt="Ethereum" class="slide-image">
+            </div>
+            <div class="crypto-slide">
+                <img src="/images/crypto-bg.jpg" alt="Cryptocurrency" class="slide-image">
+            </div>
+        </div>
+        <div class="hero-overlay"></div>
+    </div>
+    
+    <div class="container">
+        <div class="hero-content">
+            <div class="hero-text">
+                <h1 class="hero-title">
+                    <span class="gradient-text"><%= __('welcome') %></span>
+                    <br>
+                    <%= __('app_name') %>
+                </h1>
+                <p class="hero-description">
+                    <%= __('slogan') %> - Start your journey with professional cryptocurrency investment 
+                    and trading platform. Earn daily profits with our secure investment plans.
+                </p>
+                
+                <div class="hero-stats">
+                    <div class="stat-item">
+                        <div class="stat-number">$2.1B+</div>
+                        <div class="stat-label">Total Volume</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">150K+</div>
+                        <div class="stat-label">Active Users</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">24/7</div>
+                        <div class="stat-label">Trading</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">99.9%</div>
+                        <div class="stat-label">Uptime</div>
+                    </div>
+                </div>
+
+                <div class="hero-actions">
+                    <% if (!user) { %>
+                        <a href="/register" class="btn btn-primary btn-lg">
+                            <i class="fas fa-rocket"></i>
+                            Get Started Free
+                        </a>
+                        <a href="/investment" class="btn btn-outline btn-lg">
+                            <i class="fas fa-chart-pie"></i>
+                            View Investment Plans
+                        </a>
+                    <% } else { %>
+                        <a href="/dashboard" class="btn btn-primary btn-lg">
+                            <i class="fas fa-tachometer-alt"></i>
+                            Go to Dashboard
+                        </a>
+                        <a href="/investment" class="btn btn-outline btn-lg">
+                            <i class="fas fa-plus-circle"></i>
+                            Start Investing
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="hero-visual">
+                <div class="crypto-card">
+                    <div class="card-header">
+                        <h3>Live Crypto Prices</h3>
+                        <div class="refresh-btn">
+                            <i class="fas fa-sync-alt"></i>
+                        </div>
+                    </div>
+                    <div class="card-body">
+                        <% cryptoData.forEach((crypto, index) => { %>
+                            <div class="crypto-item <%= index < 3 ? 'featured' : '' %>">
+                                <div class="crypto-info">
+                                    <div class="crypto-icon">
+                                        <i class="fab fa-<%= crypto.symbol.toLowerCase() %>"></i>
+                                    </div>
+                                    <div class="crypto-details">
+                                        <div class="crypto-name"><%= crypto.symbol %></div>
+                                        <div class="crypto-fullname"><%= crypto.name %></div>
+                                    </div>
+                                </div>
+                                <div class="crypto-price">
+                                    <div class="price">$<%= crypto.price.toLocaleString() %></div>
+                                    <div class="change <%= crypto.change >= 0 ? 'positive' : 'negative' %>">
+                                        <i class="fas fa-<%= crypto.change >= 0 ? 'caret-up' : 'caret-down' %>"></i>
+                                        <%= Math.abs(crypto.change) %>%
+                                    </div>
+                                </div>
+                            </div>
+                        <% }) %>
+                    </div>
+                    <div class="card-footer">
+                        <a href="/crypto" class="view-all-btn">
+                            View All Cryptocurrencies
+                            <i class="fas fa-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features">
+    <div class="container">
+        <div class="section-header">
+            <h2>Why Choose Binance Plus?</h2>
+            <p>Experience the future of cryptocurrency investment with our advanced platform</p>
+        </div>
+        
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-shield-alt"></i></div>
+                <h3>Secure & Safe</h3>
+                <p>Bank-level security with SSL encryption and cold storage for your assets</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-chart-line"></i></div>
+                <h3>High Returns</h3>
+                <p>Earn up to 500% daily profits with our premium investment plans</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-bolt"></i></div>
+                <h3>Fast Transactions</h3>
+                <p>Instant deposits and withdrawals with minimal processing time</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-globe"></i></div>
+                <h3>Global Access</h3>
+                <p>Trade and invest from anywhere in the world with multi-language support</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-headset"></i></div>
+                <h3>24/7 Support</h3>
+                <p>Round-the-clock customer support to assist you anytime</p>
+            </div>
+            <div class="feature-card">
+                <div class="feature-icon"><i class="fas fa-mobile-alt"></i></div>
+                <h3>Mobile Friendly</h3>
+                <p>Access your account and trade on the go with our responsive design</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Investment Plans Section -->
+<section class="investment-plans">
+    <div class="container">
+        <div class="section-header">
+            <h2>Investment Plans</h2>
+            <p>Choose from our carefully crafted investment plans designed for maximum returns</p>
+        </div>
+        
+        <div class="plans-grid">
+            <div class="plan-card">
+                <div class="plan-header">
+                    <h3>Starter Plan</h3>
+                    <div class="plan-price">$300</div>
+                </div>
+                <div class="plan-features">
+                    <div class="feature"><i class="fas fa-check"></i> 25% Daily Profit</div>
+                    <div class="feature"><i class="fas fa-check"></i> 30 Days Duration</div>
+                    <div class="feature"><i class="fas fa-check"></i> 24/7 Support</div>
+                    <div class="feature"><i class="fas fa-check"></i> Principal Return</div>
+                </div>
+                <div class="plan-action">
+                    <% if (user) { %>
+                        <a href="/investment" class="btn btn-primary">Invest Now</a>
+                    <% } else { %>
+                        <a href="/register" class="btn btn-primary">Get Started</a>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="plan-card featured">
+                <div class="plan-badge">Most Popular</div>
+                <div class="plan-header">
+                    <h3>Advanced Plan</h3>
+                    <div class="plan-price">$500</div>
+                </div>
+                <div class="plan-features">
+                    <div class="feature"><i class="fas fa-check"></i> 50% Daily Profit</div>
+                    <div class="feature"><i class="fas fa-check"></i> 30 Days Duration</div>
+                    <div class="feature"><i class="fas fa-check"></i> Priority Support</div>
+                    <div class="feature"><i class="fas fa-check"></i> Principal Return</div>
+                </div>
+                <div class="plan-action">
+                    <% if (user) { %>
+                        <a href="/investment" class="btn btn-primary">Invest Now</a>
+                    <% } else { %>
+                        <a href="/register" class="btn btn-primary">Get Started</a>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="plan-card">
+                <div class="plan-header">
+                    <h3>Professional Plan</h3>
+                    <div class="plan-price">$1000</div>
+                </div>
+                <div class="plan-features">
+                    <div class="feature"><i class="fas fa-check"></i> 100% Daily Profit</div>
+                    <div class="feature"><i class="fas fa-check"></i> 30 Days Duration</div>
+                    <div class="feature"><i class="fas fa-check"></i> VIP Support</div>
+                    <div class="feature"><i class="fas fa-check"></i> Principal Return</div>
+                </div>
+                <div class="plan-action">
+                    <% if (user) { %>
+                        <a href="/investment" class="btn btn-primary">Invest Now</a>
+                    <% } else { %>
+                        <a href="/register" class="btn btn-primary">Get Started</a>
+                    <% } %>
+                </div>
+            </div>
+        </div>
+        
+        <div class="plans-cta">
+            <a href="/investment" class="btn btn-outline btn-lg">
+                View All Investment Plans
+                <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- How It Works Section -->
+<section class="how-it-works">
+    <div class="container">
+        <div class="section-header">
+            <h2>How It Works</h2>
+            <p>Start earning in just 3 simple steps</p>
+        </div>
+        
+        <div class="steps">
+            <div class="step">
+                <div class="step-number">1</div>
+                <div class="step-content">
+                    <h3>Create Account</h3>
+                    <p>Sign up in minutes and verify your account to get started</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">2</div>
+                <div class="step-content">
+                    <h3>Make Deposit</h3>
+                    <p>Deposit funds using various cryptocurrencies or fiat options</p>
+                </div>
+            </div>
+            
+            <div class="step">
+                <div class="step-number">3</div>
+                <div class="step-content">
+                    <h3>Start Earning</h3>
+                    <p>Choose an investment plan and watch your profits grow daily</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Referral Program Section -->
+<section class="referral-program">
+    <div class="container">
+        <div class="referral-content">
+            <div class="referral-text">
+                <h2>Earn $20 Per Referral</h2>
+                <p>Invite your friends to join Binance Plus and earn $20 USDT for each successful referral. Your friends also get a welcome bonus!</p>
+                
+                <div class="referral-stats">
+                    <div class="referral-stat">
+                        <div class="stat-value">$20</div>
+                        <div class="stat-label">Per Referral</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="stat-value">Unlimited</div>
+                        <div class="stat-label">Earning Potential</div>
+                    </div>
+                    <div class="referral-stat">
+                        <div class="stat-value">Instant</div>
+                        <div class="stat-label">Payout</div>
+                    </div>
+                </div>
+                
+                <div class="referral-actions">
+                    <% if (user) { %>
+                        <a href="/dashboard/referral" class="btn btn-primary">
+                            <i class="fas fa-share-alt"></i>
+                            Start Referring
+                        </a>
+                    <% } else { %>
+                        <a href="/register" class="btn btn-primary">
+                            <i class="fas fa-user-plus"></i>
+                            Join Now
+                        </a>
+                    <% } %>
+                </div>
+            </div>
+            
+            <div class="referral-visual">
+                <div class="referral-card">
+                    <div class="card-header"><h4>Your Referral Link</h4></div>
+                    <div class="card-body">
+                        <div class="referral-link">
+                            <code id="referralLink">
+                                <%= process.env.APP_URL || 'http://localhost:3000' %>/register?ref=<%= user ? user.referralCode : 'YOURCODE' %>
+                            </code>
+                            <button class="copy-btn"><i class="fas fa-copy"></i></button>
+                        </div>
+                        <p class="referral-note">Share this link with your friends and earn $20 when they sign up and verify their account.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Top Traders Ticker -->
+<section class="traders-ticker">
+    <div class="container">
+        <div class="ticker-header">
+            <h3>Recent Successful Traders</h3>
+            <div class="ticker-controls">
+                <button class="ticker-prev" id="tickerPrev"><i class="fas fa-chevron-left"></i></button>
+                <button class="ticker-next" id="tickerNext"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+        <div class="traders-container">
+            <div class="traders-track" id="tradersTrack">
+                <% topTraders.forEach(trader => { %>
+                    <div class="trader-card">
+                        <div class="trader-avatar"><i class="fas fa-user"></i></div>
+                        <div class="trader-info">
+                            <div class="trader-name"><%= trader.name %></div>
+                            <div class="trader-profit <%= trader.profit.includes('+') ? 'positive' : 'negative' %>"><%= trader.profit %></div>
+                        </div>
+                        <div class="trader-badge"><i class="fas fa-trophy"></i></div>
+                    </div>
+                <% }) %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="cta-section">
+    <div class="container">
+        <div class="cta-content">
+            <h2>Ready to Start Your Investment Journey?</h2>
+            <p>Join thousands of satisfied investors who are already earning with Binance Plus</p>
+            
+            <div class="cta-actions">
+                <% if (!user) { %>
+                    <a href="/register" class="btn btn-primary btn-lg"><i class="fas fa-user-plus"></i> Create Free Account</a>
+                    <a href="/login" class="btn btn-outline btn-lg"><i class="fas fa-sign-in-alt"></i> Sign In</a>
+                <% } else { %>
+                    <a href="/dashboard" class="btn btn-primary btn-lg"><i class="fas fa-tachometer-alt"></i> Go to Dashboard</a>
+                    <a href="/investment" class="btn btn-outline btn-lg"><i class="fas fa-plus-circle"></i> Make Investment</a>
+                <% } %>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- اضافه کردن فایل JS خارجی -->
+<script src="/js/main.js" defer></script>
+
+<%- include('partials/footer') %>

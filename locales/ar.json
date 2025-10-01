@@ -1,0 +1,92 @@
+{
+	"app_name": "بينانس بلس",
+	"welcome": "مرحبا بكم في بينانس بلس",
+	"slogan": "منصة استثمار العملات الرقمية الاحترافية",
+	"navigation": {
+		"home": "الرئيسية",
+		"dashboard": "لوحة التحكم",
+		"investment": "خطط الاستثمار",
+		"crypto": "شراء/بيع العملات",
+		"login": "تسجيل الدخول",
+		"register": "إنشاء حساب",
+		"logout": "تسجيل الخروج"
+	},
+	"auth": {
+		"email": "البريد الإلكتروني",
+		"password": "كلمة المرور",
+		"confirm_password": "تأكيد كلمة المرور",
+		"first_name": "الاسم الأول",
+		"last_name": "اسم العائلة",
+		"birth_date": "تاريخ الميلاد",
+		"country": "الدولة",
+		"city": "المدينة",
+		"referral_code": "كود الدعوة (اختياري)",
+		"have_account": "لديك حساب بالفعل؟",
+		"no_account": "لا تملك حساب؟",
+		"forgot_password": "نسيت كلمة المرور؟",
+		"remember_me": "تذكرني"
+	},
+	"dashboard": {
+		"title": "لوحة التحكم",
+		"welcome": "مرحبا بعودتك",
+		"total_balance": "إجمالي الرصيد",
+		"available_balance": "الرصيد المتاح",
+		"total_earnings": "إجمالي الأرباح",
+		"active_investments": "الاستثمارات النشطة",
+		"referral_earnings": "أرباح الدعوة",
+		"recent_transactions": "المعاملات الأخيرة",
+		"investment_plans": "خطط الاستثمار",
+		"quick_actions": "إجراءات سريعة"
+	},
+	"investment": {
+		"title": "خطط الاستثمار",
+		"choose_plan": "اختر خطة الاستثمار الخاصة بك",
+		"daily_profit": "ربح يومي",
+		"investment_amount": "مبلغ الاستثمار",
+		"plan_features": "مميزات الخطة",
+		"select_plan": "اختر الخطة",
+		"current_investments": "الاستثمارات الحالية"
+	},
+	"crypto": {
+		"title": "شراء وبيع العملات",
+		"buy": "شراء",
+		"sell": "بيع",
+		"currency": "العملة",
+		"amount": "المبلغ",
+		"network": "الشبكة",
+		"wallet_address": "عنوان المحفظة",
+		"copy_address": "نسخ العنوان",
+		"deposit": "إيداع",
+		"withdraw": "سحب"
+	},
+	"buttons": {
+		"login": "تسجيل الدخول",
+		"register": "إنشاء حساب",
+		"invest_now": "استثمر الآن",
+		"buy_now": "اشتر الآن",
+		"sell_now": "بع الآن",
+		"deposit": "إيداع",
+		"withdraw": "سحب",
+		"copy": "نسخ",
+		"submit": "إرسال",
+		"cancel": "إلغاء",
+		"confirm": "تأكيد"
+	},
+	"footer": {
+		"about": "من نحن",
+		"contact": "اتصل بنا",
+		"support": "الدعم",
+		"terms": "شروط الخدمة",
+		"privacy": "سياسة الخصوصية",
+		"rights": "جميع الحقوق محفوظة"
+	},
+	"navigation.home": "navigation.home",
+	"navigation.login": "navigation.login",
+	"navigation.register": "navigation.register",
+	"navigation.investment": "navigation.investment",
+	"navigation.crypto": "navigation.crypto",
+	"footer.terms": "footer.terms",
+	"footer.privacy": "footer.privacy",
+	"footer.support": "footer.support",
+	"footer.rights": "footer.rights"
+}
