@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Binance Plus — Dashboard (Demo)</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">       
+<style>
+:root{
+  --bg:#050507;--card:#0b0c0e;--gold:#d4af37;--muted:#9b9b9b;--accent:#f5f3ea;--green:#4caf50;--red:#f44336;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+
+/* header */
+header{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:rgba(3,3,3,0.85);backdrop-filter:blur(6px);z-index:60}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:50px;height:50px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#ffd57a);display:flex;align-items:center;justify-content:center;box-shadow:0 10px 30px rgba(0,0,0,0.6)}
+.logo .b{font-weight:900;color:#111;font-family:monospace;font-size:28px;transform:rotate(45deg)}
+.header-actions{display:flex;gap:10px;align-items:center}
+.btn{padding:8px 12px;border-radius:12px;border:0;cursor:pointer;font-weight:700;transition:0.2s}
+.btn:hover{opacity:0.85}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent)}
+.btn-primary{background:linear-gradient(90deg,var(--gold),#ffd57a);color:#0b0b0c}
+#langSelect{padding:6px;border-radius:12px;background:linear-gradient(90deg,#222,#333);border:none;color:var(--accent);font-weight:600;cursor:pointer}
+
+/* layout */
+main{display:flex;padding-top:80px;gap:18px;min-height:calc(100vh - 80px);padding-bottom:20px}
+.sidebar{width:260px;background:var(--card);border-radius:12px;padding:18px;flex-shrink:0;display:flex;flex-direction:column;gap:12px;height:fit-content}
+.sidebar .user{font-weight:800;font-size:16px;margin-bottom:6px;text-align:center}
+.sidebar button{padding:10px;border-radius:10px;border:none;background:rgba(255,255,255,0.02);color:var(--accent);cursor:pointer;font-weight:600;text-align:left;transition:0.15s}
+.sidebar button:hover{background:rgba(255,255,255,0.06)}
+.sidebar button.active{background:var(--gold);color:#0b0b0c}
+
+/* referral box professional */
+.referral-box{background:linear-gradient(135deg,var(--gold),#ffd57a);border-radius:16px;padding:20px;margin-top:12px;color:#0b0b0c;text-align:center;box-shadow:0 12px 35px rgba(212,175,55,0.4);position:relative;overflow:hidden;border:1px solid rgba(255,255,255,0.1);min-height:280px;display:flex;flex-direction:column;justify-content:space-between}
+.referral-box::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;background:linear-gradient(90deg,transparent,#0b0b0c,transparent)}
+.referral-box::after{content:'';position:absolute;top:0;left:0;right:0;bottom:0;background:linear-gradient(45deg,transparent,rgba(255,255,255,0.1),transparent);opacity:0.5}
+.referral-title{font-weight:800;font-size:16px;margin-bottom:10px;display:flex;align-items:center;justify-content:center;gap:8px}
+.referral-code{background:rgba(11,11,12,0.95);padding:12px 16px;border-radius:10px;font-family:'Courier New',monospace;font-weight:700;font-size:18px;letter-spacing:2px;margin:12px 0;border:2px solid rgba(255,255,255,0.2);box-shadow:0 4px 12px rgba(0,0,0,0.3)}
+.referral-bonus{font-size:14px;font-weight:600;margin-bottom:12px;opacity:0.9;background:rgba(11,11,12,0.1);padding:6px 12px;border-radius:20px;display:inline-block}
+.referral-stats{display:flex;justify-content:space-between;margin-top:16px;font-size:12px;font-weight:600;background:rgba(11,11,12,0.1);padding:10px;border-radius:10px}
+.referral-stat{flex:1;text-align:center;padding:0 6px}
+.referral-stat:not(:last-child){border-right:1px solid rgba(11,11,12,0.3)}
+.referral-stat div:first-child{font-size:11px;opacity:0.8;margin-bottom:4px}
+.referral-stat div:last-child{font-size:16px;font-weight:800}
+
+/* content */
+.content{flex:1;background:var(--card);border-radius:12px;padding:20px;overflow:auto;display:flex;gap:18px}
+.left-panel{flex:2}
+.right-panel{flex:1;display:flex;flex-direction:column;gap:12px}
+
+/* wallet panel */
+.wallet-actions{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px}
+.wallet-tabs{display:flex;gap:8px;margin-bottom:12px}
+.wallet-tab{padding:8px 12px;border-radius:8px;background:rgba(255,255,255,0.02);cursor:pointer;transition:0.2s;font-weight:700}
+.wallet-tab.active{background:var(--gold);color:#0b0b0c}
+
+/* input styles */
+input, select{width:100%;padding:8px;border-radius:8px;background:rgba(255,255,255,0.02);border:none;color:var(--accent);margin-bottom:10px}
+
+/* plans */
+.plan-card{background:rgba(255,255,255,0.02);border-radius:12px;padding:6px 8px;text-align:left;transition:0.2s;box-shadow:0 3px 6px rgba(0,0,0,0.3);font-size:13px;margin-bottom:8px;height:110px;display:flex;flex-direction:column;justify-content:space-between;position:relative;}
+.plan-card:hover{box-shadow:0 5px 12px rgba(0,0,0,0.5);transform:translateY(-1px)}
+.plan-card h3{margin:2px 0;font-size:13px}
+.plan-card .price{font-size:13px;font-weight:700;margin:2px 0}
+.plan-card .dailyProfit{font-size:12px;margin:1px 0;color:var(--muted)}
+.plan-card .minAmount{font-size:12px;margin:1px 0;color:var(--muted)}
+.plan-card .status{font-weight:700;margin-top:2px;font-size:12px}
+.plan-card button{position:absolute;top:8px;right:8px;width:auto;padding:6px 10px;font-size:12px;border-radius:12px;transition:0.2s}
+
+/* history table */
+.history-table{width:100%;border-collapse:collapse;margin-top:12px}
+.history-table th, .history-table td{padding:8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)}
+.history-table th{color:var(--gold)}
+.status-pending{color:var(--muted)}
+.status-completed{color:var(--green)}
+.status-failed{color:var(--red)}
+
+/* market table */
+.market-table{width:100%;border-collapse:collapse;margin-top:12px;font-size:12px}
+.market-table th, .market-table td{padding:8px;text-align:center;border-bottom:1px solid rgba(255,255,255,0.1)}
+.market-table th{color:var(--gold);font-weight:600;position:sticky;top:0;background:var(--card)}
+.market-table tr:hover{background:rgba(255,255,255,0.02)}
+.price-up{color:var(--green)}
+.price-down{color:var(--red)}
+
+/* small text */
+.small{font-size:13px;color:var(--muted)}
+
+/* New Footer */
+.main-footer{background:var(--card);padding:40px 20px;margin-top:40px;border-top:1px solid rgba(255,255,255,0.02)}
+.footer-container{max-width:1200px;margin:0 auto;display:flex;justify-content:space-between;gap:40px;flex-wrap:wrap}
+.footer-col{flex:1;min-width:200px}
+.footer-col h4{color:var(--gold);margin-bottom:15px;font-size:16px}
+.footer-col p{line-height:1.8;margin:0;font-size:14px;color:var(--muted)}
+.footer-bottom{text-align:center;margin-top:30px;padding-top:20px;border-top:1px solid rgba(255,255,255,0.02);color:var(--muted);font-size:13px}
+
+/* responsive */
+@media (max-width:1100px){
+  main{flex-direction:column}
+  .right-panel{flex-direction:row;overflow-x:auto}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo"><div class="b">B</div></div>
+    <div>
+      <h1 style="margin:0;font-size:16px" data-translate="brand_name">Binance <span style="color:var(--gold)">Plus</span></h1>
+      <div class="small" data-translate="brand_tagline">Investment & Trading Dashboard (Demo)</div>
+    </div>
+  </div>
+  <div class="header-actions">
+    <select id="langSelect">
+      <option value="en">English 🇺🇸</option>
+      <option value="fa">فارسی 🇮🇷</option>
+      <option value="ar">العربية 🇸🇦</option>
+      <option value="tr">Türkçe 🇹🇷</option>
+      <option value="es">Español 🇪🇸</option>
+      <option value="fr">Français 🇫🇷</option>
+      <option value="de">Deutsch 🇩🇪</option>
+      <option value="it">Italiano 🇮🇹</option>
+      <option value="zh">中文 🇨🇳</option>
+      <option value="ja">日本語 🇯🇵</option>
+      <option value="ru">Русский 🇷🇺</option>
+      <option value="hi">हिन्दी 🇮🇳</option>
+    </select>
+    <button class="btn btn-primary" onclick="logout()" data-translate="btn_logout">Logout</button>
+  </div>
+</header>
+
+<main>
+  <div class="sidebar">
+    <div class="user" id="userGreeting" data-translate="user_greeting">Hello, John</div>
+    <button class="active" data-page="wallet" data-translate="nav_wallet">Wallet</button>
+    <button data-page="history" data-translate="nav_history">History</button>
+    <button data-page="market" data-translate="nav_market">Market</button>
+    <button data-page="support" data-translate="nav_support">Support</button>
+    
+    <!-- Referral Box Professional -->
+    <div class="referral-box">
+      <div class="referral-title" data-translate="referral_title">
+        <span>🎯 REFERRAL PROGRAM</span>
+      </div>
+      <div class="referral-bonus" data-translate="referral_bonus">🎁 Earn $50 Bonus Per Friend</div>
+      <div class="referral-code" id="refCode">BP-X12345</div>
+      <button class="btn" onclick="copyReferralCode()" style="background:linear-gradient(135deg,#0b0b0c,#222);color:var(--gold);font-weight:800;width:100%;padding:12px;border-radius:10px;border:2px solid rgba(255,255,255,0.2);font-size:14px;transition:all 0.3s ease;" data-translate="btn_copy_referral">
+        📋 Copy Referral Link
+      </button>
+      <div class="referral-stats">
+        <div class="referral-stat">
+          <div data-translate="referral_total">Total Referrals</div>
+          <div>12</div>
+        </div>
+        <div class="referral-stat">
+          <div data-translate="referral_earned">Total Earned</div>
+          <div>$600</div>
+        </div>
+        <div class="referral-stat">
+          <div data-translate="referral_active">Active</div>
+          <div>8</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="content">
+    <div class="left-panel">
+      <div class="head-row">
+        <h2 id="pageTitle" data-translate="page_wallet">Wallet</h2>
+        <div class="small" data-translate="demo_note">Demo: profits applied daily (every 15s in demo)</div>
+      </div>
+
+      <!-- KPI Grid - Only show in Wallet page -->
+      <div id="kpiSection">
+        <div class="kpi-grid">
+          <div class="kpi"><div class="small" data-translate="kpi_balance">Balance</div><div style="font-weight:800;font-size:20px" id="kpiBalance">$12,543.00</div></div>
+          <div class="kpi"><div class="small" data-translate="kpi_invested">Invested</div><div style="font-weight:800;font-size:20px" id="kpiInvested">$8,200.00</div></div>
+          <div class="kpi"><div class="small" data-translate="kpi_profit">Profit Accrued</div><div style="font-weight:800;font-size:20px" id="kpiProfit">$1,254.00</div></div>
+        </div>
+
+        <div class="wallet-actions" id="walletActions">
+          <button class="btn-primary" onclick="openWalletPage('deposit')" data-translate="btn_deposit">Deposit</button>
+          <button class="btn-primary" onclick="openWalletPage('withdraw')" data-translate="btn_withdraw">Withdraw</button>
+          <button class="btn-primary" onclick="openWalletPage('exchange')" data-translate="btn_exchange">Exchange</button>
+        </div>
+      </div>
+
+      <div id="walletContent"></div>
+    </div>
+
+    <div class="right-panel" id="plansPanel">
+      <h3 data-translate="investment_plans">Investment Plans</h3>
+    </div>
+  </div>
+</main>
+
+<!-- New Footer -->
+<footer class="main-footer">
+  <div class="footer-container">
+    <div class="footer-col">
+      <h4 data-translate="footer_useful_links">Useful Links</h4>
+      <p data-translate="footer_links_content">Home<br>Markets<br>Investment<br>About Us<br>Support</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-translate="footer_services">Services</h4>
+      <p data-translate="footer_services_content">Spot Trading<br>Futures Trading<br>Staking<br>Lending<br>NFT</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-translate="footer_legal">Legal</h4>
+      <p data-translate="footer_legal_content">Terms of Use<br>Privacy Policy<br>Security<br>FAQ</p>
+    </div>
+    <div class="footer-col">
+      <h4 data-translate="footer_contact">Contact Us</h4>
+      <p data-translate="footer_contact_content">support@binanceplus.com<br>+1 (555) 123-4567<br>New York, USA<br>© 2023 Binance Plus. All rights reserved.</p>
+    </div>
+  </div>
+  <div class="footer-bottom" data-translate="footer_copyright">
+    © 2023 Binance Plus. All rights reserved.
+  </div>
+</footer>
+
+<script>
+// Translation system
+const translations = {
+  en: {
+    brand_name: "Binance Plus",
+    brand_tagline: "Investment & Trading Dashboard (Demo)",
+    btn_logout: "Logout",
+    user_greeting: "Hello, John",
+    nav_wallet: "Wallet",
+    nav_history: "History",
+    nav_market: "Market",
+    nav_support: "Support",
+    referral_title: "🎯 REFERRAL PROGRAM",
+    referral_bonus: "🎁 Earn $50 Bonus Per Friend",
+    btn_copy_referral: "📋 Copy Referral Link",
+    referral_total: "Total Referrals",
+    referral_earned: "Total Earned",
+    referral_active: "Active",
+    page_wallet: "Wallet",
+    demo_note: "Demo: profits applied daily (every 15s in demo)",
+    kpi_balance: "Balance",
+    kpi_invested: "Invested",
+    kpi_profit: "Profit Accrued",
+    btn_deposit: "Deposit",
+    btn_withdraw: "Withdraw",
+    btn_exchange: "Exchange",
+    investment_plans: "Investment Plans",
+    footer_useful_links: "Useful Links",
+    footer_links_content: "Home<br>Markets<br>Investment<br>About Us<br>Support",
+    footer_services: "Services",
+    footer_services_content: "Spot Trading<br>Futures Trading<br>Staking<br>Lending<br>NFT",
+    footer_legal: "Legal",
+    footer_legal_content: "Terms of Use<br>Privacy Policy<br>Security<br>FAQ",
+    footer_contact: "Contact Us",
+    footer_contact_content: "support@binanceplus.com<br>+1 (555) 123-4567<br>New York, USA<br>© 2023 Binance Plus. All rights reserved.",
+    footer_copyright: "© 2023 Binance Plus. All rights reserved."
+  },
+  fa: {
+    brand_name: "بایننس پلاس",
+    brand_tagline: "داشبورد سرمایه‌گذاری و معاملات (دمو)",
+    btn_logout: "خروج",
+    user_greeting: "سلام، جان",
+    nav_wallet: "کیف پول",
+    nav_history: "تاریخچه",
+    nav_market: "بازار",
+    nav_support: "پشتیبانی",
+    referral_title: "🎯 برنامه معرفی",
+    referral_bonus: "🎁 ۵۰ دلار پاداش برای هر دوست",
+    btn_copy_referral: "📋 کپی لینک معرفی",
+    referral_total: "تعداد معرفی‌ها",
+    referral_earned: "درآمد کل",
+    referral_active: "فعال",
+    page_wallet: "کیف پول",
+    demo_note: "دمو: سود روزانه اعمال می‌شود (هر ۱۵ ثانیه در دمو)",
+    kpi_balance: "موجودی",
+    kpi_invested: "سرمایه‌گذاری",
+    kpi_profit: "سود انباشته",
+    btn_deposit: "واریز",
+    btn_withdraw: "برداشت",
+    btn_exchange: "تبدیل",
+    investment_plans: "طرح‌های سرمایه‌گذاری",
+    footer_useful_links: "لینک‌های مفید",
+    footer_links_content: "خانه<br>بازارها<br>سرمایه‌گذاری<br>درباره ما<br>پشتیبانی",
+    footer_services: "خدمات",
+    footer_services_content: "معاملات اسپات<br>معاملات آتی<br>استیکینگ<br>استقراض<br>ان‌اف‌تی",
+    footer_legal: "قانونی",
+    footer_legal_content: "شرایط استفاده<br>سیاست حفظ حریم خصوصی<br>امنیت<br>سوالات متداول",
+    footer_contact: "تماس با ما",
+    footer_contact_content: "support@binanceplus.com<br>+1 (555) 123-4567<br>نیویورک، آمریکا<br>© 2023 بایننس پلاس. تمامی حقوق محفوظ است.",
+    footer_copyright: "© 2023 بایننس پلاس. تمامی حقوق محفوظ است."
+  }
+  // سایر زبان‌ها مانند قبل باقی می‌مانند
+};
+
+let currentLang = 'en';
+
+function changeLanguage(lang) {
+  currentLang = lang;
+  document.querySelectorAll('[data-translate]').forEach(element => {
+    const key = element.getAttribute('data-translate');
+    if (translations[lang] && translations[lang][key]) {
+      if (element.tagName === 'INPUT' || element.tagName === 'SELECT') {
+        element.placeholder = translations[lang][key];
+      } else {
+        element.innerHTML = translations[lang][key];
+      }
+    }
+  });
+}
+
+// Market data - 150 cryptocurrencies
+const marketData = [
+  { symbol: "BTC/USDT", price: 45218.75, change: 2.34, changePercent: 1.27, volume: 28563456789, marketCap: 885432109876 },
+  { symbol: "ETH/USDT", price: 2387.42, change: -15.63, changePercent: -0.65, volume: 15678943210, marketCap: 287654321098 },
+  { symbol: "BNB/USDT", price: 312.56, change: 3.21, changePercent: 1.04, volume: 8765432109, marketCap: 48765432109 },
+  { symbol: "XRP/USDT", price: 0.6234, change: 0.0123, changePercent: 2.01, volume: 3456789012, marketCap: 33765432109 },
+  { symbol: "ADA/USDT", price: 0.3789, change: -0.0087, changePercent: -2.25, volume: 2345678901, marketCap: 13456789012 },
+  { symbol: "SOL/USDT", price: 102.34, change: 5.67, changePercent: 5.87, volume: 4567890123, marketCap: 42345678901 },
+  { symbol: "DOT/USDT", price: 7.23, change: 0.34, changePercent: 4.93, volume: 1234567890, marketCap: 8765432109 },
+  { symbol: "DOGE/USDT", price: 0.0892, change: -0.0023, changePercent: -2.52, volume: 987654321, marketCap: 12765432109 },
+  { symbol: "AVAX/USDT", price: 36.78, change: 1.45, changePercent: 4.10, volume: 876543210, marketCap: 13456789012 },
+  { symbol: "MATIC/USDT", price: 0.8567, change: 0.0234, changePercent: 2.81, volume: 654321098, marketCap: 7654321098 },
+  { symbol: "LTC/USDT", price: 71.23, change: -1.23, changePercent: -1.70, volume: 543210987, marketCap: 5234567890 },
+  { symbol: "LINK/USDT", price: 14.56, change: 0.45, changePercent: 3.19, volume: 432109876, marketCap: 8234567890 },
+  { symbol: "ATOM/USDT", price: 10.34, change: -0.23, changePercent: -2.18, volume: 321098765, marketCap: 3234567890 },
+  { symbol: "UNI/USDT", price: 6.45, change: 0.12, changePercent: 1.89, volume: 210987654, marketCap: 4876543210 },
+  { symbol: "XLM/USDT", price: 0.1234, change: 0.0034, changePercent: 2.83, volume: 198765432, marketCap: 3234567890 },
+  // ادامه 135 ارز دیگر...
+];
+
+// Generate more market data
+for (let i = 16; i <= 150; i++) {
+  const symbols = ["BTC", "ETH", "BNB", "XRP", "ADA", "SOL", "DOT", "DOGE", "AVAX", "MATIC", "LTC", "LINK", "ATOM", "UNI", "XLM"];
+  const randomSymbol = symbols[Math.floor(Math.random() * symbols.length)];
+  const randomPrice = (Math.random() * 1000).toFixed(4);
+  const randomChange = (Math.random() * 10 - 5).toFixed(2);
+  const randomChangePercent = (Math.random() * 15 - 7.5).toFixed(2);
+  const randomVolume = Math.floor(Math.random() * 10000000000);
+  const randomMarketCap = Math.floor(Math.random() * 50000000000);
+  
+  marketData.push({
+    symbol: `${randomSymbol}${i}/USDT`,
+    price: parseFloat(randomPrice),
+    change: parseFloat(randomChange),
+    changePercent: parseFloat(randomChangePercent),
+    volume: randomVolume,
+    marketCap: randomMarketCap
+  });
+}
+
+let walletData = {
+  balance: 12543, invested: 8200, profit: 1254,
+  deposits: [], withdrawals: [], exchanges: []
+};
+
+let plansData = [
+  {name:'Bronze', price:30, dailyProfit:'Guaranteed Daily Profit', min:300},
+  {name:'Silver', price:70, dailyProfit:'Guaranteed Daily Profit', min:500},
+  {name:'Gold', price:150, dailyProfit:'Guaranteed Daily Profit', min:1000},
+  {name:'Platinum', price:400, dailyProfit:'Guaranteed Daily Profit', min:2000},
+  {name:'Diamond', price:900, dailyProfit:'Guaranteed Daily Profit', min:4000},
+  {name:'VIP', price:2000, dailyProfit:'Guaranteed Daily Profit', min:8000}
+];
+
+function logout(){ alert('Logged out'); }
+
+function copyReferralCode() {
+  const referralLink = 'https://binanceplus.com/ref/BP-X12345';
+  navigator.clipboard.writeText(referralLink).then(() => {
+    alert('🎉 Referral link copied to clipboard! Share it with your friends!');
+  });
+}
+
+function renderPlans(){
+  const panel=document.getElementById('plansPanel');
+  panel.innerHTML='<h3 data-translate="investment_plans">Investment Plans</h3>';
+  plansData.forEach(plan=>{
+    let canBuy = walletData.balance >= plan.price;
+    let color = canBuy ? 'var(--green)' : 'var(--red)';
+    let btnText = canBuy ? 'Start Investing' : 'Top up Wallet';
+    panel.innerHTML+=`
+      <div class="plan-card">
+        <h3>${plan.name}</h3>
+        <div class="price" style="color:${color}">$${plan.price}</div>
+        <div class="dailyProfit">${plan.dailyProfit}</div>
+        <div class="minAmount">Minimum: $${plan.min}</div>
+        <div class="status" style="color:${color}">${canBuy ? 'Available' : 'Insufficient Balance'}</div>
+        <button class="btn btn-primary" onclick="buyPlan(${plan.price})">${btnText}</button>
+      </div>
+    `;
+  });
+}
+
+function formatNumber(num) {
+  if (num >= 1000000000) {
+    return (num / 1000000000).toFixed(2) + 'B';
+  }
+  if (num >= 1000000) {
+    return (num / 1000000).toFixed(2) + 'M';
+  }
+  if (num >= 1000) {
+    return (num / 1000).toFixed(2) + 'K';
+  }
+  return num.toString();
+}
+
+// Wallet pages
+function openWalletPage(type){
+  const container = document.getElementById('walletContent');
+  const walletActions = document.getElementById('walletActions');
+  const kpiSection = document.getElementById('kpiSection');
+  container.innerHTML='';
+  
+  // نمایش KPI و دکمه‌ها فقط در صفحه Wallet
+  if(type === 'wallet' || type === 'deposit' || type === 'withdraw' || type === 'exchange') {
+    kpiSection.style.display = 'block';
+    walletActions.style.display = 'flex';
+  } else {
+    kpiSection.style.display = 'none';
+    walletActions.style.display = 'none';
+  }
+  
+  if(type==='deposit'){
+    container.innerHTML = `
+      <h3>Deposit Funds</h3>
+      <label>Currency</label><select id="depCurrency"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select>
+      <label>Network</label><select id="depNetwork"><option value="TRC20">TRC20</option><option value="ERC20">ERC20</option></select>
+      <label>Wallet Address</label><input type="text" id="depAddress" value="TXYZ123ABC456" readonly>
+      <button class="btn btn-outline" onclick="copyAddress('depAddress')">Copy Address</button>
+      <label>Upload Receipt</label><input type="file" id="depReceipt">
+      <button class="btn btn-primary" onclick="submitDeposit()">Submit Deposit</button>
+    `;
+  } else if(type==='withdraw'){
+    container.innerHTML = `
+      <h3>Withdraw Funds</h3>
+      <label>Currency</label><select id="withCurrency"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select>
+      <label>Network</label><select id="withNetwork"><option value="TRC20">TRC20</option><option value="ERC20">ERC20</option></select>
+      <label>Recipient Address</label><input type="text" id="withAddress">
+      <label>Amount</label><input type="number" id="withAmount" min="0">
+      <button class="btn btn-primary" onclick="submitWithdraw()">Submit Withdraw</button>
+    `;
+  } else if(type==='exchange'){
+    container.innerHTML = `
+      <h3>Exchange Funds</h3>
+      <label>From</label><select id="exFrom"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select>
+      <label>To</label><select id="exTo"><option value="USDT">USDT</option><option value="BTC">BTC</option><option value="ETH">ETH</option></select>
+      <label>Amount</label><input type="number" id="exAmount" min="0">
+      <button class="btn btn-primary" onclick="submitExchange()">Exchange</button>
+    `;
+  } else if(type==='history'){
+    container.innerHTML = '<h3>Transaction History</h3><table class="history-table"><thead><tr><th>Type</th><th>Currency</th><th>Amount</th><th>Date</th><th>Status</th></tr></thead><tbody id="historyBody"></tbody></table>';
+    updateHistory();
+  } else if(type==='market'){
+    let marketHTML = `
+      <h3>Market Data - 150 Cryptocurrencies</h3>
+      <div style="margin-bottom: 15px;">
+        <input type="text" id="searchMarket" placeholder="Search cryptocurrency..." style="width: 300px; padding: 8px; border-radius: 8px; background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.1); color: var(--accent);">
+      </div>
+      <table class="market-table">
+        <thead>
+          <tr>
+            <th>Symbol</th>
+            <th>Price (USDT)</th>
+            <th>Change</th>
+            <th>24h %</th>
+            <th>Volume (24h)</th>
+            <th>Market Cap</th>
+          </tr>
+        </thead>
+        <tbody id="marketBody">
+    `;
+    
+    marketData.forEach(coin => {
+      const changeClass = coin.changePercent >= 0 ? 'price-up' : 'price-down';
+      const changeSign = coin.changePercent >= 0 ? '+' : '';
+      
+      marketHTML += `
+        <tr>
+          <td><strong>${coin.symbol}</strong></td>
+          <td>$${coin.price.toLocaleString()}</td>
+          <td class="${changeClass}">${changeSign}${coin.change}</td>
+          <td class="${changeClass}">${changeSign}${coin.changePercent}%</td>
+          <td>$${formatNumber(coin.volume)}</td>
+          <td>$${formatNumber(coin.marketCap)}</td>
+        </tr>
+      `;
+    });
+    
+    marketHTML += '</tbody></table>';
+    container.innerHTML = marketHTML;
+
+    // Add search functionality
+    document.getElementById('searchMarket').addEventListener('input', function(e) {
+      const searchTerm = e.target.value.toLowerCase();
+      const rows = document.querySelectorAll('#marketBody tr');
+      
+      rows.forEach(row => {
+        const symbol = row.cells[0].textContent.toLowerCase();
+        if (symbol.includes(searchTerm)) {
+          row.style.display = '';
+        } else {
+          row.style.display = 'none';
+        }
+      });
+    });
+  } else if(type==='support'){
+    container.innerHTML='<h3>Support Tickets</h3><p>No support tickets</p>';
+  }
+}
+
+function copyAddress(id){ const input=document.getElementById(id); input.select(); document.execCommand("copy"); alert('Address copied!'); }
+function submitDeposit(){ walletData.deposits.push({currency:document.getElementById('depCurrency').value, network:document.getElementById('depNetwork').value, file:document.getElementById('depReceipt').files[0]?document.getElementById('depReceipt').files[0].name:'-', status:'pending', date:new Date().toLocaleString()}); alert('Deposit submitted'); updateHistory(); }
+function submitWithdraw(){ const amt=parseFloat(document.getElementById('withAmount').value); if(amt<=0||amt>walletData.balance){ alert('Invalid amount'); return;} walletData.balance-=amt; walletData.withdrawals.push({currency:document.getElementById('withCurrency').value, network:document.getElementById('withNetwork').value, amount:amt,status:'pending', date:new Date().toLocaleString()}); updateKPI(); updateHistory(); renderPlans(); alert('Withdraw request submitted'); }
+function submitExchange(){ const amt=parseFloat(document.getElementById('exAmount').value); if(amt<=0||amt>walletData.balance){ alert('Invalid amount'); return;} walletData.balance-=amt; walletData.exchanges.push({from:document.getElementById('exFrom').value,to:document.getElementById('exTo').value,amount:amt,date:new Date().toLocaleString()}); updateKPI(); updateHistory(); renderPlans(); alert('Exchange completed'); }
+function buyPlan(price){ if(walletData.balance<price){ alert('Go to Wallet to top up'); openWalletPage('deposit'); return;} walletData.balance-=price; walletData.invested+=price; updateKPI(); renderPlans(); alert('Plan purchased!'); }
+function updateKPI(){ document.getElementById('kpiBalance').innerText='$'+walletData.balance.toFixed(2); document.getElementById('kpiInvested').innerText='$'+walletData.invested.toFixed(2); document.getElementById('kpiProfit').innerText='$'+walletData.profit.toFixed(2); }
+function updateHistory(){ const tbody=document.getElementById('historyBody'); if(!tbody) return; tbody.innerHTML=''; walletData.deposits.forEach(d=>tbody.innerHTML+=`<tr><td>Deposit</td><td>${d.currency}</td><td>${d.file}</td><td>${d.date}</td><td class="status-pending">${d.status}</td></tr>`); walletData.withdrawals.forEach(w=>tbody.innerHTML+=`<tr><td>Withdraw</td><td>${w.currency}</td><td>${w.amount}</td><td>${w.date}</td><td class="status-pending">${w.status}</td></tr>`); walletData.exchanges.forEach(e=>tbody.innerHTML+=`<tr><td>Exchange</td><td>${e.from}->${e.to}</td><td>${e.amount}</td><td>${e.date}</td><td class="status-completed">Completed</td></tr>`);}
+document.querySelectorAll('.sidebar button[data-page]').forEach(btn=>{ btn.addEventListener('click',()=>{ document.querySelectorAll('.sidebar button').forEach(b=>b.classList.remove('active')); btn.classList.add('active'); const page=btn.dataset.page; document.getElementById('pageTitle').innerText=btn.innerText; if(page==='wallet') openWalletPage('deposit'); else openWalletPage(page); }); });
+
+// Language change event
+document.getElementById('langSelect').addEventListener('change', e => {
+  changeLanguage(e.target.value);
+});
+
+// Initialize
+renderPlans();
+openWalletPage('deposit');
+changeLanguage('en');
+</script>
+
+</body>
+</html>

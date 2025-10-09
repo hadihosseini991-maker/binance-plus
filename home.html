@@ -1,0 +1,351 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Binance Plus — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#050507;
+  --card:#0b0b0c;
+  --gold:#d4af37;
+  --muted:#9b9b9b;
+  --accent:#f5f3ea;
+  --green:#4caf50;
+  --red:#f44336;
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Poppins,system-ui,Arial;background:var(--bg);color:var(--accent);-webkit-font-smoothing:antialiased;scroll-behavior:smooth;}
+a{color:inherit;text-decoration:none}
+
+/* Header */
+header{position:fixed;top:0;left:0;right:0;display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:rgba(3,3,3,0.7);backdrop-filter:blur(6px);z-index:60}
+.brand{display:flex;align-items:center;gap:12px}
+.logo{width:88px;height:88px;border-radius:12px;background:linear-gradient(135deg,var(--gold),#ffd57a);display:flex;align-items:center;justify-content:center;box-shadow:0 12px 40px rgba(0,0,0,0.6);transform:rotate(0.01deg)}
+.logo .b{font-weight:900;color:#111;font-family:monospace;font-size:56px;transform:rotate(45deg)}
+nav{display:flex;align-items:center;gap:12px}
+nav ul{display:flex;gap:18px;list-style:none;margin:0;padding:0;align-items:center}
+nav a{color:var(--accent);padding:8px 12px;border-radius:8px;font-weight:600}
+nav a:hover{background:rgba(255,255,255,0.02)}
+.header-actions{display:flex;gap:10px;align-items:center}
+.btn{padding:10px 14px;border-radius:10px;border:0;cursor:pointer;font-weight:700}
+.btn-outline{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--accent)}
+.btn-primary{background:linear-gradient(90deg,var(--gold),#ffd57a);color:#0b0b0c}
+
+/* Language Dropdown */
+#langSelect{padding:8px;border-radius:12px;background:linear-gradient(90deg,#222,#333);border:none;color:var(--accent);font-weight:600;cursor:pointer}
+
+/* Tickers */
+.ticker-wrap{margin-top:110px;background:linear-gradient(90deg,rgba(255,255,255,0.02),transparent);padding:8px 12px;overflow:hidden}
+.ticker{display:inline-block;white-space:nowrap;will-change:transform;animation:scrollLeft 40s linear infinite}
+.tick-item{display:inline-flex;align-items:center;gap:4px;margin-right:28px;padding:6px 12px;border-radius:10px;background:rgba(0,0,0,0.25);border:1px solid rgba(255,255,255,0.02);font-weight:600}
+.tick-item .up{color:var(--green)}
+.tick-item .down{color:var(--red)}
+@keyframes scrollLeft{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Hero Section */
+.hero{display:grid;grid-template-columns:1fr 420px;gap:28px;padding:48px 28px 28px;align-items:start}
+.hero-left{padding-top:18px}
+.hero h2{font-size:40px;margin:0 0 12px;color:var(--gold);text-shadow:0 8px 30px rgba(212,175,55,0.08)}
+.hero p{color:var(--muted);max-width:640px}
+.cta-row{display:flex;gap:12px;margin-top:16px}
+
+/* Plans */
+.plans{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:28px}
+.plan{background:var(--card);padding:14px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,0.6);transform:perspective(800px);flex:1 1 160px;min-width:160px;cursor:pointer;transition:transform 0.3s ease}
+.plan:hover{transform:perspective(800px) rotateX(6deg) rotateY(-6deg)}
+.plan h4{margin:0 0 6px;font-size:18px}
+.plan .price{font-size:20px;color:var(--gold);font-weight:800}
+.plan small{color:var(--muted)}
+.plan .startBtn{margin-top:10px;width:100%;padding:8px;background:linear-gradient(90deg,var(--gold),#ffd57a);border:none;border-radius:8px;color:#111;font-weight:700;cursor:pointer}
+.plan .startBtn:hover{opacity:0.9}
+
+/* Stats */
+.stats{display:flex;gap:18px;margin-top:12px}
+.stat{flex:1;background:linear-gradient(90deg,rgba(255,255,255,0.01),transparent);padding:14px;border-radius:12px;text-align:center}
+
+/* Referral */
+.referral{margin:20px 0;padding:18px;border-radius:12px;background:linear-gradient(90deg,var(--gold),#ffd57a);color:#111;font-weight:800;display:flex;align-items:center;justify-content:space-between;cursor:pointer}
+.referral-info{
+  margin-top:16px;
+  padding:14px;
+  border-radius:12px;
+  background:rgba(255,255,255,0.02);
+  font-weight:600;
+  color:var(--accent);
+  line-height:1.4;
+  text-align:center;
+  max-height:300px; /* محدودیت ارتفاع برای اسکرول */
+  overflow-y:auto;
+  scrollbar-width:thin;
+  scrollbar-color:var(--card) var(--bg);
+}
+
+/* Bottom Ticker */
+.bottom-ticker{margin-top:30px;padding:10px 12px;background:rgba(255,255,255,0.02);border-radius:10px;overflow:hidden}
+.bottom-list{display:inline-block;white-space:nowrap;animation:scrollLeftNames 80s linear infinite}
+.name-item{display:inline-block;margin-right:28px;padding:6px 10px;background:rgba(0,0,0,0.25);border-radius:10px;font-weight:600;color:var(--green)}
+@keyframes scrollLeftNames{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* Footer */
+footer{margin-top:38px;padding:36px;border-top:1px solid rgba(255,255,255,0.02);display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+.footer-col{flex:1;min-width:220px}
+.footer-col h4{margin-bottom:6px}
+
+/* Support Button */
+#supportBtnFixed{position:fixed;bottom:18px;right:18px;width:56px;height:56px;background:var(--gold);border-radius:50%;box-shadow:0 10px 28px rgba(0,0,0,0.5);display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:150;color:#0b0b0b;font-weight:800;animation:bounce 2s infinite}
+@keyframes bounce{0%,100%{transform:translateY(0)}50%{transform:translateY(-6px)}}
+
+/* Modal */
+.modal-backdrop{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:200}
+.modal{background:linear-gradient(180deg,#0b0b0d,#111);padding:22px;border-radius:12px;min-width:320px;max-width:520px;box-shadow:0 20px 60px rgba(0,0,0,0.7)}
+.modal h3{margin:0 0 8px;text-align:center}
+.tabs{display:flex;justify-content:center;margin-bottom:12px;gap:12px}
+.tab-btn{padding:6px 14px;border-radius:10px;border:1px solid rgba(255,255,255,0.06);cursor:pointer;background:transparent;color:var(--accent)}
+.tab-btn.active{background:var(--gold);color:#111}
+.field{margin:8px 0;display:flex;flex-direction:column}
+.field input, .field select{padding:10px;border-radius:8px;border:1px solid rgba(255,255,255,0.06);background:transparent;color:var(--accent)}
+.modal-actions{display:flex;gap:10px;justify-content:flex-end;margin-top:12px}
+.small{font-size:13px;color:var(--muted)}
+@media (max-width:980px){.hero{grid-template-columns:1fr}.plans{flex-direction:column}.logo{width:64px;height:64px}.logo .b{font-size:36px}}
+@media (max-width:520px){nav ul{display:none}}
+::-webkit-scrollbar{width:8px;}
+::-webkit-scrollbar-track{background:var(--bg);}
+::-webkit-scrollbar-thumb{background:var(--card);border-radius:4px;}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="brand">
+    <div class="logo"><div class="b">B</div></div>
+    <div>
+      <h1 style="margin:0;font-size:16px">Binance <span style="color:var(--gold)">Plus</span></h1>
+      <div class="small">Investment & Trading Platform</div>
+    </div>
+  </div>
+  <nav>
+    <ul>
+      <li><a href="#">Home</a></li>
+      <li><a href="#">Investment Plans</a></li>
+      <li><a href="#">About Us</a></li>
+      <li><a href="#">Services</a></li>
+      <li><a href="#">Support</a></li>
+    </ul>
+  </nav>
+  <div class="header-actions">
+    <button id="loginBtn" class="btn btn-outline">Login</button>
+    <button id="signupBtn" class="btn btn-primary">Sign Up</button>
+    <select id="langSelect">
+      <option value="en">English 🇺🇸</option>
+      <option value="fa">فارسی 🇮🇷</option>
+      <option value="ar">العربية 🇸🇦</option>
+      <option value="tr">Türkçe 🇹🇷</option>
+      <option value="es">Español 🇪🇸</option>
+      <option value="fr">Français 🇫🇷</option>
+      <option value="de">Deutsch 🇩🇪</option>
+      <option value="it">Italiano 🇮🇹</option>
+      <option value="zh">中文 🇨🇳</option>
+      <option value="ja">日本語 🇯🇵</option>
+      <option value="ru">Русский 🇷🇺</option>
+      <option value="hi">हिन्दी 🇮🇳</option>
+    </select>
+  </div>
+</header>
+
+<!-- Top Ticker -->
+<div class="ticker-wrap">
+  <div class="ticker" id="topTicker"></div>
+</div>
+
+<!-- Hero Section -->
+<main>
+<section class="hero">
+  <div class="hero-left">
+    <h2>Welcome to Binance Plus — Professional crypto investing simplified</h2>
+    <p>Start investing today with guaranteed plans, secure transactions, and a user-friendly platform.</p>
+    <div class="cta-row">
+      <button class="btn btn-primary" onclick="openModal('signup')">Explore Plans</button>
+      <button class="btn btn-outline" onclick="openModal('signup')">Learn More</button>
+    </div>
+    <div class="stats">
+      <div class="stat">Users<br>12,543</div>
+      <div class="stat">Total Assets<br>$23,450,000</div>
+      <div class="stat">Profit Paid<br>$1,254,000</div>
+    </div>
+    <div class="referral">Referral Bonus: Earn $50 per friend invited!</div>
+    <div class="referral-info" id="referralInfo"></div>
+  </div>
+  <div class="hero-right aside">
+    <h3>Investment Plans</h3>
+    <div class="plans">
+      <div class="plan">
+        <h4>Bronze</h4>
+        <div class="price">$30</div>
+        <div>Guaranteed Daily Profit</div>
+        <small>Minimum: $300</small>
+        <button class="startBtn" onclick="openModal('signup')">Start Investing</button>
+      </div>
+      <div class="plan">
+        <h4>Silver</h4>
+        <div class="price">$70</div>
+        <div>Guaranteed Daily Profit</div>
+        <small>Minimum: $500</small>
+        <button class="startBtn" onclick="openModal('signup')">Start Investing</button>
+      </div>
+      <div class="plan">
+        <h4>Gold</h4>
+        <div class="price">$150</div>
+        <div>Guaranteed Daily Profit</div>
+        <small>Minimum: $1,000</small>
+        <button class="startBtn" onclick="openModal('signup')">Start Investing</button>
+      </div>
+      <div class="plan">
+        <h4>Platinum</h4>
+        <div class="price">$400</div>
+        <div>Guaranteed Daily Profit</div>
+        <small>Minimum: $2,000</small>
+        <button class="startBtn" onclick="openModal('signup')">Start Investing</button>
+      </div>
+      <div class="plan">
+        <h4>Diamond</h4>
+        <div class="price">$900</div>
+        <div>Guaranteed Daily Profit</div>
+        <small>Minimum: $4,000</small>
+        <button class="startBtn" onclick="openModal('signup')">Start Investing</button>
+      </div>
+      <div class="plan">
+        <h4>VIP</h4>
+        <div class="price">$2,000</div>
+        <div>Guaranteed Daily Profit</div>
+        <small>Minimum: $8,000</small>
+        <button class="startBtn" onclick="openModal('signup')">Start Investing</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Bottom Ticker -->
+<div class="bottom-ticker">
+  <div class="bottom-list" id="bottomTicker"></div>
+</div>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-col">
+    <h4>Useful Links</h4>
+    <p>Home<br>Markets<br>Investment<br>About Us<br>Support</p>
+  </div>
+  <div class="footer-col">
+    <h4>Services</h4>
+    <p>Spot Trading<br>Futures Trading<br>Staking<br>Lending<br>NFT</p>
+  </div>
+  <div class="footer-col">
+    <h4>Legal</h4>
+    <p>Terms of Use<br>Privacy Policy<br>Security<br>FAQ</p>
+  </div>
+  <div class="footer-col">
+    <h4>Contact Us</h4>
+    <p>support@binanceplus.com<br>+1 (555) 123-4567<br>New York, USA<br>© 2023 Binance Plus. All rights reserved.</p>
+  </div>
+</footer>
+
+<!-- Support Button -->
+<div id="supportBtnFixed" onclick="openModal('signup')">💬</div>
+
+<!-- Modal -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal" id="modal">
+    <div class="tabs">
+      <div class="tab-btn active" id="tabLogin">Login</div>
+      <div class="tab-btn" id="tabSignup">Sign Up</div>
+    </div>
+    <h3 id="modalTitle">Login</h3>
+
+    <!-- Login Form -->
+    <div id="loginFields">
+      <div class="field"><label>Email</label><input type="email" id="loginEmail"></div>
+      <div class="field"><label>Password</label><input type="password" id="loginPassword"></div>
+    </div>
+
+    <!-- Sign Up Form -->
+    <div id="signupFields" style="display:none">
+      <div class="field"><label>Full Name</label><input type="text" id="signupName" placeholder="John Doe"></div>
+      <div class="field"><label>Email</label><input type="email" id="signupEmail" placeholder="example@mail.com"></div>
+      <div class="field"><label>Password</label><input type="password" id="signupPassword" placeholder="Enter Password"></div>
+      <div class="field"><label>Confirm Password</label><input type="password" id="signupPasswordConfirm" placeholder="Re-enter Password"></div>
+      <div class="field"><label>Phone Number</label><input type="text" id="signupPhone" placeholder="+1 234 567 890"></div>
+      <div class="field"><label>Country</label><input type="text" id="signupCountry" placeholder="Your Country"></div>
+      <div class="field"><label>Referral Code (Optional)</label><input type="text" id="signupReferral"></div>
+    </div>
+
+    <div class="modal-actions">
+      <button class="btn btn-outline" onclick="closeModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="submitForm()">Submit</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const referralTexts = {
+  en: "Maximize your crypto potential with Binance Plus — secure investments, guaranteed returns, and professionally crafted plans to grow your wealth with confidence.",
+  fa: "پتانسیل کریپتو خود را با Binance Plus به حداکثر برسانید — سرمایه‌گذاری امن، بازده تضمینی و طرح‌های حرفه‌ای برای افزایش دارایی‌های شما با اطمینان.",
+  ar: "حقق أقصى استفادة من استثماراتك في العملات الرقمية مع Binance Plus — استثمارات آمنة، عوائد مضمونة، وخطط مصممة باحتراف لتنمية ثروتك بثقة."
+};
+function updateReferralText(){document.getElementById('referralInfo').innerText=referralTexts.en}
+function updateDirection(){document.body.dir='ltr'}
+
+document.getElementById('langSelect').addEventListener('change',e=>{
+  const lang=e.target.value
+  document.body.dir=(lang==='fa'||lang==='ar')?'rtl':'ltr'
+  document.getElementById('referralInfo').innerText=referralTexts[lang]||referralTexts.en
+})
+
+const topTickerContent=["BTC ↑$26,543","ETH ↓$1,843","BNB ↑$312","XRP ↓$0.62","ADA ↑$0.37","SOL ↑$20","DOGE ↓$0.07","DOT ↑$6.5","AVAX ↑$14","MATIC ↓$1.1","LTC ↑$85","LINK ↑$8","ATOM ↑$15","ALGO ↑$0.45","FTM ↑$0.25"]
+document.getElementById('topTicker').innerHTML=topTickerContent.map(t=>`<div class="tick-item">${t}</div>`).join('')
+
+const bottomTickerContent=["User1 +$588","User2 +$878","User3 +$1307","User4 +$990","User5 +$2038","User6 +$315","User7 +$1576","User8 +$459","User9 +$1791","User10 +$360","User11 +$672","User12 +$1145","User13 +$890","User14 +$420","User15 +$2300","User16 +$987","User17 +$670","User18 +$1290","User19 +$345","User20 +$1550"]
+document.getElementById('bottomTicker').innerHTML=bottomTickerContent.map(u=>`<div class="name-item">${u}</div>`).join('')
+
+// Modal Logic
+const modalBackdrop=document.getElementById('modalBackdrop')
+const loginFields=document.getElementById('loginFields')
+const signupFields=document.getElementById('signupFields')
+const modalTitle=document.getElementById('modalTitle')
+document.getElementById('loginBtn').onclick=()=>openModal('login')
+document.getElementById('signupBtn').onclick=()=>openModal('signup')
+document.getElementById('tabLogin').onclick=()=>switchTab('login')
+document.getElementById('tabSignup').onclick=()=>switchTab('signup')
+document.getElementById('supportBtnFixed').onclick=()=>openModal('signup')
+
+function openModal(type){
+  modalBackdrop.style.display='flex'
+  switchTab(type)
+}
+function closeModal(){modalBackdrop.style.display='none'}
+function switchTab(type){
+  if(type==='login'){
+    loginFields.style.display='block'
+    signupFields.style.display='none'
+    modalTitle.innerText='Login'
+    document.getElementById('tabLogin').classList.add('active')
+    document.getElementById('tabSignup').classList.remove('active')
+  }else{
+    loginFields.style.display='none'
+    signupFields.style.display='block'
+    modalTitle.innerText='Sign Up'
+    document.getElementById('tabLogin').classList.remove('active')
+    document.getElementById('tabSignup').classList.add('active')
+  }
+}
+
+// هدایت بعد از ثبت فرم
+function submitForm() {
+  // اگر بخوای اعتبارسنجی فرم اضافه کنی اینجا
+  window.location.href = 'dashboard.html'; // صفحه بعدی
+}
+</script>
+
+</body>
+</html>
