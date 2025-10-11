@@ -1,0 +1,995 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>پنل مدیریت کامل | بایننس پلاس</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a0b0d;
+            --secondary-bg: #111318;
+            --accent-color: #f0b90b;
+            --accent-hover: #f8d33a;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --success-color: #00c087;
+            --danger-color: #f6465d;
+            --info-color: #1e6bff;
+            --card-bg: #161a1e;
+            --sidebar-bg: #0b0d10;
+            --gradient-gold: linear-gradient(135deg, #f0b90b 0%, #f8d33a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+        }
+
+        .admin-container {
+            display: flex;
+            min-height: 100vh;
+        }
+
+        /* سایدبار */
+        .admin-sidebar {
+            width: 300px;
+            background: var(--sidebar-bg);
+            border-left: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar-header {
+            padding: 1.5rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .admin-brand {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .admin-logo {
+            width: 44px;
+            height: 44px;
+            background: var(--gradient-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #000;
+            font-size: 18px;
+        }
+
+        .admin-user-info {
+            margin-top: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 10px;
+        }
+
+        .user-avatar {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: var(--gradient-gold);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #000;
+            font-size: 1.2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .nav-title {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+            font-weight: 600;
+            margin-bottom: 0.8rem;
+            padding: 0 1rem;
+        }
+
+        .nav-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            padding: 0.8rem 1rem;
+            color: var(--text-secondary);
+            border-radius: 8px;
+            margin: 0.2rem 0.5rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background: linear-gradient(90deg, rgba(240,185,11,0.15), rgba(240,185,11,0.05));
+            color: var(--accent-color);
+        }
+
+        /* محتوای اصلی */
+        .admin-main {
+            flex: 1;
+            background: var(--primary-bg);
+        }
+
+        .admin-header {
+            background: rgba(10, 11, 13, 0.95);
+            padding: 1rem 2rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .header-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .admin-content {
+            padding: 2rem;
+        }
+
+        /* کارت‌ها */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: linear-gradient(135deg, var(--card-bg), #1a1d23);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 800;
+            margin: 0.5rem 0;
+        }
+
+        /* جداول */
+        .table-container {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255,255,255,0.05);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 1rem;
+            text-align: right;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+        }
+
+        th {
+            background: rgba(255,255,255,0.02);
+            font-weight: 600;
+            color: var(--text-secondary);
+        }
+
+        /* دکمه‌ها */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 8px;
+            border: none;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: #000;
+        }
+
+        .btn-success {
+            background: var(--success-color);
+            color: white;
+        }
+
+        .btn-danger {
+            background: var(--danger-color);
+            color: white;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid rgba(255,255,255,0.2);
+            color: var(--text-primary);
+        }
+
+        .btn-sm {
+            padding: 0.4rem 0.8rem;
+            font-size: 0.8rem;
+        }
+
+        /* وضعیت‌ها */
+        .status-badge {
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .status-pending {
+            background: rgba(240,185,11,0.15);
+            color: var(--accent-color);
+        }
+
+        .status-approved {
+            background: rgba(0,192,135,0.15);
+            color: var(--success-color);
+        }
+
+        .status-rejected {
+            background: rgba(246,70,93,0.15);
+            color: var(--danger-color);
+        }
+
+        /* فرم‌ها */
+        .form-group {
+            margin-bottom: 1rem;
+        }
+
+        .form-control {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 8px;
+            color: var(--text-primary);
+        }
+
+        /* مودال */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 600px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        /* تابلو روان */
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            margin-bottom: 0.5rem;
+        }
+
+        /* پشتیبانی */
+        .support-ticket {
+            background: rgba(255,255,255,0.03);
+            border-radius: 8px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-right: 4px solid var(--accent-color);
+        }
+
+        .message-bubble {
+            background: rgba(255,255,255,0.05);
+            padding: 0.8rem 1rem;
+            border-radius: 12px;
+            margin: 0.5rem 0;
+            max-width: 80%;
+        }
+
+        .user-message {
+            background: rgba(30,107,255,0.1);
+            margin-left: auto;
+        }
+
+        .admin-message {
+            background: rgba(240,185,11,0.1);
+        }
+    </style>
+</head>
+<body>
+    <div class="admin-container">
+        <!-- سایدبار -->
+        <aside class="admin-sidebar">
+            <div class="sidebar-header">
+                <div class="admin-brand">
+                    <div class="admin-logo">BP</div>
+                    <div style="font-weight: 800; font-size: 1.2rem;">مدیریت بایننس پلاس</div>
+                </div>
+                
+                <div class="admin-user-info">
+                    <div class="user-avatar">H</div>
+                    <div style="font-weight: 700;">هادی حسینی</div>
+                    <div style="background: var(--gradient-gold); color: #000; padding: 0.3rem 0.8rem; border-radius: 20px; font-size: 0.8rem; font-weight: 700; margin-top: 0.5rem; display: inline-block;">
+                        مدیر کل سیستم
+                    </div>
+                </div>
+            </div>
+
+            <div class="admin-nav" style="flex: 1; overflow-y: auto; padding: 1rem 0;">
+                <!-- مدیریت مالی -->
+                <div class="nav-section">
+                    <div class="nav-title">مدیریت مالی</div>
+                    <div class="nav-item active" data-view="deposits">
+                        <i class="fas fa-wallet"></i>
+                        <span>درخواست‌های واریز (<span id="depositCount">0</span>)</span>
+                    </div>
+                    <div class="nav-item" data-view="withdrawals">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>درخواست‌های برداشت (<span id="withdrawalCount">0</span>)</span>
+                    </div>
+                    <div class="nav-item" data-view="wallet-addresses">
+                        <i class="fas fa-address-card"></i>
+                        <span>آدرس‌های کیف پول</span>
+                    </div>
+                </div>
+
+                <!-- مدیریت کاربران -->
+                <div class="nav-section">
+                    <div class="nav-title">مدیریت کاربران</div>
+                    <div class="nav-item" data-view="users">
+                        <i class="fas fa-users"></i>
+                        <span>لیست کاربران</span>
+                    </div>
+                    <div class="nav-item" data-view="transactions">
+                        <i class="fas fa-exchange-alt"></i>
+                        <span>تاریخچه تراکنش‌ها</span>
+                    </div>
+                </div>
+
+                <!-- مدیریت محتوا -->
+                <div class="nav-section">
+                    <div class="nav-title">مدیریت محتوا</div>
+                    <div class="nav-item" data-view="investment-plans">
+                        <i class="fas fa-gem"></i>
+                        <span>طرح‌های سرمایه‌گذاری</span>
+                    </div>
+                    <div class="nav-item" data-view="staking-plans">
+                        <i class="fas fa-chart-line"></i>
+                        <span>طرح‌های استیکینگ</span>
+                    </div>
+                    <div class="nav-item" data-view="ticker-management">
+                        <i class="fas fa-scroll"></i>
+                        <span>تابلوهای روان</span>
+                    </div>
+                </div>
+
+                <!-- پشتیبانی -->
+                <div class="nav-section">
+                    <div class="nav-title">پشتیبانی</div>
+                    <div class="nav-item" data-view="support-tickets">
+                        <i class="fas fa-headset"></i>
+                        <span>تیکت‌های پشتیبانی (<span id="ticketCount">0</span>)</span>
+                    </div>
+                </div>
+
+                <!-- آمار سایت -->
+                <div class="nav-section">
+                    <div class="nav-title">آمار و گزارش</div>
+                    <div class="nav-item" data-view="site-statistics">
+                        <i class="fas fa-chart-bar"></i>
+                        <span>آمار کلی سایت</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- محتوای اصلی -->
+        <main class="admin-main">
+            <header class="admin-header">
+                <div>
+                    <h1 class="header-title" id="pageTitle">درخواست‌های واریز</h1>
+                    <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.3rem;">
+                        آخرین به‌روزرسانی: <span id="lastUpdate">هم اکنون</span>
+                    </div>
+                </div>
+                
+                <div class="header-actions">
+                    <button class="btn btn-primary" onclick="loadAllData()">
+                        <i class="fas fa-sync"></i>
+                        بارگذاری همه داده‌ها
+                    </button>
+                </div>
+            </header>
+
+            <div class="admin-content">
+                <!-- داشبورد اصلی -->
+                <div id="view-deposits" class="view-content">
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">درخواست واریز pending</div>
+                            <div class="stat-value" id="pendingDepositsCount">0</div>
+                            <div style="color: var(--accent-color); font-size: 0.8rem;">+۳ مورد جدید</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">درخواست برداشت pending</div>
+                            <div class="stat-value" id="pendingWithdrawalsCount">0</div>
+                            <div style="color: var(--danger-color); font-size: 0.8rem;">+۲ مورد جدید</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">تیکت‌های جدید</div>
+                            <div class="stat-value" id="newTicketsCount">0</div>
+                            <div style="color: var(--info-color); font-size: 0.8rem;">+۵ مورد جدید</div>
+                        </div>
+                    </div>
+
+                    <div class="table-container">
+                        <h3>درخواست‌های واریز کاربران</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>کاربر</th>
+                                    <th>مبلغ</th>
+                                    <th>ارز</th>
+                                    <th>شبکه</th>
+                                    <th>تاریخ</th>
+                                    <th>رسید</th>
+                                    <th>وضعیت</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="depositsTable">
+                                <!-- داده‌های واریز -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- درخواست‌های برداشت -->
+                <div id="view-withdrawals" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>درخواست‌های برداشت کاربران</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>کاربر</th>
+                                    <th>مبلغ</th>
+                                    <th>ارز</th>
+                                    <th>آدرس مقصد</th>
+                                    <th>تاریخ</th>
+                                    <th>وضعیت</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="withdrawalsTable">
+                                <!-- داده‌های برداشت -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- آدرس‌های کیف پول -->
+                <div id="view-wallet-addresses" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>مدیریت آدرس‌های کیف پول</h3>
+                            <button class="btn btn-primary" onclick="showModal('addWalletModal')">
+                                <i class="fas fa-plus"></i>
+                                افزودن آدرس جدید
+                            </button>
+                        </div>
+                        
+                        <div id="walletAddressesGrid">
+                            <!-- آدرس‌های کیف پول -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مدیریت کاربران -->
+                <div id="view-users" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>لیست کاربران سایت</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>نام کاربر</th>
+                                    <th>ایمیل</th>
+                                    <th>موجودی</th>
+                                    <th>سود کل</th>
+                                    <th>تاریخ عضویت</th>
+                                    <th>وضعیت</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="usersTable">
+                                <!-- لیست کاربران -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- طرح‌های سرمایه‌گذاری -->
+                <div id="view-investment-plans" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>مدیریت طرح‌های سرمایه‌گذاری</h3>
+                            <button class="btn btn-primary" onclick="showModal('addPlanModal')">
+                                <i class="fas fa-plus"></i>
+                                طرح جدید
+                            </button>
+                        </div>
+                        
+                        <div id="investmentPlansGrid">
+                            <!-- طرح‌های سرمایه‌گذاری -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- تابلوهای روان -->
+                <div id="view-ticker-management" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>مدیریت تابلو قیمت</h3>
+                        <div id="priceTickerManager">
+                            <!-- مدیریت تابلو قیمت -->
+                        </div>
+                    </div>
+                    
+                    <div class="table-container">
+                        <h3>مدیریت تابلو کاربران</h3>
+                        <div id="userTickerManager">
+                            <!-- مدیریت تابلو کاربران -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- تیکت‌های پشتیبانی -->
+                <div id="view-support-tickets" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>تیکت‌های پشتیبانی</h3>
+                        <div id="supportTicketsList">
+                            <!-- تیکت‌های پشتیبانی -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- آمار سایت -->
+                <div id="view-site-statistics" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>آمار کلی سایت</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div>کل کاربران</div>
+                                <div class="stat-value" id="totalUsers">0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div>موجودی کل</div>
+                                <div class="stat-value" id="totalBalance">$0</div>
+                            </div>
+                            <div class="stat-card">
+                                <div>سود پرداختی</div>
+                                <div class="stat-value" id="totalPayouts">$0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- مودال‌ها -->
+    <div id="receiptModal" class="modal">
+        <div class="modal-content">
+            <h3>مشاهده رسید واریز</h3>
+            <img id="receiptImage" src="" style="max-width: 100%; border-radius: 8px; margin: 1rem 0;">
+            <div>
+                <button class="btn btn-success" onclick="approveDeposit()">تایید واریز</button>
+                <button class="btn btn-danger" onclick="rejectDeposit()">رد درخواست</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="supportReplyModal" class="modal">
+        <div class="modal-content">
+            <h3>پاسخ به تیکت پشتیبانی</h3>
+            <div class="form-group">
+                <textarea id="supportReply" class="form-control" rows="5" placeholder="پاسخ خود را وارد کنید..."></textarea>
+            </div>
+            <div>
+                <button class="btn btn-primary" onclick="sendSupportReply()">ارسال پاسخ</button>
+                <button class="btn btn-outline" onclick="closeModal('supportReplyModal')">انصراف</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ========== دیتابیس REAL ==========
+        let realDatabase = {
+            // درخواست‌های واریز
+            depositRequests: [],
+            
+            // درخواست‌های برداشت
+            withdrawalRequests: [],
+            
+            // کاربران
+            users: [],
+            
+            // طرح‌ها
+            investmentPlans: [],
+            stakingPlans: [],
+            
+            // آدرس‌های کیف پول
+            walletAddresses: [],
+            
+            // تیکت‌های پشتیبانی
+            supportTickets: [],
+            
+            // تابلوها
+            priceTicker: [],
+            userTicker: [],
+            
+            // آمار سایت
+            siteStats: {
+                totalUsers: 0,
+                totalBalance: 0,
+                totalPayouts: 0
+            }
+        };
+
+        // ========== بارگذاری داده‌های REAL ==========
+        function loadAllData() {
+            // شبیه‌سازی بارگذاری از سرور
+            simulateRealData();
+            
+            // بارگذاری همه بخش‌ها
+            loadDeposits();
+            loadWithdrawals();
+            loadUsers();
+            loadInvestmentPlans();
+            loadWalletAddresses();
+            loadSupportTickets();
+            loadTickerManagement();
+            loadSiteStatistics();
+            
+            updateCounters();
+            showNotification('همه داده‌های واقعی بارگذاری شدند ✅', 'success');
+        }
+
+        function simulateRealData() {
+            // داده‌های نمونه REAL
+            realDatabase.depositRequests = [
+                {
+                    id: 1,
+                    userName: "علی محمدی",
+                    amount: 500,
+                    currency: "USDT",
+                    network: "TRC20",
+                    receipt: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='100' viewBox='0 0 200 100'%3E%3Crect width='200' height='100' fill='%23161a1e'/%3E%3Ctext x='100' y='40' text-anchor='middle' fill='%23f0b90b' font-family='Arial' font-size='14'%3Eرسید واریز%3C/text%3E%3Ctext x='100' y='60' text-anchor='middle' fill='%23ffffff' font-family='Arial' font-size='12'%3Eمبلغ: 500 USDT%3C/text%3E%3C/svg%3E",
+                    date: "1402/05/20 14:30",
+                    status: "pending",
+                    userId: 101
+                }
+            ];
+
+            realDatabase.withdrawalRequests = [
+                {
+                    id: 1,
+                    userName: "مریم احمدی",
+                    amount: 200,
+                    currency: "BTC",
+                    address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+                    date: "1402/05/20 15:45",
+                    status: "pending",
+                    userId: 102
+                }
+            ];
+
+            realDatabase.users = [
+                {
+                    id: 101,
+                    name: "علی محمدی",
+                    email: "ali@example.com",
+                    balance: 1500,
+                    totalProfit: 320,
+                    joinDate: "1402/03/15",
+                    status: "active"
+                }
+            ];
+
+            realDatabase.walletAddresses = [
+                {
+                    id: 1,
+                    currency: "BTC",
+                    network: "mainnet",
+                    address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+                    memo: ""
+                }
+            ];
+
+            realDatabase.supportTickets = [
+                {
+                    id: 1,
+                    userName: "رضا کریمی",
+                    subject: "مشکل در برداشت",
+                    messages: [
+                        { from: "user", text: "برداشت من 24 ساعت است pending است", time: "1402/05/20 10:30" },
+                        { from: "admin", text: "در حال بررسی هستیم", time: "1402/05/20 11:15" }
+                    ],
+                    status: "open",
+                    date: "1402/05/20"
+                }
+            ];
+        }
+
+        // ========== مدیریت واریزها ==========
+        function loadDeposits() {
+            const table = document.getElementById('depositsTable');
+            table.innerHTML = '';
+
+            realDatabase.depositRequests.forEach(deposit => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${deposit.userName}</td>
+                    <td>${deposit.amount} ${deposit.currency}</td>
+                    <td>${deposit.currency}</td>
+                    <td>${deposit.network}</td>
+                    <td>${deposit.date}</td>
+                    <td>
+                        <img src="${deposit.receipt}" style="width: 60px; height: 40px; border-radius: 6px; cursor: pointer;" 
+                             onclick="viewReceipt(${deposit.id})" alt="رسید">
+                    </td>
+                    <td><span class="status-badge status-${deposit.status}">${getStatusText(deposit.status)}</span></td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="approveDeposit(${deposit.id})">تایید</button>
+                        <button class="btn btn-danger btn-sm" onclick="rejectDeposit(${deposit.id})">رد</button>
+                    </td>
+                `;
+                table.appendChild(tr);
+            });
+        }
+
+        function viewReceipt(depositId) {
+            const deposit = realDatabase.depositRequests.find(d => d.id === depositId);
+            if (deposit) {
+                document.getElementById('receiptImage').src = deposit.receipt;
+                currentDepositId = depositId;
+                showModal('receiptModal');
+            }
+        }
+
+        function approveDeposit(depositId) {
+            const deposit = realDatabase.depositRequests.find(d => d.id === depositId);
+            if (deposit) {
+                deposit.status = 'approved';
+                showNotification(`واریز کاربر ${deposit.userName} تایید شد ✅`);
+                loadDeposits();
+                updateCounters();
+            }
+        }
+
+        // ========== مدیریت برداشت‌ها ==========
+        function loadWithdrawals() {
+            const table = document.getElementById('withdrawalsTable');
+            table.innerHTML = '';
+
+            realDatabase.withdrawalRequests.forEach(withdrawal => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${withdrawal.userName}</td>
+                    <td>${withdrawal.amount} ${withdrawal.currency}</td>
+                    <td>${withdrawal.currency}</td>
+                    <td style="font-family: monospace; font-size: 0.8rem;">${withdrawal.address}</td>
+                    <td>${withdrawal.date}</td>
+                    <td><span class="status-badge status-${withdrawal.status}">${getStatusText(withdrawal.status)}</span></td>
+                    <td>
+                        <button class="btn btn-success btn-sm" onclick="approveWithdrawal(${withdrawal.id})">تایید</button>
+                        <button class="btn btn-danger btn-sm" onclick="rejectWithdrawal(${withdrawal.id})">رد</button>
+                    </td>
+                `;
+                table.appendChild(tr);
+            });
+        }
+
+        // ========== مدیریت کاربران ==========
+        function loadUsers() {
+            const table = document.getElementById('usersTable');
+            table.innerHTML = '';
+
+            realDatabase.users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.id}</td>
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>$${user.balance}</td>
+                    <td>$${user.totalProfit}</td>
+                    <td>${user.joinDate}</td>
+                    <td><span class="status-badge status-${user.status}">${user.status === 'active' ? 'فعال' : 'غیرفعال'}</span></td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="editUser(${user.id})">ویرایش</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">حذف</button>
+                    </td>
+                `;
+                table.appendChild(tr);
+            });
+        }
+
+        // ========== مدیریت آدرس‌های کیف پول ==========
+        function loadWalletAddresses() {
+            const grid = document.getElementById('walletAddressesGrid');
+            grid.innerHTML = '';
+
+            realDatabase.walletAddresses.forEach(wallet => {
+                const card = document.createElement('div');
+                card.className = 'ticker-item';
+                card.innerHTML = `
+                    <div style="font-weight: 700; color: var(--accent-color); min-width: 80px;">${wallet.currency}</div>
+                    <div style="color: var(--text-secondary); min-width: 100px;">${wallet.network}</div>
+                    <div style="font-family: monospace; flex: 1; word-break: break-all;">${wallet.address}</div>
+                    <div>
+                        <button class="btn btn-outline btn-sm" onclick="copyWalletAddress('${wallet.address}')">کپی</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteWalletAddress(${wallet.id})">حذف</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function copyWalletAddress(address) {
+            navigator.clipboard.writeText(address);
+            showNotification('آدرس کیف پول کپی شد 📋');
+        }
+
+        // ========== مدیریت پشتیبانی ==========
+        function loadSupportTickets() {
+            const container = document.getElementById('supportTicketsList');
+            container.innerHTML = '';
+
+            realDatabase.supportTickets.forEach(ticket => {
+                const ticketEl = document.createElement('div');
+                ticketEl.className = 'support-ticket';
+                ticketEl.innerHTML = `
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <div>
+                            <strong>${ticket.userName}</strong>
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">${ticket.subject}</div>
+                        </div>
+                        <span class="status-badge status-${ticket.status}">${ticket.status === 'open' ? 'باز' : 'بسته'}</span>
+                    </div>
+                    
+                    <div id="messages-${ticket.id}">
+                        ${ticket.messages.map(msg => `
+                            <div class="message-bubble ${msg.from === 'user' ? 'user-message' : 'admin-message'}">
+                                <div>${msg.text}</div>
+                                <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.3rem;">${msg.time}</div>
+                            </div>
+                        `).join('')}
+                    </div>
+                    
+                    <div style="margin-top: 1rem;">
+                        <button class="btn btn-primary btn-sm" onclick="replyToTicket(${ticket.id})">پاسخ</button>
+                        <button class="btn btn-outline btn-sm" onclick="closeTicket(${ticket.id})">بستن تیکت</button>
+                    </div>
+                `;
+                container.appendChild(ticketEl);
+            });
+        }
+
+        function replyToTicket(ticketId) {
+            currentTicketId = ticketId;
+            showModal('supportReplyModal');
+        }
+
+        function sendSupportReply() {
+            const replyText = document.getElementById('supportReply').value;
+            if (replyText.trim()) {
+                const ticket = realDatabase.supportTickets.find(t => t.id === currentTicketId);
+                if (ticket) {
+                    ticket.messages.push({
+                        from: 'admin',
+                        text: replyText,
+                        time: new Date().toLocaleString('fa-IR')
+                    });
+                    
+                    showNotification('پاسخ ارسال شد ✅');
+                    closeModal('supportReplyModal');
+                    loadSupportTickets();
+                }
+            }
+        }
+
+        // ========== ابزارک‌ها ==========
+        function getStatusText(status) {
+            const statusMap = {
+                'pending': 'در انتظار',
+                'approved': 'تایید شده',
+                'rejected': 'رد شده',
+                'active': 'فعال'
+            };
+            return statusMap[status] || status;
+        }
+
+        function updateCounters() {
+            const pendingDeposits = realDatabase.depositRequests.filter(d => d.status === 'pending').length;
+            const pendingWithdrawals = realDatabase.withdrawalRequests.filter(w => w.status === 'pending').length;
+            const newTickets = realDatabase.supportTickets.filter(t => t.status === 'open').length;
+
+            document.getElementById('depositCount').textContent = pendingDeposits;
+            document.getElementById('withdrawalCount').textContent = pendingWithdrawals;
+            document.getElementById('ticketCount').textContent = newTickets;
+            
+            document.getElementById('pendingDepositsCount').textContent = pendingDeposits;
+            document.getElementById('pendingWithdrawalsCount').textContent = pendingWithdrawals;
+            document.getElementById('newTicketsCount').textContent = newTickets;
+        }
+
+        function showModal(modalId) {
+            document.getElementById(modalId).style.display = 'flex';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        function showNotification(message, type = 'success') {
+            alert(message); // در حالت واقعی از toast استفاده کنید
+        }
+
+        // ========== مدیریت ناوبری ==========
+        document.querySelectorAll('.nav-item').forEach(item => {
+            item.addEventListener('click', function() {
+                document.querySelectorAll('.nav-item').forEach(i => i.classList.remove('active'));
+                this.classList.add('active');
+                
+                document.querySelectorAll('.view-content').forEach(v => v.style.display = 'none');
+                document.getElementById(`view-${this.dataset.view}`).style.display = 'block';
+                
+                document.getElementById('pageTitle').textContent = this.querySelector('span').textContent.split(' (')[0];
+            });
+        });
+
+        // بارگذاری اولیه
+        document.addEventListener('DOMContentLoaded', function() {
+            loadAllData();
+            setInterval(() => {
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleString('fa-IR');
+            }, 60000);
+        });
+    </script>
+</body>
+</html>

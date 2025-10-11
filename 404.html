@@ -1,0 +1,432 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>صفحه پیدا نشد | بایننس پلاس</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a0b0d;
+            --secondary-bg: #111318;
+            --accent-color: #f0b90b;
+            --accent-hover: #f8d33a;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --card-bg: #161a1e;
+            --gradient-gold: linear-gradient(135deg, #f0b90b 0%, #f8d33a 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            line-height: 1.6;
+        }
+
+        .error-container {
+            text-align: center;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+        }
+
+        .error-icon {
+            font-size: 8rem;
+            color: var(--accent-color);
+            margin-bottom: 1.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .error-code {
+            font-size: 6rem;
+            font-weight: 900;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 0.5rem;
+            line-height: 1;
+        }
+
+        .error-title {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .error-message {
+            font-size: 1.1rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+            margin-bottom: 3rem;
+        }
+
+        .btn {
+            padding: 0.8rem 1.5rem;
+            border-radius: 10px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            border: none;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: #000;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(240, 185, 11, 0.3);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background: rgba(240, 185, 11, 0.1);
+            transform: translateY(-2px);
+        }
+
+        .quick-links {
+            background: var(--card-bg);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            margin-top: 2rem;
+        }
+
+        .quick-links-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .links-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 0.8rem;
+        }
+
+        .link-item {
+            color: var(--text-secondary);
+            text-decoration: none;
+            padding: 0.6rem 1rem;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 0.9rem;
+        }
+
+        .link-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-primary);
+        }
+
+        .link-item i {
+            color: var(--accent-color);
+            width: 16px;
+        }
+
+        .support-info {
+            margin-top: 2rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .support-text {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .support-contact {
+            color: var(--accent-color);
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-10px); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.8s ease;
+        }
+
+        /* رسپانسیو */
+        @media (max-width: 768px) {
+            .error-icon {
+                font-size: 6rem;
+            }
+            
+            .error-code {
+                font-size: 4rem;
+            }
+            
+            .error-title {
+                font-size: 1.5rem;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+                align-items: center;
+            }
+            
+            .btn {
+                width: 100%;
+                max-width: 250px;
+                justify-content: center;
+            }
+            
+            .links-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .error-container {
+                padding: 1rem;
+            }
+            
+            .error-icon {
+                font-size: 4rem;
+            }
+            
+            .error-code {
+                font-size: 3rem;
+            }
+        }
+
+        /* استایل برای حالت تاریک */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        .particle {
+            position: absolute;
+            background: var(--accent-color);
+            border-radius: 50%;
+            opacity: 0.1;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        @keyframes sparkle {
+            0%, 100% { opacity: 0; transform: scale(0); }
+            50% { opacity: 1; transform: scale(1); }
+        }
+    </style>
+</head>
+<body>
+    <!-- ذرات متحرک در پس‌زمینه -->
+    <div class="particles" id="particles"></div>
+
+    <div class="error-container fade-in">
+        <!-- آیکون خطا -->
+        <div class="error-icon">
+            <i class="fas fa-exclamation-triangle"></i>
+        </div>
+
+        <!-- کد خطا -->
+        <div class="error-code">404</div>
+
+        <!-- عنوان خطا -->
+        <h1 class="error-title">صفحه مورد نظر پیدا نشد</h1>
+
+        <!-- پیام خطا -->
+        <p class="error-message">
+            متأسفانه صفحه‌ای که به دنبال آن هستید وجود ندارد، حذف شده یا آدرس آن تغییر کرده است.
+        </p>
+
+        <!-- دکمه‌های اقدام -->
+        <div class="action-buttons">
+            <a href="/" class="btn btn-primary">
+                <i class="fas fa-home"></i>
+                بازگشت به خانه
+            </a>
+            <a href="/dashboard" class="btn btn-outline">
+                <i class="fas fa-tachometer-alt"></i>
+                رفتن به داشبورد
+            </a>
+            <button onclick="history.back()" class="btn btn-outline">
+                <i class="fas fa-arrow-right"></i>
+                بازگشت به صفحه قبل
+            </button>
+        </div>
+
+        <!-- لینک‌های سریع -->
+        <div class="quick-links">
+            <div class="quick-links-title">دسترسی سریع</div>
+            <div class="links-grid">
+                <a href="/login" class="link-item">
+                    <i class="fas fa-sign-in-alt"></i>
+                    ورود به سیستم
+                </a>
+                <a href="/dashboard" class="link-item">
+                    <i class="fas fa-wallet"></i>
+                    کیف پول من
+                </a>
+                <a href="/admin" class="link-item">
+                    <i class="fas fa-cog"></i>
+                    پنل مدیریت
+                </a>
+                <a href="/#investment-plans" class="link-item">
+                    <i class="fas fa-gem"></i>
+                    طرح‌های سرمایه‌گذاری
+                </a>
+            </div>
+        </div>
+
+        <!-- اطلاعات پشتیبانی -->
+        <div class="support-info">
+            <p class="support-text">اگر فکر می‌کنید این یک خطاست، با پشتیبانی تماس بگیرید:</p>
+            <a href="mailto:support@binanceplus.com" class="support-contact">
+                <i class="fas fa-envelope"></i>
+                support@binanceplus.com
+            </a>
+        </div>
+    </div>
+
+    <script>
+        // ایجاد ذرات متحرک
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 15;
+
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                
+                // موقعیت تصادفی
+                const size = Math.random() * 4 + 1;
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                const delay = Math.random() * 5;
+                const duration = Math.random() * 10 + 5;
+                
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                particle.style.animationDelay = `${delay}s`;
+                particle.style.animationDuration = `${duration}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+
+        // شمارنده برای بازگشت خودکار
+        function startCountdown() {
+            let countdown = 10;
+            const countdownElement = document.createElement('div');
+            countdownElement.style.cssText = `
+                position: fixed;
+                bottom: 20px;
+                left: 20px;
+                background: rgba(255,255,255,0.1);
+                padding: 0.5rem 1rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                color: var(--text-secondary);
+                backdrop-filter: blur(10px);
+            `;
+            document.body.appendChild(countdownElement);
+
+            const timer = setInterval(() => {
+                countdownElement.innerHTML = `📦 بازگشت خودکار به صفحه اصلی در ${countdown} ثانیه...`;
+                countdown--;
+
+                if (countdown < 0) {
+                    clearInterval(timer);
+                    window.location.href = '/';
+                }
+            }, 1000);
+        }
+
+        // بررسی آدرس و پیشنهاد صفحات مرتبط
+        function suggestPages() {
+            const path = window.location.pathname;
+            console.log('صفحه درخواستی:', path);
+            
+            // می‌توانید اینجا منطق پیشنهاد صفحات مشابه را اضافه کنید
+        }
+
+        // راه‌اندازی وقتی صفحه لود شد
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            suggestPages();
+            
+            // شروع شمارنده (اختیاری)
+            // startCountdown();
+            
+            // انیمیشن برای المان‌ها
+            const elements = document.querySelectorAll('.fade-in');
+            elements.forEach((el, index) => {
+                el.style.animationDelay = `${index * 0.1}s`;
+            });
+        });
+
+        // مدیریت کلیک خارجی
+        document.addEventListener('click', function(e) {
+            if (e.target === document.body) {
+                window.location.href = '/';
+            }
+        });
+
+        // مدیریت کلیدهای صفحه کلید
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                window.location.href = '/';
+            }
+            if (e.key === 'F5') {
+                location.reload();
+            }
+        });
+    </script>
+</body>
+</html>
