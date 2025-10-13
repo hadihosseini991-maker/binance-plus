@@ -1,0 +1,1350 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>بایننس پلاس | Binance Plus</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.4/css/flag-icons.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #0a0b0d;
+            --secondary-bg: #111318;
+            --accent-color: #f0b90b;
+            --accent-hover: #f8d33a;
+            --text-primary: #ffffff;
+            --text-secondary: #94a3b8;
+            --success-color: #00c087;
+            --danger-color: #f6465d;
+            --card-bg: #161a1e;
+            --gradient-gold: linear-gradient(135deg, #f0b90b 0%, #f8d33a 100%);
+            --gradient-dark: linear-gradient(135deg, #0a0b0d 0%, #111318 100%);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        html, body {
+            background: var(--primary-bg);
+            color: var(--text-primary);
+            line-height: 1.5;
+            overflow-x: hidden;
+            -webkit-font-smoothing: antialiased;
+            width: 100%;
+            min-height: 100vh;
+        }
+
+        /* استایل نوار اسکرول */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: var(--secondary-bg);
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 3px;
+        }
+
+        /* هدر اصلی - چسبیده به بالا */
+        .main-header {
+            background: rgba(10, 11, 13, 0.98);
+            backdrop-filter: blur(20px);
+            padding: 0.8rem 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(240, 185, 11, 0.1);
+            width: 100%;
+        }
+
+        .header-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+        }
+
+        .logo-icon {
+            width: 40px;
+            height: 40px;
+            background: var(--gradient-gold);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            color: #000;
+            font-size: 18px;
+            box-shadow: 0 4px 20px rgba(240, 185, 11, 0.3);
+        }
+
+        .logo-text {
+            font-size: 1.4rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, var(--accent-color) 0%, #ffffff 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .header-controls {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* تابلو قیمت روان زیر هدر - بهبود یافته برای موبایل */
+        .ticker-section {
+            background: var(--secondary-bg);
+            padding: 0.5rem 0;
+            overflow: hidden;
+            position: relative;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: 60px;
+            width: 100%;
+        }
+
+        .ticker-wrapper {
+            display: flex;
+            width: max-content;
+            animation: tickerScroll 60s linear infinite;
+        }
+
+        .ticker-container {
+            display: flex;
+        }
+
+        .ticker-item {
+            display: flex;
+            align-items: center;
+            padding: 0.3rem 1.5rem;
+            white-space: nowrap;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.85rem;
+            font-weight: 600;
+            flex-shrink: 0;
+        }
+
+        .ticker-symbol {
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .positive {
+            color: var(--success-color);
+        }
+
+        .negative {
+            color: var(--danger-color);
+        }
+
+        /* دکمه‌ها */
+        .btn {
+            padding: 0.6rem 1.2rem;
+            border-radius: 10px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.8rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+
+        .btn-primary {
+            background: var(--gradient-gold);
+            color: #000;
+            box-shadow: 0 3px 15px rgba(240, 185, 11, 0.3);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(240, 185, 11, 0.4);
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .btn-outline:hover {
+            background: rgba(240, 185, 11, 0.1);
+            transform: translateY(-2px);
+        }
+
+        @keyframes tickerScroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        /* هیرو سکشن - ارتفاع کمتر شده */
+        .hero-section {
+            min-height: 40vh;
+            background: var(--gradient-dark);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            padding: 2rem 1.5rem;
+            margin-top: 0; /* حذف فاصله با تابلو روان */
+        }
+
+        .hero-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(240, 185, 11, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(240, 185, 11, 0.05) 0%, transparent 50%);
+        }
+
+        .hero-content {
+            max-width: 800px;
+            z-index: 2;
+            position: relative;
+        }
+
+        .hero-title {
+            font-size: 2.5rem;
+            font-weight: 900;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            line-height: 1.1;
+        }
+
+        .hero-subtitle {
+            font-size: 1rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.2rem;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        .hero-stats {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin: 1.2rem 0;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: var(--accent-color);
+            margin-bottom: 0.3rem;
+        }
+
+        .stat-label {
+            color: var(--text-secondary);
+            font-weight: 600;
+            font-size: 0.75rem;
+        }
+
+        /* سکشن معرفی دوستان */
+        .referral-section {
+            padding: 3rem 1.5rem;
+            background: var(--secondary-bg);
+        }
+
+        .section-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .referral-container {
+            background: linear-gradient(135deg, var(--card-bg) 0%, #1a1d23 100%);
+            border-radius: 15px;
+            padding: 2rem;
+            border: 1px solid rgba(240, 185, 11, 0.2);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.2);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .referral-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: var(--gradient-gold);
+        }
+
+        .referral-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .referral-title {
+            font-size: 1.6rem;
+            font-weight: 800;
+            margin-bottom: 0.5rem;
+            color: var(--accent-color);
+        }
+
+        .referral-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        .referral-content {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 1.5rem;
+            align-items: center;
+        }
+
+        .referral-steps {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+        }
+
+        .referral-step {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            border-radius: 10px;
+            text-align: center;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: transform 0.3s ease;
+        }
+
+        .referral-step:hover {
+            transform: translateY(-3px);
+            border-color: var(--accent-color);
+        }
+
+        .step-number {
+            width: 35px;
+            height: 35px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #000;
+            margin: 0 auto 0.6rem;
+        }
+
+        .step-text {
+            color: var(--text-primary);
+            font-weight: 600;
+            line-height: 1.4;
+            font-size: 0.8rem;
+        }
+
+        .referral-bonus-section {
+            text-align: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.5rem;
+            border-radius: 10px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .referral-bonus {
+            font-size: 2rem;
+            font-weight: 900;
+            color: var(--success-color);
+            margin-bottom: 1rem;
+        }
+
+        /* سکشن طرح‌های سرمایه‌گذاری - طراحی جدید */
+        .investment-section {
+            padding: 3rem 1.5rem;
+            background: var(--primary-bg);
+        }
+
+        .section-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .section-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .plans-grid {
+            display: grid;
+            grid-template-columns: repeat(6, 1fr);
+            gap: 1rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .plan-card {
+            background: linear-gradient(145deg, #1a1d23, var(--card-bg));
+            border-radius: 10px;
+            padding: 1.2rem 0.8rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 260px;
+        }
+
+        .plan-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: var(--gradient-gold);
+        }
+
+        .plan-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+            border-color: var(--accent-color);
+        }
+
+        .plan-icon {
+            font-size: 1.5rem;
+            margin-bottom: 0.6rem;
+            color: var(--accent-color);
+        }
+
+        .plan-name {
+            font-size: 1rem;
+            font-weight: 800;
+            margin-bottom: 0.4rem;
+            color: var(--text-primary);
+        }
+
+        .plan-profit {
+            font-size: 1.4rem;
+            font-weight: 900;
+            margin: 0.6rem 0;
+            background: var(--gradient-gold);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .plan-desc {
+            color: var(--text-secondary);
+            margin-bottom: 0.6rem;
+            font-size: 0.7rem;
+            font-weight: 500;
+        }
+
+        .plan-minimum {
+            font-size: 0.75rem;
+            color: var(--accent-color);
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        /* طرح VIP ویژه */
+        .vip-plan {
+            border: 2px solid var(--accent-color);
+            position: relative;
+        }
+
+        .vip-badge {
+            position: absolute;
+            top: -8px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: var(--gradient-gold);
+            color: #000;
+            padding: 0.3rem 1rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.65rem;
+            box-shadow: 0 2px 8px rgba(240, 185, 11, 0.4);
+        }
+
+        /* سکشن مزایا - طراحی جدید */
+        .features-section {
+            padding: 3rem 1.5rem;
+            background: var(--secondary-bg);
+        }
+
+        .features-title {
+            text-align: center;
+            font-size: 2.2rem;
+            font-weight: 800;
+            margin-bottom: 0.6rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .features-subtitle {
+            text-align: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            padding: 1.8rem 1.2rem;
+            border-radius: 10px;
+            text-align: center;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-color);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+        }
+
+        .feature-icon {
+            font-size: 2.2rem;
+            margin-bottom: 1.2rem;
+            color: var(--accent-color);
+        }
+
+        .feature-title {
+            font-size: 1.2rem;
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: var(--text-primary);
+        }
+
+        .feature-desc {
+            color: var(--text-secondary);
+            line-height: 1.5;
+            font-size: 0.85rem;
+            flex-grow: 1;
+        }
+
+        /* سکشن CTA */
+        .cta-section {
+            padding: 3rem 1.5rem;
+            background: var(--gradient-dark);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .cta-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center, rgba(240, 185, 11, 0.1) 0%, transparent 70%);
+        }
+
+        .cta-title {
+            font-size: 1.8rem;
+            font-weight: 800;
+            margin-bottom: 0.8rem;
+            background: linear-gradient(135deg, #ffffff 0%, var(--accent-color) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .cta-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* تابلو کاربران روان پایین سایت */
+        .users-ticker-section {
+            background: var(--secondary-bg);
+            padding: 0.4rem 0;
+            overflow: hidden;
+            position: relative;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .users-ticker {
+            display: flex;
+            animation: tickerScroll 40s linear infinite;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            padding: 0.3rem 1rem;
+            white-space: nowrap;
+            border-left: 1px solid rgba(255, 255, 255, 0.1);
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: var(--success-color);
+            flex-shrink: 0;
+        }
+
+        /* استیکر پشتیبانی */
+        .support-floating {
+            position: fixed;
+            bottom: 1.5rem;
+            left: 1.5rem;
+            z-index: 1000;
+        }
+
+        .support-btn {
+            width: 50px;
+            height: 50px;
+            background: var(--gradient-gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #000;
+            font-size: 1.2rem;
+            box-shadow: 0 5px 20px rgba(240, 185, 11, 0.4);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .support-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(240, 185, 11, 0.6);
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-5px); }
+        }
+
+        /* فوتر */
+        .main-footer {
+            background: var(--secondary-bg);
+            padding: 2.5rem 1.5rem 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1.5rem;
+        }
+
+        .footer-section h3 {
+            font-size: 1rem;
+            margin-bottom: 0.8rem;
+            color: var(--accent-color);
+            font-weight: 700;
+        }
+
+        .footer-links {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 0.5rem;
+        }
+
+        .footer-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color 0.3s ease;
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        .footer-links a:hover {
+            color: var(--accent-color);
+        }
+
+        .contact-info {
+            list-style: none;
+        }
+
+        .contact-info li {
+            margin-bottom: 0.5rem;
+            color: var(--text-secondary);
+            font-size: 0.75rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 1.5rem auto 0;
+            padding-top: 1.2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            text-align: center;
+            color: var(--text-secondary);
+            font-weight: 500;
+            font-size: 0.75rem;
+        }
+
+        /* رسپانسیو - بهبود برای موبایل */
+        @media (max-width: 1200px) {
+            .plans-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .plans-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            .referral-content {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .main-header {
+                padding: 0.6rem 0;
+            }
+
+            .hero-title {
+                font-size: 2rem;
+            }
+
+            .hero-section {
+                min-height: 35vh;
+                padding: 1.5rem 1rem;
+            }
+
+            .section-title, .features-title {
+                font-size: 1.8rem;
+            }
+
+            .plans-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .features-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-title {
+                font-size: 1.6rem;
+            }
+
+            .referral-container {
+                padding: 1.5rem;
+            }
+
+            .referral-title {
+                font-size: 1.4rem;
+            }
+
+            .referral-steps {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+            }
+
+            .footer-content {
+                grid-template-columns: 1fr;
+            }
+
+            /* بهبود تابلوهای روان در موبایل */
+            .ticker-item {
+                padding: 0.3rem 1rem;
+                font-size: 0.75rem;
+            }
+
+            .user-item {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .hero-title {
+                font-size: 1.6rem;
+            }
+
+            .plan-card {
+                padding: 1rem 0.8rem;
+                min-height: 240px;
+            }
+
+            .support-floating {
+                left: 1rem;
+                bottom: 1rem;
+            }
+
+            .referral-container {
+                padding: 1.2rem;
+            }
+
+            .section-title, .features-title {
+                font-size: 1.5rem;
+            }
+
+            /* بهبود بیشتر تابلوهای روان در موبایل کوچک */
+            .ticker-item {
+                padding: 0.3rem 0.8rem;
+                font-size: 0.7rem;
+            }
+
+            .user-item {
+                padding: 0.3rem 0.6rem;
+                font-size: 0.7rem;
+            }
+        }
+
+        /* تضمین نمایش تابلوهای روان در همه دستگاه‌ها */
+        .ticker-section,
+        .users-ticker-section {
+            display: block !important;
+            visibility: visible !important;
+            opacity: 1 !important;
+        }
+    </style>
+</head>
+<body>
+    <!-- هدر اصلی -->
+    <header class="main-header">
+        <div class="header-container">
+            <div class="logo-section">
+                <div class="logo-icon">₿</div>
+                <div class="logo-text">Binance Plus</div>
+            </div>
+            
+            <div class="header-controls">
+                <button class="btn btn-outline" id="loginBtn">ورود</button>
+                <button class="btn btn-primary" id="signupBtn">
+                    <i class="fas fa-rocket"></i>
+                    شروع کنید
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- تابلو قیمت روان زیر هدر - بهبود یافته -->
+    <div class="ticker-section">
+        <div class="ticker-wrapper" id="priceTickerWrapper">
+            <!-- قیمت‌ها با JavaScript پر می‌شوند -->
+        </div>
+    </div>
+
+    <!-- سکشن اصلی هیرو - ارتفاع کمتر شده -->
+    <section class="hero-section">
+        <div class="hero-content">
+            <h1 class="hero-title">سرمایه‌گذاری هوشمند در دنیای کریپتو</h1>
+            <p class="hero-subtitle">
+                با پلتفرم پیشرفته بایننس پلاس، روزانه سود تضمینی دریافت کنید. بیش از ۱۰,۰۰۰ سرمایه‌گذار موفق به ما اعتماد کرده‌اند.
+            </p>
+            
+            <div class="hero-stats">
+                <div class="stat-item">
+                    <div class="stat-number">۱۰,۰۰۰+</div>
+                    <div class="stat-label">کاربر فعال</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$۵۰M+</div>
+                    <div class="stat-label">دارایی تحت مدیریت</div>
+                </div>
+                <div class="stat-item">
+                    <div class="stat-number">$۲.۵M+</div>
+                    <div class="stat-label">سود پرداختی</div>
+                </div>
+            </div>
+
+            <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
+                <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.2rem; font-size: 0.85rem;">
+                    <i class="fas fa-gem"></i>
+                    شروع سرمایه‌گذاری
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- سکشن معرفی دوستان -->
+    <section class="referral-section">
+        <div class="section-container">
+            <div class="referral-container">
+                <div class="referral-header">
+                    <h2 class="referral-title">Invite Friends & Earn $50</h2>
+                    <p class="referral-subtitle">Share your referral link and earn $50 for every friend who joins and invests</p>
+                </div>
+                
+                <div class="referral-content">
+                    <div class="referral-steps">
+                        <div class="referral-step">
+                            <div class="step-number">1</div>
+                            <div class="step-text">Share your unique referral link with friends</div>
+                        </div>
+                        <div class="referral-step">
+                            <div class="step-number">2</div>
+                            <div class="step-text">Your friend signs up and makes their first investment</div>
+                        </div>
+                        <div class="referral-step">
+                            <div class="step-number">3</div>
+                            <div class="step-text">Receive $50 bonus directly to your account</div>
+                        </div>
+                    </div>
+
+                    <div class="referral-bonus-section">
+                        <div class="referral-bonus">$50 Bonus</div>
+                        <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.2rem; font-size: 0.85rem; width: 100%;">
+                            Get Your Referral Link
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- سکشن طرح‌های سرمایه‌گذاری - طراحی جدید -->
+    <section class="investment-section">
+        <div class="section-container">
+            <h2 class="section-title">طرح‌های سرمایه‌گذاری ویژه</h2>
+            <p class="section-subtitle">
+                با انتخاب هر یک از طرح‌های زیر، روزانه سود تضمینی دریافت کنید
+            </p>
+
+            <div class="plans-grid">
+                <!-- طرح Bronze -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="plan-name">برنز</h3>
+                    <div class="plan-profit">$۳۰</div>
+                    <p class="plan-desc">سود تضمینی روزانه</p>
+                    <div class="plan-minimum">حداقل سرمایه: $۳۰۰</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
+                        شروع سرمایه‌گذاری
+                    </button>
+                </div>
+
+                <!-- طرح Silver -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-award"></i>
+                    </div>
+                    <h3 class="plan-name">نقره‌ای</h3>
+                    <div class="plan-profit">$۷۰</div>
+                    <p class="plan-desc">سود تضمینی روزانه</p>
+                    <div class="plan-minimum">حداقل سرمایه: $۵۰۰</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
+                        شروع سرمایه‌گذاری
+                    </button>
+                </div>
+
+                <!-- طرح Gold -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-crown"></i>
+                    </div>
+                    <h3 class="plan-name">طلایی</h3>
+                    <div class="plan-profit">$۱۵۰</div>
+                    <p class="plan-desc">سود تضمینی روزانه</p>
+                    <div class="plan-minimum">حداقل سرمایه: $۱,۰۰۰</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
+                        شروع سرمایه‌گذاری
+                    </button>
+                </div>
+
+                <!-- طرح Platinum -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-star"></i>
+                    </div>
+                    <h3 class="plan-name">پلاتینیوم</h3>
+                    <div class="plan-profit">$۴۰۰</div>
+                    <p class="plan-desc">سود تضمینی روزانه</p>
+                    <div class="plan-minimum">حداقل سرمایه: $۲,۰۰۰</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
+                        شروع سرمایه‌گذاری
+                    </button>
+                </div>
+
+                <!-- طرح Diamond -->
+                <div class="plan-card">
+                    <div class="plan-icon">
+                        <i class="fas fa-rocket"></i>
+                    </div>
+                    <h3 class="plan-name">الماس</h3>
+                    <div class="plan-profit">$۹۰۰</div>
+                    <p class="plan-desc">سود تضمینی روزانه</p>
+                    <div class="plan-minimum">حداقل سرمایه: $۴,۰۰۰</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
+                        شروع سرمایه‌گذاری
+                    </button>
+                </div>
+
+                <!-- طرح VIP -->
+                <div class="plan-card vip-plan">
+                    <div class="vip-badge">VIP</div>
+                    <div class="plan-icon">
+                        <i class="fas fa-gem"></i>
+                    </div>
+                    <h3 class="plan-name">ویژه</h3>
+                    <div class="plan-profit">$۲,۰۰۰</div>
+                    <p class="plan-desc">سود تضمینی روزانه</p>
+                    <div class="plan-minimum">حداقل سرمایه: $۸,۰۰۰</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
+                        شروع سرمایه‌گذاری
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- سکشن مزایا - طراحی جدید -->
+    <section class="features-section">
+        <div class="section-container">
+            <h2 class="features-title">چرا بایننس پلاس؟</h2>
+            <p class="features-subtitle">
+                با انتخاب ما، از مزایای منحصر به فرد پلتفرم پیشرفته بهره‌مند شوید
+            </p>
+
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <h3 class="feature-title">امنیت پیشرفته</h3>
+                    <p class="feature-desc">
+                        با استفاده از رمزنگاری چندلایه و سیستم‌های نظارتی پیشرفته، دارایی‌های شما در امن‌ترین محیط ممکن محافظت می‌شوند. ما از فناوری‌های امنیتی برتر صنعت استفاده می‌کنیم.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <h3 class="feature-title">سود تضمینی روزانه</h3>
+                    <p class="feature-desc">
+                        با الگوریتم‌های هوشمند سرمایه‌گذاری، روزانه سود تضمینی دریافت کنید. عملکرد شفاف و گزارش‌گیری لحظه‌ای در تمام مراحل سرمایه‌گذاری در دسترس شماست.
+                    </p>
+                </div>
+
+                <div class="feature-card">
+                    <div class="feature-icon">
+                        <i class="fas fa-headset"></i>
+                    </div>
+                    <h3 class="feature-title">پشتیبانی اختصاصی</h3>
+                    <p class="feature-desc">
+                        تیم پشتیبانی حرفه‌ای ما به صورت ۲۴ ساعته در ۷ روز هفته آماده پاسخگویی به سوالات و حل مشکلات شماست. هر سرمایه‌گذار یک مدیر اختصاصی دارد.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- سکشن CTA -->
+    <section class="cta-section">
+        <div class="section-container">
+            <h2 class="cta-title">همین حالا سرمایه‌گذاری را شروع کنید</h2>
+            <p class="cta-subtitle">
+                فرصت را از دست ندهید! به جامعه هزاران سرمایه‌گذار موفق بپیوندید 
+                و از سود روزانه تضمینی بهره‌مند شوید.
+            </p>
+            <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.5rem; font-size: 0.85rem;">
+                <i class="fas fa-rocket"></i>
+                شروع سرمایه‌گذاری
+            </button>
+        </div>
+    </section>
+
+    <!-- تابلو کاربران روان پایین سایت -->
+    <div class="users-ticker-section">
+        <div class="ticker-wrapper" id="usersTickerWrapper">
+            <!-- کاربران با JavaScript پر می‌شوند -->
+        </div>
+    </div>
+
+    <!-- استیکر پشتیبانی -->
+    <div class="support-floating">
+        <div class="support-btn">
+            <i class="fas fa-headset"></i>
+        </div>
+    </div>
+
+    <!-- فوتر کامل -->
+    <footer class="main-footer">
+        <div class="section-container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Useful Links</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Markets</a></li>
+                        <li><a href="#">Investment</a></li>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Support</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Services</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Spot Trading</a></li>
+                        <li><a href="#">Futures Trading</a></li>
+                        <li><a href="#">Staking</a></li>
+                        <li><a href="#">Lending</a></li>
+                        <li><a href="#">NFT</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <ul class="footer-links">
+                        <li><a href="#">Terms of Use</a></li>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">FAQ</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h3>Contact Us</h3>
+                    <ul class="contact-info">
+                        <li><i class="fas fa-envelope"></i> support@binanceplus.com</li>
+                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
+                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>© 2023 Binance Plus. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // API Keys Configuration
+        const API_KEYS = {
+            // Main API Keys
+            MAIN_API: 'binance_plus_main_key_2024',
+            DATABASE_API: 'db_binance_plus_secure_2024',
+            
+            // Third Party Services
+            GOOGLE_MAPS: 'AIzaSyBinancePlusGoogleMapsKey',
+            STRIPE_PUBLISHABLE: 'pk_live_binancePlusStripeKey2024',
+            SENDGRID: 'SG.binancePlusSendGridAPI2024',
+            
+            // Authentication
+            AUTH_SECRET: 'binance_plus_auth_secret_2024_key',
+            JWT_SECRET: 'binance_plus_jwt_secret_key_2024'
+        };
+
+        // Redirect to login/register pages
+        function redirectToAuthPage() {
+            window.location.href = 'login.html';
+        }
+
+        // Initialize auth redirects for all buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Login button
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', function() {
+                    redirectToAuthPage();
+                });
+            }
+            
+            // Signup button
+            const signupBtn = document.getElementById('signupBtn');
+            if (signupBtn) {
+                signupBtn.addEventListener('click', function() {
+                    redirectToAuthPage();
+                });
+            }
+            
+            // All auth buttons
+            const authButtons = document.querySelectorAll('.auth-btn');
+            authButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    redirectToAuthPage();
+                });
+            });
+        });
+
+        // داده‌های تابلو قیمت - تعداد بیشتر شده
+        const priceData = [
+            { symbol: "BTC", price: "$۴۳,۲۱۵", change: "+۲.۳۴%", isPositive: true },
+            { symbol: "ETH", price: "$۲,۵۸۰", change: "+۱.۸۷%", isPositive: true },
+            { symbol: "BNB", price: "$۳۱۰", change: "-۰.۵۶%", isPositive: false },
+            { symbol: "XRP", price: "$۰.۵۸", change: "+۰.۲۳%", isPositive: true },
+            { symbol: "ADA", price: "$۰.۴۲", change: "-۱.۲۵%", isPositive: false },
+            { symbol: "SOL", price: "$۹۸", change: "+۳.۴۵%", isPositive: true },
+            { symbol: "DOT", price: "$۶.۸۹", change: "+۰.۷۸%", isPositive: true },
+            { symbol: "DOGE", price: "$۰.۰۸", change: "-۰.۳۴%", isPositive: false },
+            { symbol: "MATIC", price: "$۰.۷۵", change: "+۱.۱۲%", isPositive: true },
+            { symbol: "LTC", price: "$۶۸", change: "+۰.۴۵%", isPositive: true },
+            { symbol: "AVAX", price: "$۲۱", change: "-۰.۸۹%", isPositive: false },
+            { symbol: "LINK", price: "$۱۴.۵۰", change: "+۲.۱۰%", isPositive: true },
+            { symbol: "ATOM", price: "$۹.۲۵", change: "+۰.۶۷%", isPositive: true },
+            { symbol: "UNI", price: "$۵.۸۰", change: "-۱.۳۴%", isPositive: false },
+            { symbol: "XLM", price: "$۰.۱۲", change: "+۰.۲۳%", isPositive: true }
+        ];
+
+        // داده‌های تابلو کاربران
+        const usersData = [
+            { name: "محمد ر.", profit: "+$۱,۲۵۰" },
+            { name: "سارا م.", profit: "+$۸۵۰" },
+            { name: "علی ک.", profit: "+$۲,۱۰۰" },
+            { name: "فاطمه و.", profit: "+$۱,۷۵۰" },
+            { name: "احمد ت.", profit: "+$۳,۲۰۰" },
+            { name: "زهرا ر.", profit: "+$۹۵۰" },
+            { name: "مهدی ل.", profit: "+$۱,۵۰۰" },
+            { name: "نرگس ب.", profit: "+$۲,۸۰۰" },
+            { name: "رضا س.", profit: "+$۱,۱۰۰" },
+            { name: "نازنین ف.", profit: "+$۲,۴۰۰" },
+            { name: "حسین م.", profit: "+$۳,۵۰۰" },
+            { name: "لیلا ک.", profit: "+$۱,۸۰۰" }
+        ];
+
+        // تابع برای ایجاد تابلو روان پیوسته
+        function createContinuousTicker() {
+            // ایجاد تابلو قیمت
+            const priceTickerWrapper = document.getElementById('priceTickerWrapper');
+            priceTickerWrapper.innerHTML = '';
+            
+            // ایجاد دو کپی از داده‌ها برای انیمیشن روان و پیوسته
+            for (let i = 0; i < 2; i++) {
+                priceData.forEach(coin => {
+                    const tickerItem = document.createElement('div');
+                    tickerItem.className = 'ticker-item';
+                    tickerItem.innerHTML = `
+                        <span class="ticker-symbol">${coin.symbol}</span>
+                        <span style="margin: 0 0.5rem;">${coin.price}</span>
+                        <span class="${coin.isPositive ? 'positive' : 'negative'}">${coin.change}</span>
+                    `;
+                    priceTickerWrapper.appendChild(tickerItem);
+                });
+            }
+
+            // ایجاد تابلو کاربران
+            const usersTickerWrapper = document.getElementById('usersTickerWrapper');
+            usersTickerWrapper.innerHTML = '';
+            
+            // ایجاد دو کپی از داده‌ها برای انیمیشن روان و پیوسته
+            for (let i = 0; i < 2; i++) {
+                usersData.forEach(user => {
+                    const userItem = document.createElement('div');
+                    userItem.className = 'user-item';
+                    userItem.innerHTML = `
+                        <span>${user.name}</span>
+                        <span style="margin-right: 0.5rem;">${user.profit}</span>
+                    `;
+                    usersTickerWrapper.appendChild(userItem);
+                });
+            }
+        }
+
+        // ایجاد تابلوها هنگام لود صفحه
+        document.addEventListener('DOMContentLoaded', function() {
+            createContinuousTicker();
+            
+            // همچنین بعد از رندر کامل صفحه دوباره ایجاد کن
+            setTimeout(createContinuousTicker, 100);
+        });
+
+        // انیمیشن‌های اسکرول
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, observerOptions);
+
+        // اعمال انیمیشن به المان‌ها
+        document.querySelectorAll('.plan-card, .feature-card, .referral-step').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.5s ease';
+            observer.observe(card);
+        });
+
+        // مدیریت استیکر پشتیبانی
+        document.querySelector('.support-btn').addEventListener('click', function() {
+            alert('پشتیبانی آنلاین: لطفاً با شماره +1 (555) 123-4567 تماس بگیرید');
+        });
+    </script>
+</body>
+</html>
