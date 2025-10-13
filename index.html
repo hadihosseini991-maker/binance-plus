@@ -1,11 +1,18 @@
 <!DOCTYPE html>
-<html lang="fa" dir="rtl">
+<html lang="en" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>بایننس پلاس | Binance Plus</title>
+    <title>Binance Plus | بایننس پلاس</title>
+    
+    <!-- متا تگ‌های SEO -->
+    <meta name="description" content="Smart investment in the crypto world with Binance Plus - Receive guaranteed daily profits">
+    <meta name="keywords" content="Binance, investment, crypto, Bitcoin, daily profit">
+    <meta property="og:title" content="Binance Plus | بایننس پلاس">
+    <meta property="og:description" content="Smart investment in the crypto world">
+    <meta property="og:type" content="website">
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icons/6.6.4/css/flag-icons.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     <style>
         :root {
@@ -27,6 +34,90 @@
             padding: 0;
             box-sizing: border-box;
             font-family: 'Poppins', 'Segoe UI', sans-serif;
+        }
+
+        /* استایل سوئیچر زبان در هدر */
+        .header-language-switcher {
+            position: relative;
+        }
+
+        .header-language-btn {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1.5px solid rgba(255,255,255,0.2);
+            padding: 0.4rem 0.8rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            transition: all 0.3s ease;
+            font-size: 0.75rem;
+        }
+
+        .header-language-btn:hover {
+            border-color: var(--accent-color);
+            background: rgba(240, 185, 11, 0.1);
+        }
+
+        .header-language-dropdown {
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: var(--card-bg);
+            border: 1px solid rgba(255,255,255,0.1);
+            border-radius: 12px;
+            padding: 8px;
+            margin-top: 8px;
+            min-width: 160px;
+            max-height: 300px;
+            overflow-y: auto;
+            display: none;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+            z-index: 1001;
+        }
+
+        .header-language-dropdown.show {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .header-language-option {
+            padding: 8px 12px;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 4px;
+            font-size: 0.75rem;
+        }
+
+        .header-language-option:hover {
+            background: rgba(255,255,255,0.05);
+        }
+
+        .header-language-option.active {
+            background: rgba(240, 185, 11, 0.1);
+            color: var(--accent-color);
+        }
+
+        .language-flag {
+            font-size: 1rem;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* انیمیشن پالس برای لودینگ */
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+            100% { transform: scale(1); opacity: 1; }
         }
 
         html, body {
@@ -111,10 +202,48 @@
         .header-controls {
             display: flex;
             align-items: center;
-            gap: 1rem;
+            gap: 0.7rem;
         }
 
-        /* تابلو قیمت روان زیر هدر - بهبود یافته برای موبایل */
+        /* دکمه‌های هدر - بهینه‌سازی شده */
+        .header-btn {
+            padding: 0.5rem 0.9rem;
+            border-radius: 8px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: none;
+            font-size: 0.75rem;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.3rem;
+            white-space: nowrap;
+        }
+
+        .header-btn-primary {
+            background: var(--gradient-gold);
+            color: #000;
+            box-shadow: 0 2px 10px rgba(240, 185, 11, 0.3);
+        }
+
+        .header-btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(240, 185, 11, 0.4);
+        }
+
+        .header-btn-outline {
+            background: transparent;
+            border: 1.5px solid var(--accent-color);
+            color: var(--accent-color);
+        }
+
+        .header-btn-outline:hover {
+            background: rgba(240, 185, 11, 0.1);
+            transform: translateY(-2px);
+        }
+
+        /* تابلو قیمت روان زیر هدر - بهبود یافته */
         .ticker-section {
             background: var(--secondary-bg);
             padding: 0.5rem 0;
@@ -129,10 +258,6 @@
             display: flex;
             width: max-content;
             animation: tickerScroll 60s linear infinite;
-        }
-
-        .ticker-container {
-            display: flex;
         }
 
         .ticker-item {
@@ -201,7 +326,7 @@
             100% { transform: translateX(-50%); }
         }
 
-        /* هیرو سکشن - ارتفاع کمتر شده */
+        /* هیرو سکشن */
         .hero-section {
             min-height: 40vh;
             background: var(--gradient-dark);
@@ -212,7 +337,7 @@
             position: relative;
             overflow: hidden;
             padding: 2rem 1.5rem;
-            margin-top: 0; /* حذف فاصله با تابلو روان */
+            margin-top: 0;
         }
 
         .hero-section::before {
@@ -386,7 +511,7 @@
             margin-bottom: 1rem;
         }
 
-        /* سکشن طرح‌های سرمایه‌گذاری - طراحی جدید */
+        /* سکشن طرح‌های سرمایه‌گذاری */
         .investment-section {
             padding: 3rem 1.5rem;
             background: var(--primary-bg);
@@ -508,7 +633,7 @@
             box-shadow: 0 2px 8px rgba(240, 185, 11, 0.4);
         }
 
-        /* سکشن مزایا - طراحی جدید */
+        /* سکشن مزایا */
         .features-section {
             padding: 3rem 1.5rem;
             background: var(--secondary-bg);
@@ -745,7 +870,7 @@
             font-size: 0.75rem;
         }
 
-        /* رسپانسیو - بهبود برای موبایل */
+        /* رسپانسیو */
         @media (max-width: 1200px) {
             .plans-grid {
                 grid-template-columns: repeat(3, 1fr);
@@ -818,7 +943,6 @@
                 grid-template-columns: 1fr;
             }
 
-            /* بهبود تابلوهای روان در موبایل */
             .ticker-item {
                 padding: 0.3rem 1rem;
                 font-size: 0.75rem;
@@ -833,6 +957,11 @@
         @media (max-width: 480px) {
             .hero-title {
                 font-size: 1.6rem;
+            }
+
+            .hero-stats {
+                flex-direction: column;
+                gap: 1rem;
             }
 
             .plan-card {
@@ -853,7 +982,15 @@
                 font-size: 1.5rem;
             }
 
-            /* بهبود بیشتر تابلوهای روان در موبایل کوچک */
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .btn {
+                padding: 0.5rem 1rem;
+                font-size: 0.75rem;
+            }
+
             .ticker-item {
                 padding: 0.3rem 0.8rem;
                 font-size: 0.7rem;
@@ -875,58 +1012,90 @@
     </style>
 </head>
 <body>
-    <!-- هدر اصلی -->
+    <!-- صفحه لودینگ -->
+    <div id="loadingScreen" style="
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--primary-bg);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 9999;
+        transition: opacity 0.5s ease;
+    ">
+        <div style="text-align: center;">
+            <div class="logo-icon" style="margin: 0 auto 1rem; animation: pulse 1.5s infinite;">₿</div>
+            <div class="logo-text">Binance Plus</div>
+        </div>
+    </div>
+
+    <!-- هدر اصلی با دکمه‌های مرتب -->
     <header class="main-header">
         <div class="header-container">
             <div class="logo-section">
                 <div class="logo-icon">₿</div>
-                <div class="logo-text">Binance Plus</div>
+                <div class="logo-text" data-i18n="site.title">Binance Plus</div>
             </div>
             
             <div class="header-controls">
-                <button class="btn btn-outline" id="loginBtn">ورود</button>
-                <button class="btn btn-primary" id="signupBtn">
+                <!-- سوئیچر زبان در هدر -->
+                <div class="header-language-switcher">
+                    <button class="header-language-btn" id="headerLanguageToggle">
+                        <span class="language-flag" id="headerCurrentFlag">🇺🇸</span>
+                        <span id="headerCurrentLanguage">English</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </button>
+                    <div class="header-language-dropdown" id="headerLanguageDropdown">
+                        <!-- گزینه‌های زبان با JavaScript پر می‌شوند -->
+                    </div>
+                </div>
+                
+                <button class="header-btn header-btn-outline" id="loginBtn" data-i18n="header.login">Login</button>
+                <button class="header-btn header-btn-primary" id="signupBtn" data-i18n="header.signup">
                     <i class="fas fa-rocket"></i>
-                    شروع کنید
+                    <span data-i18n="header.getStarted">Get Started</span>
                 </button>
             </div>
         </div>
     </header>
 
-    <!-- تابلو قیمت روان زیر هدر - بهبود یافته -->
+    <!-- تابلو قیمت روان زیر هدر -->
     <div class="ticker-section">
         <div class="ticker-wrapper" id="priceTickerWrapper">
             <!-- قیمت‌ها با JavaScript پر می‌شوند -->
         </div>
     </div>
 
-    <!-- سکشن اصلی هیرو - ارتفاع کمتر شده -->
+    <!-- سکشن اصلی هیرو -->
     <section class="hero-section">
         <div class="hero-content">
-            <h1 class="hero-title">سرمایه‌گذاری هوشمند در دنیای کریپتو</h1>
-            <p class="hero-subtitle">
-                با پلتفرم پیشرفته بایننس پلاس، روزانه سود تضمینی دریافت کنید. بیش از ۱۰,۰۰۰ سرمایه‌گذار موفق به ما اعتماد کرده‌اند.
+            <h1 class="hero-title" data-i18n="hero.title">Smart Investment in Crypto World</h1>
+            <p class="hero-subtitle" data-i18n="hero.subtitle">
+                With Binance Plus advanced platform, receive guaranteed daily profits. Over 10,000 successful investors trust us.
             </p>
             
             <div class="hero-stats">
                 <div class="stat-item">
-                    <div class="stat-number">۱۰,۰۰۰+</div>
-                    <div class="stat-label">کاربر فعال</div>
+                    <div class="stat-number">10,000+</div>
+                    <div class="stat-label" data-i18n="hero.activeUsers">Active Users</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">$۵۰M+</div>
-                    <div class="stat-label">دارایی تحت مدیریت</div>
+                    <div class="stat-number">$50M+</div>
+                    <div class="stat-label" data-i18n="hero.managedAssets">Managed Assets</div>
                 </div>
                 <div class="stat-item">
-                    <div class="stat-number">$۲.۵M+</div>
-                    <div class="stat-label">سود پرداختی</div>
+                    <div class="stat-number">$2.5M+</div>
+                    <div class="stat-label" data-i18n="hero.paidProfits">Paid Profits</div>
                 </div>
             </div>
 
             <div style="display: flex; gap: 0.8rem; justify-content: center; flex-wrap: wrap;">
                 <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.2rem; font-size: 0.85rem;">
                     <i class="fas fa-gem"></i>
-                    شروع سرمایه‌گذاری
+                    <span data-i18n="hero.startInvesting">Start Investing</span>
                 </button>
             </div>
         </div>
@@ -937,29 +1106,29 @@
         <div class="section-container">
             <div class="referral-container">
                 <div class="referral-header">
-                    <h2 class="referral-title">Invite Friends & Earn $50</h2>
-                    <p class="referral-subtitle">Share your referral link and earn $50 for every friend who joins and invests</p>
+                    <h2 class="referral-title" data-i18n="referral.title">Invite Friends & Earn $50</h2>
+                    <p class="referral-subtitle" data-i18n="referral.subtitle">Share your referral link and earn $50 for every friend who joins and invests</p>
                 </div>
                 
                 <div class="referral-content">
                     <div class="referral-steps">
                         <div class="referral-step">
                             <div class="step-number">1</div>
-                            <div class="step-text">Share your unique referral link with friends</div>
+                            <div class="step-text" data-i18n="referral.step1">Share your unique referral link with friends</div>
                         </div>
                         <div class="referral-step">
                             <div class="step-number">2</div>
-                            <div class="step-text">Your friend signs up and makes their first investment</div>
+                            <div class="step-text" data-i18n="referral.step2">Your friend signs up and makes their first investment</div>
                         </div>
                         <div class="referral-step">
                             <div class="step-number">3</div>
-                            <div class="step-text">Receive $50 bonus directly to your account</div>
+                            <div class="step-text" data-i18n="referral.step3">Receive $50 bonus directly to your account</div>
                         </div>
                     </div>
 
                     <div class="referral-bonus-section">
-                        <div class="referral-bonus">$50 Bonus</div>
-                        <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.2rem; font-size: 0.85rem; width: 100%;">
+                        <div class="referral-bonus" data-i18n="referral.bonus">$50 Bonus</div>
+                        <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.2rem; font-size: 0.85rem; width: 100%;" data-i18n="referral.getLink">
                             Get Your Referral Link
                         </button>
                     </div>
@@ -968,12 +1137,12 @@
         </div>
     </section>
 
-    <!-- سکشن طرح‌های سرمایه‌گذاری - طراحی جدید -->
+    <!-- سکشن طرح‌های سرمایه‌گذاری -->
     <section class="investment-section">
         <div class="section-container">
-            <h2 class="section-title">طرح‌های سرمایه‌گذاری ویژه</h2>
-            <p class="section-subtitle">
-                با انتخاب هر یک از طرح‌های زیر، روزانه سود تضمینی دریافت کنید
+            <h2 class="section-title" data-i18n="investment.title">Special Investment Plans</h2>
+            <p class="section-subtitle" data-i18n="investment.subtitle">
+                Choose any of the plans below and receive guaranteed daily profits
             </p>
 
             <div class="plans-grid">
@@ -982,12 +1151,12 @@
                     <div class="plan-icon">
                         <i class="fas fa-gem"></i>
                     </div>
-                    <h3 class="plan-name">برنز</h3>
-                    <div class="plan-profit">$۳۰</div>
-                    <p class="plan-desc">سود تضمینی روزانه</p>
-                    <div class="plan-minimum">حداقل سرمایه: $۳۰۰</div>
-                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                        شروع سرمایه‌گذاری
+                    <h3 class="plan-name" data-i18n="plans.bronze.name">Bronze</h3>
+                    <div class="plan-profit">$30</div>
+                    <p class="plan-desc" data-i18n="plans.bronze.desc">Guaranteed Daily Profit</p>
+                    <div class="plan-minimum" data-i18n="plans.bronze.minimum">Minimum Investment: $300</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;" data-i18n="plans.investButton">
+                        Start Investing
                     </button>
                 </div>
 
@@ -996,12 +1165,12 @@
                     <div class="plan-icon">
                         <i class="fas fa-award"></i>
                     </div>
-                    <h3 class="plan-name">نقره‌ای</h3>
-                    <div class="plan-profit">$۷۰</div>
-                    <p class="plan-desc">سود تضمینی روزانه</p>
-                    <div class="plan-minimum">حداقل سرمایه: $۵۰۰</div>
-                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                        شروع سرمایه‌گذاری
+                    <h3 class="plan-name" data-i18n="plans.silver.name">Silver</h3>
+                    <div class="plan-profit">$70</div>
+                    <p class="plan-desc" data-i18n="plans.silver.desc">Guaranteed Daily Profit</p>
+                    <div class="plan-minimum" data-i18n="plans.silver.minimum">Minimum Investment: $500</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;" data-i18n="plans.investButton">
+                        Start Investing
                     </button>
                 </div>
 
@@ -1010,12 +1179,12 @@
                     <div class="plan-icon">
                         <i class="fas fa-crown"></i>
                     </div>
-                    <h3 class="plan-name">طلایی</h3>
-                    <div class="plan-profit">$۱۵۰</div>
-                    <p class="plan-desc">سود تضمینی روزانه</p>
-                    <div class="plan-minimum">حداقل سرمایه: $۱,۰۰۰</div>
-                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                        شروع سرمایه‌گذاری
+                    <h3 class="plan-name" data-i18n="plans.gold.name">Gold</h3>
+                    <div class="plan-profit">$150</div>
+                    <p class="plan-desc" data-i18n="plans.gold.desc">Guaranteed Daily Profit</p>
+                    <div class="plan-minimum" data-i18n="plans.gold.minimum">Minimum Investment: $1,000</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;" data-i18n="plans.investButton">
+                        Start Investing
                     </button>
                 </div>
 
@@ -1024,12 +1193,12 @@
                     <div class="plan-icon">
                         <i class="fas fa-star"></i>
                     </div>
-                    <h3 class="plan-name">پلاتینیوم</h3>
-                    <div class="plan-profit">$۴۰۰</div>
-                    <p class="plan-desc">سود تضمینی روزانه</p>
-                    <div class="plan-minimum">حداقل سرمایه: $۲,۰۰۰</div>
-                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                        شروع سرمایه‌گذاری
+                    <h3 class="plan-name" data-i18n="plans.platinum.name">Platinum</h3>
+                    <div class="plan-profit">$400</div>
+                    <p class="plan-desc" data-i18n="plans.platinum.desc">Guaranteed Daily Profit</p>
+                    <div class="plan-minimum" data-i18n="plans.platinum.minimum">Minimum Investment: $2,000</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;" data-i18n="plans.investButton">
+                        Start Investing
                     </button>
                 </div>
 
@@ -1038,12 +1207,12 @@
                     <div class="plan-icon">
                         <i class="fas fa-rocket"></i>
                     </div>
-                    <h3 class="plan-name">الماس</h3>
-                    <div class="plan-profit">$۹۰۰</div>
-                    <p class="plan-desc">سود تضمینی روزانه</p>
-                    <div class="plan-minimum">حداقل سرمایه: $۴,۰۰۰</div>
-                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                        شروع سرمایه‌گذاری
+                    <h3 class="plan-name" data-i18n="plans.diamond.name">Diamond</h3>
+                    <div class="plan-profit">$900</div>
+                    <p class="plan-desc" data-i18n="plans.diamond.desc">Guaranteed Daily Profit</p>
+                    <div class="plan-minimum" data-i18n="plans.diamond.minimum">Minimum Investment: $4,000</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;" data-i18n="plans.investButton">
+                        Start Investing
                     </button>
                 </div>
 
@@ -1053,24 +1222,24 @@
                     <div class="plan-icon">
                         <i class="fas fa-gem"></i>
                     </div>
-                    <h3 class="plan-name">ویژه</h3>
-                    <div class="plan-profit">$۲,۰۰۰</div>
-                    <p class="plan-desc">سود تضمینی روزانه</p>
-                    <div class="plan-minimum">حداقل سرمایه: $۸,۰۰۰</div>
-                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;">
-                        شروع سرمایه‌گذاری
+                    <h3 class="plan-name" data-i18n="plans.vip.name">VIP</h3>
+                    <div class="plan-profit">$2,000</div>
+                    <p class="plan-desc" data-i18n="plans.vip.desc">Guaranteed Daily Profit</p>
+                    <div class="plan-minimum" data-i18n="plans.vip.minimum">Minimum Investment: $8,000</div>
+                    <button class="btn btn-primary auth-btn" style="width: 100%; padding: 0.5rem; font-size: 0.75rem;" data-i18n="plans.investButton">
+                        Start Investing
                     </button>
                 </div>
             </div>
         </div>
     </section>
 
-    <!-- سکشن مزایا - طراحی جدید -->
+    <!-- سکشن مزایا -->
     <section class="features-section">
         <div class="section-container">
-            <h2 class="features-title">چرا بایننس پلاس؟</h2>
-            <p class="features-subtitle">
-                با انتخاب ما، از مزایای منحصر به فرد پلتفرم پیشرفته بهره‌مند شوید
+            <h2 class="features-title" data-i18n="features.title">Why Binance Plus?</h2>
+            <p class="features-subtitle" data-i18n="features.subtitle">
+                Choose us and benefit from the unique features of our advanced platform
             </p>
 
             <div class="features-grid">
@@ -1078,9 +1247,9 @@
                     <div class="feature-icon">
                         <i class="fas fa-shield-alt"></i>
                     </div>
-                    <h3 class="feature-title">امنیت پیشرفته</h3>
-                    <p class="feature-desc">
-                        با استفاده از رمزنگاری چندلایه و سیستم‌های نظارتی پیشرفته، دارایی‌های شما در امن‌ترین محیط ممکن محافظت می‌شوند. ما از فناوری‌های امنیتی برتر صنعت استفاده می‌کنیم.
+                    <h3 class="feature-title" data-i18n="features.security.title">Advanced Security</h3>
+                    <p class="feature-desc" data-i18n="features.security.desc">
+                        Your assets are protected in the most secure environment using multi-layer encryption and advanced monitoring systems. We use industry-leading security technologies.
                     </p>
                 </div>
 
@@ -1088,9 +1257,9 @@
                     <div class="feature-icon">
                         <i class="fas fa-chart-line"></i>
                     </div>
-                    <h3 class="feature-title">سود تضمینی روزانه</h3>
-                    <p class="feature-desc">
-                        با الگوریتم‌های هوشمند سرمایه‌گذاری، روزانه سود تضمینی دریافت کنید. عملکرد شفاف و گزارش‌گیری لحظه‌ای در تمام مراحل سرمایه‌گذاری در دسترس شماست.
+                    <h3 class="feature-title" data-i18n="features.profits.title">Guaranteed Daily Profits</h3>
+                    <p class="feature-desc" data-i18n="features.profits.desc">
+                        Receive guaranteed daily profits with smart investment algorithms. Transparent performance and real-time reporting are available throughout your investment journey.
                     </p>
                 </div>
 
@@ -1098,9 +1267,9 @@
                     <div class="feature-icon">
                         <i class="fas fa-headset"></i>
                     </div>
-                    <h3 class="feature-title">پشتیبانی اختصاصی</h3>
-                    <p class="feature-desc">
-                        تیم پشتیبانی حرفه‌ای ما به صورت ۲۴ ساعته در ۷ روز هفته آماده پاسخگویی به سوالات و حل مشکلات شماست. هر سرمایه‌گذار یک مدیر اختصاصی دارد.
+                    <h3 class="feature-title" data-i18n="features.support.title">Dedicated Support</h3>
+                    <p class="feature-desc" data-i18n="features.support.desc">
+                        Our professional support team is available 24/7 to answer your questions and solve problems. Every investor has a dedicated manager.
                     </p>
                 </div>
             </div>
@@ -1110,14 +1279,13 @@
     <!-- سکشن CTA -->
     <section class="cta-section">
         <div class="section-container">
-            <h2 class="cta-title">همین حالا سرمایه‌گذاری را شروع کنید</h2>
-            <p class="cta-subtitle">
-                فرصت را از دست ندهید! به جامعه هزاران سرمایه‌گذار موفق بپیوندید 
-                و از سود روزانه تضمینی بهره‌مند شوید.
+            <h2 class="cta-title" data-i18n="cta.title">Start Investing Now</h2>
+            <p class="cta-subtitle" data-i18n="cta.subtitle">
+                Don't miss the opportunity! Join the community of thousands of successful investors and benefit from guaranteed daily profits.
             </p>
             <button class="btn btn-primary auth-btn" style="padding: 0.7rem 1.5rem; font-size: 0.85rem;">
                 <i class="fas fa-rocket"></i>
-                شروع سرمایه‌گذاری
+                <span data-i18n="cta.button">Start Investing</span>
             </button>
         </div>
     </section>
@@ -1141,135 +1309,614 @@
         <div class="section-container">
             <div class="footer-content">
                 <div class="footer-section">
-                    <h3>Useful Links</h3>
+                    <h3 data-i18n="footer.links.title">Useful Links</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Home</a></li>
-                        <li><a href="#">Markets</a></li>
-                        <li><a href="#">Investment</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Support</a></li>
+                        <li><a href="#" data-i18n="footer.links.home">Home</a></li>
+                        <li><a href="#" data-i18n="footer.links.markets">Markets</a></li>
+                        <li><a href="#" data-i18n="footer.links.investment">Investment</a></li>
+                        <li><a href="#" data-i18n="footer.links.about">About Us</a></li>
+                        <li><a href="#" data-i18n="footer.links.support">Support</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Services</h3>
+                    <h3 data-i18n="footer.services.title">Services</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Spot Trading</a></li>
-                        <li><a href="#">Futures Trading</a></li>
-                        <li><a href="#">Staking</a></li>
-                        <li><a href="#">Lending</a></li>
-                        <li><a href="#">NFT</a></li>
+                        <li><a href="#" data-i18n="footer.services.spot">Spot Trading</a></li>
+                        <li><a href="#" data-i18n="footer.services.futures">Futures Trading</a></li>
+                        <li><a href="#" data-i18n="footer.services.staking">Staking</a></li>
+                        <li><a href="#" data-i18n="footer.services.lending">Lending</a></li>
+                        <li><a href="#" data-i18n="footer.services.nft">NFT</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Legal</h3>
+                    <h3 data-i18n="footer.legal.title">Legal</h3>
                     <ul class="footer-links">
-                        <li><a href="#">Terms of Use</a></li>
-                        <li><a href="#">Privacy Policy</a></li>
-                        <li><a href="#">Security</a></li>
-                        <li><a href="#">FAQ</a></li>
+                        <li><a href="#" data-i18n="footer.legal.terms">Terms of Use</a></li>
+                        <li><a href="#" data-i18n="footer.legal.privacy">Privacy Policy</a></li>
+                        <li><a href="#" data-i18n="footer.legal.security">Security</a></li>
+                        <li><a href="#" data-i18n="footer.legal.faq">FAQ</a></li>
                     </ul>
                 </div>
                 
                 <div class="footer-section">
-                    <h3>Contact Us</h3>
+                    <h3 data-i18n="footer.contact.title">Contact Us</h3>
                     <ul class="contact-info">
-                        <li><i class="fas fa-envelope"></i> support@binanceplus.com</li>
-                        <li><i class="fas fa-phone"></i> +1 (555) 123-4567</li>
-                        <li><i class="fas fa-map-marker-alt"></i> New York, USA</li>
+                        <li><i class="fas fa-envelope"></i> <span data-i18n="footer.contact.email">support@binanceplus.com</span></li>
+                        <li><i class="fas fa-phone"></i> <span data-i18n="footer.contact.phone">+1 (555) 123-4567</span></li>
+                        <li><i class="fas fa-map-marker-alt"></i> <span data-i18n="footer.contact.address">New York, USA</span></li>
                     </ul>
                 </div>
             </div>
             
             <div class="footer-bottom">
-                <p>© 2023 Binance Plus. All rights reserved.</p>
+                <p data-i18n="footer.copyright">© 2023 Binance Plus. All rights reserved.</p>
             </div>
         </div>
     </footer>
 
     <script>
-        // API Keys Configuration
-        const API_KEYS = {
-            // Main API Keys
-            MAIN_API: 'binance_plus_main_key_2024',
-            DATABASE_API: 'db_binance_plus_secure_2024',
-            
-            // Third Party Services
-            GOOGLE_MAPS: 'AIzaSyBinancePlusGoogleMapsKey',
-            STRIPE_PUBLISHABLE: 'pk_live_binancePlusStripeKey2024',
-            SENDGRID: 'SG.binancePlusSendGridAPI2024',
-            
-            // Authentication
-            AUTH_SECRET: 'binance_plus_auth_secret_2024_key',
-            JWT_SECRET: 'binance_plus_jwt_secret_key_2024'
+        // ========== سیستم چندزبانه کامل با 6 زبان ==========
+        const translations = {
+            // انگلیسی (پیش‌فرض)
+            'en': {
+                'site.title': 'Binance Plus',
+                'header.login': 'Login',
+                'header.signup': 'Get Started',
+                'header.getStarted': 'Get Started',
+                'hero.title': 'Smart Investment in Crypto World',
+                'hero.subtitle': 'With Binance Plus advanced platform, receive guaranteed daily profits. Over 10,000 successful investors trust us.',
+                'hero.activeUsers': 'Active Users',
+                'hero.managedAssets': 'Managed Assets',
+                'hero.paidProfits': 'Paid Profits',
+                'hero.startInvesting': 'Start Investing',
+                'referral.title': 'Invite Friends & Earn $50',
+                'referral.subtitle': 'Share your referral link and earn $50 for every friend who joins and invests',
+                'referral.step1': 'Share your unique referral link with friends',
+                'referral.step2': 'Your friend signs up and makes their first investment',
+                'referral.step3': 'Receive $50 bonus directly to your account',
+                'referral.bonus': '$50 Bonus',
+                'referral.getLink': 'Get Your Referral Link',
+                'investment.title': 'Special Investment Plans',
+                'investment.subtitle': 'Choose any of the plans below and receive guaranteed daily profits',
+                'plans.bronze.name': 'Bronze',
+                'plans.bronze.desc': 'Guaranteed Daily Profit',
+                'plans.bronze.minimum': 'Minimum Investment: $300',
+                'plans.silver.name': 'Silver',
+                'plans.silver.desc': 'Guaranteed Daily Profit',
+                'plans.silver.minimum': 'Minimum Investment: $500',
+                'plans.gold.name': 'Gold',
+                'plans.gold.desc': 'Guaranteed Daily Profit',
+                'plans.gold.minimum': 'Minimum Investment: $1,000',
+                'plans.platinum.name': 'Platinum',
+                'plans.platinum.desc': 'Guaranteed Daily Profit',
+                'plans.platinum.minimum': 'Minimum Investment: $2,000',
+                'plans.diamond.name': 'Diamond',
+                'plans.diamond.desc': 'Guaranteed Daily Profit',
+                'plans.diamond.minimum': 'Minimum Investment: $4,000',
+                'plans.vip.name': 'VIP',
+                'plans.vip.desc': 'Guaranteed Daily Profit',
+                'plans.vip.minimum': 'Minimum Investment: $8,000',
+                'plans.investButton': 'Start Investing',
+                'features.title': 'Why Binance Plus?',
+                'features.subtitle': 'Choose us and benefit from the unique features of our advanced platform',
+                'features.security.title': 'Advanced Security',
+                'features.security.desc': 'Your assets are protected in the most secure environment using multi-layer encryption and advanced monitoring systems. We use industry-leading security technologies.',
+                'features.profits.title': 'Guaranteed Daily Profits',
+                'features.profits.desc': 'Receive guaranteed daily profits with smart investment algorithms. Transparent performance and real-time reporting are available throughout your investment journey.',
+                'features.support.title': 'Dedicated Support',
+                'features.support.desc': 'Our professional support team is available 24/7 to answer your questions and solve problems. Every investor has a dedicated manager.',
+                'cta.title': 'Start Investing Now',
+                'cta.subtitle': 'Don\'t miss the opportunity! Join the community of thousands of successful investors and benefit from guaranteed daily profits.',
+                'cta.button': 'Start Investing',
+                'footer.links.title': 'Useful Links',
+                'footer.links.home': 'Home',
+                'footer.links.markets': 'Markets',
+                'footer.links.investment': 'Investment',
+                'footer.links.about': 'About Us',
+                'footer.links.support': 'Support',
+                'footer.services.title': 'Services',
+                'footer.services.spot': 'Spot Trading',
+                'footer.services.futures': 'Futures Trading',
+                'footer.services.staking': 'Staking',
+                'footer.services.lending': 'Lending',
+                'footer.services.nft': 'NFT',
+                'footer.legal.title': 'Legal',
+                'footer.legal.terms': 'Terms of Use',
+                'footer.legal.privacy': 'Privacy Policy',
+                'footer.legal.security': 'Security',
+                'footer.legal.faq': 'FAQ',
+                'footer.contact.title': 'Contact Us',
+                'footer.contact.email': 'support@binanceplus.com',
+                'footer.contact.phone': '+1 (555) 123-4567',
+                'footer.contact.address': 'New York, USA',
+                'footer.copyright': '© 2023 Binance Plus. All rights reserved.'
+            },
+
+            // فارسی
+            'fa': {
+                'site.title': 'بایننس پلاس',
+                'header.login': 'ورود',
+                'header.signup': 'شروع کنید',
+                'header.getStarted': 'شروع کنید',
+                'hero.title': 'سرمایه‌گذاری هوشمند در دنیای کریپتو',
+                'hero.subtitle': 'با پلتفرم پیشرفته بایننس پلاس، روزانه سود تضمینی دریافت کنید. بیش از ۱۰,۰۰۰ سرمایه‌گذار موفق به ما اعتماد کرده‌اند.',
+                'hero.activeUsers': 'کاربر فعال',
+                'hero.managedAssets': 'دارایی تحت مدیریت',
+                'hero.paidProfits': 'سود پرداختی',
+                'hero.startInvesting': 'شروع سرمایه‌گذاری',
+                'referral.title': 'دعوت از دوستان و دریافت ۵۰ دلار',
+                'referral.subtitle': 'لینک دعوت خود را به اشتراک بگذارید و برای هر دوستی که عضو شود و سرمایه‌گذاری کند ۵۰ دلار دریافت کنید',
+                'referral.step1': 'لینک دعوت اختصاصی خود را با دوستان به اشتراک بگذارید',
+                'referral.step2': 'دوستان شما ثبت‌نام کرده و اولین سرمایه‌گذاری خود را انجام می‌دهند',
+                'referral.step3': '۵۰ دلار پاداش مستقیماً به حساب شما واریز می‌شود',
+                'referral.bonus': '۵۰ دلار پاداش',
+                'referral.getLink': 'دریافت لینک دعوت',
+                'investment.title': 'طرح‌های سرمایه‌گذاری ویژه',
+                'investment.subtitle': 'با انتخاب هر یک از طرح‌های زیر، روزانه سود تضمینی دریافت کنید',
+                'plans.bronze.name': 'برنز',
+                'plans.bronze.desc': 'سود تضمینی روزانه',
+                'plans.bronze.minimum': 'حداقل سرمایه: ۳۰۰ دلار',
+                'plans.silver.name': 'نقره‌ای',
+                'plans.silver.desc': 'سود تضمینی روزانه',
+                'plans.silver.minimum': 'حداقل سرمایه: ۵۰۰ دلار',
+                'plans.gold.name': 'طلایی',
+                'plans.gold.desc': 'سود تضمینی روزانه',
+                'plans.gold.minimum': 'حداقل سرمایه: ۱,۰۰۰ دلار',
+                'plans.platinum.name': 'پلاتینیوم',
+                'plans.platinum.desc': 'سود تضمینی روزانه',
+                'plans.platinum.minimum': 'حداقل سرمایه: ۲,۰۰۰ دلار',
+                'plans.diamond.name': 'الماس',
+                'plans.diamond.desc': 'سود تضمینی روزانه',
+                'plans.diamond.minimum': 'حداقل سرمایه: ۴,۰۰۰ دلار',
+                'plans.vip.name': 'ویژه',
+                'plans.vip.desc': 'سود تضمینی روزانه',
+                'plans.vip.minimum': 'حداقل سرمایه: ۸,۰۰۰ دلار',
+                'plans.investButton': 'شروع سرمایه‌گذاری',
+                'features.title': 'چرا بایننس پلاس؟',
+                'features.subtitle': 'با انتخاب ما، از مزایای منحصر به فرد پلتفرم پیشرفته بهره‌مند شوید',
+                'features.security.title': 'امنیت پیشرفته',
+                'features.security.desc': 'با استفاده از رمزنگاری چندلایه و سیستم‌های نظارتی پیشرفته، دارایی‌های شما در امن‌ترین محیط ممکن محافظت می‌شوند. ما از فناوری‌های امنیتی برتر صنعت استفاده می‌کنیم.',
+                'features.profits.title': 'سود تضمینی روزانه',
+                'features.profits.desc': 'با الگوریتم‌های هوشمند سرمایه‌گذاری، روزانه سود تضمینی دریافت کنید. عملکرد شفاف و گزارش‌گیری لحظه‌ای در تمام مراحل سرمایه‌گذاری در دسترس شماست.',
+                'features.support.title': 'پشتیبانی اختصاصی',
+                'features.support.desc': 'تیم پشتیبانی حرفه‌ای ما به صورت ۲۴ ساعته در ۷ روز هفته آماده پاسخگویی به سوالات و حل مشکلات شماست. هر سرمایه‌گذار یک مدیر اختصاصی دارد.',
+                'cta.title': 'همین حالا سرمایه‌گذاری را شروع کنید',
+                'cta.subtitle': 'فرصت را از دست ندهید! به جامعه هزاران سرمایه‌گذار موفق بپیوندید و از سود روزانه تضمینی بهره‌مند شوید.',
+                'cta.button': 'شروع سرمایه‌گذاری',
+                'footer.links.title': 'لینک‌های مفید',
+                'footer.links.home': 'خانه',
+                'footer.links.markets': 'بازارها',
+                'footer.links.investment': 'سرمایه‌گذاری',
+                'footer.links.about': 'درباره ما',
+                'footer.links.support': 'پشتیبانی',
+                'footer.services.title': 'خدمات',
+                'footer.services.spot': 'معاملات اسپات',
+                'footer.services.futures': 'معاملات فیوچرز',
+                'footer.services.staking': 'استیکینگ',
+                'footer.services.lending': 'استقراض',
+                'footer.services.nft': 'ان‌اف‌تی',
+                'footer.legal.title': 'قانونی',
+                'footer.legal.terms': 'شرایط استفاده',
+                'footer.legal.privacy': 'حریم خصوصی',
+                'footer.legal.security': 'امنیت',
+                'footer.legal.faq': 'سوالات متداول',
+                'footer.contact.title': 'تماس با ما',
+                'footer.contact.email': 'support@binanceplus.com',
+                'footer.contact.phone': '+۱ (۵۵۵) ۱۲۳-۴۵۶۷',
+                'footer.contact.address': 'نیویورک، آمریکا',
+                'footer.copyright': '© ۲۰۲۳ بایننس پلاس. تمام حقوق محفوظ است.'
+            },
+
+            // عربی
+            'ar': {
+                'site.title': 'بينانس بلس',
+                'header.login': 'تسجيل الدخول',
+                'header.signup': 'ابدأ الآن',
+                'header.getStarted': 'ابدأ الآن',
+                'hero.title': 'استثمار ذكي في عالم العملات الرقمية',
+                'hero.subtitle': 'مع منصة بينانس بلس المتقدمة، احصل على أرباح يومية مضمونة. أكثر من ١٠٬٠٠٠ مستثمر ناجح يثق بنا.',
+                'hero.activeUsers': 'مستخدم نشط',
+                'hero.managedAssets': 'الأصول المدارة',
+                'hero.paidProfits': 'الأرباح المدفوعة',
+                'hero.startInvesting': 'ابدأ الاستثمار',
+                'referral.title': 'ادعُ الأصدقاء واكسب ٥٠ دولارًا',
+                'referral.subtitle': 'شارك رابط الدعوة الخاص بك واكسب ٥٠ دولارًا عن كل صديق ينضم ويستثمر',
+                'referral.step1': 'شارك رابط الدعوة الفريد الخاص بك مع الأصدقاء',
+                'referral.step2': 'يسجل صديقك ويقوم بأول استثمار له',
+                'referral.step3': 'استلم مكافأة ٥٠ دولارًا مباشرة في حسابك',
+                'referral.bonus': 'مكافأة ٥٠ دولارًا',
+                'referral.getLink': 'احصل على رابط الدعوة',
+                'investment.title': 'خطط استثمارية خاصة',
+                'investment.subtitle': 'اختر أيًا من الخطط أدناه واحصل على أرباح يومية مضمونة',
+                'plans.bronze.name': 'برونزي',
+                'plans.bronze.desc': 'أرباح يومية مضمونة',
+                'plans.bronze.minimum': 'الحد الأدنى للاستثمار: ٣٠٠ دولار',
+                'plans.silver.name': 'فضي',
+                'plans.silver.desc': 'أرباح يومية مضمونة',
+                'plans.silver.minimum': 'الحد الأدنى للاستثمار: ٥٠٠ دولار',
+                'plans.gold.name': 'ذهبي',
+                'plans.gold.desc': 'أرباح يومية مضمونة',
+                'plans.gold.minimum': 'الحد الأدنى للاستثمار: ١٬٠٠٠ دولار',
+                'plans.platinum.name': 'بلاتيني',
+                'plans.platinum.desc': 'أرباح يومية مضمونة',
+                'plans.platinum.minimum': 'الحد الأدنى للاستثمار: ٢٬٠٠٠ دولار',
+                'plans.diamond.name': 'ماسي',
+                'plans.diamond.desc': 'أرباح يومية مضمونة',
+                'plans.diamond.minimum': 'الحد الأدنى للاستثمار: ٤٬٠٠٠ دولار',
+                'plans.vip.name': 'VIP',
+                'plans.vip.desc': 'أرباح يومية مضمونة',
+                'plans.vip.minimum': 'الحد الأدنى للاستثمار: ٨٬٠٠٠ دولار',
+                'plans.investButton': 'ابدأ الاستثمار',
+                'features.title': 'لماذا بينانس بلس؟',
+                'features.subtitle': 'اخترنا واستفد من الميزات الفريدة لمنصتنا المتقدمة',
+                'features.security.title': 'أمان متقدم',
+                'features.security.desc': 'يتم حماية أصولك في أكثر البيئات أمانًا باستخدام التشفير متعدد الطبقات وأنظمة المراقبة المتقدمة. نستخدم تقنيات أمان رائدة في الصناعة.',
+                'features.profits.title': 'أرباح يومية مضمونة',
+                'features.profits.desc': 'احصل على أرباح يومية مضمونة مع خوارزميات الاستثمار الذكية. الأداء الشفاف وإعداد التقارير في الوقت الفعلي متاحان طوال رحلة استثمارك.',
+                'features.support.title': 'دعم مخصص',
+                'features.support.desc': 'فريق الدعم المحترف لدينا متاح على مدار الساعة طوال أيام الأسبوع للإجابة على أسئلتك وحل مشاكلك. كل مستثمر لديه مدير مخصص.',
+                'cta.title': 'ابدأ الاستثمار الآن',
+                'cta.subtitle': 'لا تفوت الفرصة! انضم إلى مجتمع الآلاف من المستثمرين الناجحين واستفد من الأرباح اليومية المضمونة.',
+                'cta.button': 'ابدأ الاستثمار',
+                'footer.links.title': 'روابط مفيدة',
+                'footer.links.home': 'الرئيسية',
+                'footer.links.markets': 'الأسواق',
+                'footer.links.investment': 'الاستثمار',
+                'footer.links.about': 'من نحن',
+                'footer.links.support': 'الدعم',
+                'footer.services.title': 'الخدمات',
+                'footer.services.spot': 'تداول عادي',
+                'footer.services.futures': 'تداول آجل',
+                'footer.services.staking': 'Staking',
+                'footer.services.lending': 'الإقراض',
+                'footer.services.nft': 'NFT',
+                'footer.legal.title': 'قانوني',
+                'footer.legal.terms': 'شروط الاستخدام',
+                'footer.legal.privacy': 'سياسة الخصوصية',
+                'footer.legal.security': 'الأمان',
+                'footer.legal.faq': 'الأسئلة الشائعة',
+                'footer.contact.title': 'اتصل بنا',
+                'footer.contact.email': 'support@binanceplus.com',
+                'footer.contact.phone': '+١ (٥٥٥) ١٢٣-٤٥٦٧',
+                'footer.contact.address': 'نيويورك، الولايات المتحدة',
+                'footer.copyright': '© ٢٠٢٣ بينانس بلس. جميع الحقوق محفوظة.'
+            },
+
+            // ترکی
+            'tr': {
+                'site.title': 'Binance Plus',
+                'header.login': 'Giriş Yap',
+                'header.signup': 'Başlayın',
+                'header.getStarted': 'Başlayın',
+                'hero.title': 'Kripto Dünyasında Akıllı Yatırım',
+                'hero.subtitle': 'Binance Plus gelişmiş platformu ile günlük garantili kazanç elde edin. 10.000\'den fazla başarılı yatırımcı bize güveniyor.',
+                'hero.activeUsers': 'Aktif Kullanıcı',
+                'hero.managedAssets': 'Yönetilen Varlık',
+                'hero.paidProfits': 'Ödenen Kâr',
+                'hero.startInvesting': 'Yatırıma Başla',
+                'referral.title': 'Arkadaşlarını Davet Et ve 50$ Kazan',
+                'referral.subtitle': 'Referans bağlantınızı paylaşın ve katılan ve yatırım yapan her arkadaşınız için 50$ kazanın',
+                'referral.step1': 'Benzersiz referans bağlantınızı arkadaşlarınızla paylaşın',
+                'referral.step2': 'Arkadaşınız kaydolur ve ilk yatırımını yapar',
+                'referral.step3': 'Hesabınıza doğrudan 50$ bonus alın',
+                'referral.bonus': '50$ Bonus',
+                'referral.getLink': 'Referans Bağlantınızı Alın',
+                'investment.title': 'Özel Yatırım Planları',
+                'investment.subtitle': 'Aşağıdaki planlardan herhangi birini seçin ve günlük garantili kazanç elde edin',
+                'plans.bronze.name': 'Bronz',
+                'plans.bronze.desc': 'Garantili Günlük Kâr',
+                'plans.bronze.minimum': 'Minimum Yatırım: 300$',
+                'plans.silver.name': 'Gümüş',
+                'plans.silver.desc': 'Garantili Günlük Kâr',
+                'plans.silver.minimum': 'Minimum Yatırım: 500$',
+                'plans.gold.name': 'Altın',
+                'plans.gold.desc': 'Garantili Günlük Kâr',
+                'plans.gold.minimum': 'Minimum Yatırım: 1.000$',
+                'plans.platinum.name': 'Platin',
+                'plans.platinum.desc': 'Garantili Günlük Kâr',
+                'plans.platinum.minimum': 'Minimum Yatırım: 2.000$',
+                'plans.diamond.name': 'Elmas',
+                'plans.diamond.desc': 'Garantili Günlük Kâr',
+                'plans.diamond.minimum': 'Minimum Yatırım: 4.000$',
+                'plans.vip.name': 'VIP',
+                'plans.vip.desc': 'Garantili Günlük Kâr',
+                'plans.vip.minimum': 'Minimum Yatırım: 8.000$',
+                'plans.investButton': 'Yatırıma Başla',
+                'features.title': 'Neden Binance Plus?',
+                'features.subtitle': 'Bizi seçin ve gelişmiş platformumuzun benzersiz özelliklerinden yararlanın',
+                'features.security.title': 'Gelişmiş Güvenlik',
+                'features.security.desc': 'Varlıklarınız çok katmanlı şifreleme ve gelişmiş izleme sistemleri kullanılarak en güvenli ortamda korunur. Endüstri lideri güvenlik teknolojileri kullanıyoruz.',
+                'features.profits.title': 'Garantili Günlük Kârlar',
+                'features.profits.desc': 'Akıllı yatırım algoritmaları ile günlük garantili kazanç elde edin. Yatırım yolculuğunuz boyunca şeffaf performans ve gerçek zamanlı raporlama mevcuttur.',
+                'features.support.title': 'Özel Destek',
+                'features.support.desc': 'Profesyonel destek ekibimiz sorularınızı yanıtlamak ve sorunları çözmek için 7/24 hizmetinizdedir. Her yatırımcının özel bir yöneticisi vardır.',
+                'cta.title': 'Hemen Yatırıma Başlayın',
+                'cta.subtitle': 'Fırsatı kaçırmayın! Binlerce başarılı yatırımcıdan oluşan topluluğa katılın ve garantili günlük kazançlardan yararlanın.',
+                'cta.button': 'Yatırıma Başla',
+                'footer.links.title': 'Faydalı Bağlantılar',
+                'footer.links.home': 'Ana Sayfa',
+                'footer.links.markets': 'Piyasalar',
+                'footer.links.investment': 'Yatırım',
+                'footer.links.about': 'Hakkımızda',
+                'footer.links.support': 'Destek',
+                'footer.services.title': 'Hizmetler',
+                'footer.services.spot': 'Spot İşlem',
+                'footer.services.futures': 'Vadeli İşlem',
+                'footer.services.staking': 'Staking',
+                'footer.services.lending': 'Borç Verme',
+                'footer.services.nft': 'NFT',
+                'footer.legal.title': 'Yasal',
+                'footer.legal.terms': 'Kullanım Şartları',
+                'footer.legal.privacy': 'Gizlilik Politikası',
+                'footer.legal.security': 'Güvenlik',
+                'footer.legal.faq': 'SSS',
+                'footer.contact.title': 'Bize Ulaşın',
+                'footer.contact.email': 'support@binanceplus.com',
+                'footer.contact.phone': '+1 (555) 123-4567',
+                'footer.contact.address': 'New York, USA',
+                'footer.copyright': '© 2023 Binance Plus. Tüm hakları saklıdır.'
+            },
+
+            // روسی
+            'ru': {
+                'site.title': 'Binance Plus',
+                'header.login': 'Войти',
+                'header.signup': 'Начать',
+                'header.getStarted': 'Начать',
+                'hero.title': 'Умные инвестиции в мире криптовалют',
+                'hero.subtitle': 'С передовой платформой Binance Plus получайте гарантированную ежедневную прибыль. Более 10 000 успешных инвесторов доверяют нам.',
+                'hero.activeUsers': 'Активные пользователи',
+                'hero.managedAssets': 'Управляемые активы',
+                'hero.paidProfits': 'Выплаченная прибыль',
+                'hero.startInvesting': 'Начать инвестировать',
+                'referral.title': 'Пригласите друзей и получите $50',
+                'referral.subtitle': 'Поделитесь своей реферальной ссылкой и получайте $50 за каждого друга, который присоединится и инвестирует',
+                'referral.step1': 'Поделитесь своей уникальной реферальной ссылкой с друзьями',
+                'referral.step2': 'Ваш друг регистрируется и делает свою первую инвестицию',
+                'referral.step3': 'Получите бонус $50 прямо на свой счет',
+                'referral.bonus': 'Бонус $50',
+                'referral.getLink': 'Получить реферальную ссылку',
+                'investment.title': 'Специальные инвестиционные планы',
+                'investment.subtitle': 'Выберите любой из планов ниже и получайте гарантированную ежедневную прибыль',
+                'plans.bronze.name': 'Бронза',
+                'plans.bronze.desc': 'Гарантированная ежедневная прибыль',
+                'plans.bronze.minimum': 'Минимальная инвестиция: $300',
+                'plans.silver.name': 'Серебро',
+                'plans.silver.desc': 'Гарантированная ежедневная прибыль',
+                'plans.silver.minimum': 'Минимальная инвестиция: $500',
+                'plans.gold.name': 'Золото',
+                'plans.gold.desc': 'Гарантированная ежедневная прибыль',
+                'plans.gold.minimum': 'Минимальная инвестиция: $1,000',
+                'plans.platinum.name': 'Платина',
+                'plans.platinum.desc': 'Гарантированная ежедневная прибыль',
+                'plans.platinum.minimum': 'Минимальная инвестиция: $2,000',
+                'plans.diamond.name': 'Алмаз',
+                'plans.diamond.desc': 'Гарантированная ежедневная прибыль',
+                'plans.diamond.minimum': 'Минимальная инвестиция: $4,000',
+                'plans.vip.name': 'VIP',
+                'plans.vip.desc': 'Гарантированная ежедневная прибыль',
+                'plans.vip.minimum': 'Минимальная инвестиция: $8,000',
+                'plans.investButton': 'Начать инвестировать',
+                'features.title': 'Почему Binance Plus?',
+                'features.subtitle': 'Выберите нас и воспользуйтесь уникальными функциями нашей передовой платформы',
+                'features.security.title': 'Продвинутая безопасность',
+                'features.security.desc': 'Ваши активы защищены в самой безопасной среде с использованием многоуровневого шифрования и передовых систем мониторинга. Мы используем передовые технологии безопасности в отрасли.',
+                'features.profits.title': 'Гарантированная ежедневная прибыль',
+                'features.profits.desc': 'Получайте гарантированную ежедневную прибыль с помощью умных инвестиционных алгоритмов. Прозрачная производительность и отчетность в реальном времени доступны на протяжении всего вашего инвестиционного пути.',
+                'features.support.title': 'Персональная поддержка',
+                'features.support.desc': 'Наша профессиональная служба поддержки доступна 24/7 для ответов на ваши вопросы и решения проблем. У каждого инвестора есть персональный менеджер.',
+                'cta.title': 'Начните инвестировать сейчас',
+                'cta.subtitle': 'Не упустите возможность! Присоединяйтесь к сообществу тысяч успешных инвесторов и получайте гарантированную ежедневную прибыль.',
+                'cta.button': 'Начать инвестировать',
+                'footer.links.title': 'Полезные ссылки',
+                'footer.links.home': 'Главная',
+                'footer.links.markets': 'Рынки',
+                'footer.links.investment': 'Инвестиции',
+                'footer.links.about': 'О нас',
+                'footer.links.support': 'Поддержка',
+                'footer.services.title': 'Услуги',
+                'footer.services.spot': 'Спотовая торговля',
+                'footer.services.futures': 'Фьючерсная торговля',
+                'footer.services.staking': 'Стейкинг',
+                'footer.services.lending': 'Кредитование',
+                'footer.services.nft': 'NFT',
+                'footer.legal.title': 'Юридическая информация',
+                'footer.legal.terms': 'Условия использования',
+                'footer.legal.privacy': 'Политика конфиденциальности',
+                'footer.legal.security': 'Безопасность',
+                'footer.legal.faq': 'Часто задаваемые вопросы',
+                'footer.contact.title': 'Свяжитесь с нами',
+                'footer.contact.email': 'support@binanceplus.com',
+                'footer.contact.phone': '+1 (555) 123-4567',
+                'footer.contact.address': 'Нью-Йорк, США',
+                'footer.copyright': '© 2023 Binance Plus. Все права защищены.'
+            },
+
+            // چینی
+            'zh': {
+                'site.title': '币安 Plus',
+                'header.login': '登录',
+                'header.signup': '开始',
+                'header.getStarted': '开始',
+                'hero.title': '加密货币世界的智能投资',
+                'hero.subtitle': '通过币安 Plus 先进平台，获得保证的每日利润。超过10,000名成功投资者信任我们。',
+                'hero.activeUsers': '活跃用户',
+                'hero.managedAssets': '管理资产',
+                'hero.paidProfits': '已支付利润',
+                'hero.startInvesting': '开始投资',
+                'referral.title': '邀请朋友赚取50美元',
+                'referral.subtitle': '分享您的推荐链接，为每个加入并投资的朋友赚取50美元',
+                'referral.step1': '与朋友分享您独特的推荐链接',
+                'referral.step2': '您的朋友注册并进行首次投资',
+                'referral.step3': '直接获得50美元奖金到您的账户',
+                'referral.bonus': '50美元奖金',
+                'referral.getLink': '获取推荐链接',
+                'investment.title': '特别投资计划',
+                'investment.subtitle': '选择以下任何计划并获得保证的每日利润',
+                'plans.bronze.name': '青铜',
+                'plans.bronze.desc': '保证每日利润',
+                'plans.bronze.minimum': '最低投资: $300',
+                'plans.silver.name': '白银',
+                'plans.silver.desc': '保证每日利润',
+                'plans.silver.minimum': '最低投资: $500',
+                'plans.gold.name': '黄金',
+                'plans.gold.desc': '保证每日利润',
+                'plans.gold.minimum': '最低投资: $1,000',
+                'plans.platinum.name': '铂金',
+                'plans.platinum.desc': '保证每日利润',
+                'plans.platinum.minimum': '最低投资: $2,000',
+                'plans.diamond.name': '钻石',
+                'plans.diamond.desc': '保证每日利润',
+                'plans.diamond.minimum': '最低投资: $4,000',
+                'plans.vip.name': 'VIP',
+                'plans.vip.desc': '保证每日利润',
+                'plans.vip.minimum': '最低投资: $8,000',
+                'plans.investButton': '开始投资',
+                'features.title': '为什么选择币安 Plus?',
+                'features.subtitle': '选择我们，享受我们先进平台的独特功能',
+                'features.security.title': '高级安全',
+                'features.security.desc': '您的资产在使用多层加密和先进监控系统的最安全环境中受到保护。我们使用行业领先的安全技术。',
+                'features.profits.title': '保证每日利润',
+                'features.profits.desc': '通过智能投资算法获得保证的每日利润。在您的整个投资旅程中，透明的性能和实时报告都可用。',
+                'features.support.title': '专属支持',
+                'features.support.desc': '我们的专业支持团队24/7全天候为您解答问题和解决问题。每位投资者都有一位专属经理。',
+                'cta.title': '立即开始投资',
+                'cta.subtitle': '不要错过机会！加入成千上万成功投资者的社区，享受保证的每日利润。',
+                'cta.button': '开始投资',
+                'footer.links.title': '有用链接',
+                'footer.links.home': '首页',
+                'footer.links.markets': '市场',
+                'footer.links.investment': '投资',
+                'footer.links.about': '关于我们',
+                'footer.links.support': '支持',
+                'footer.services.title': '服务',
+                'footer.services.spot': '现货交易',
+                'footer.services.futures': '期货交易',
+                'footer.services.staking': '质押',
+                'footer.services.lending': '借贷',
+                'footer.services.nft': 'NFT',
+                'footer.legal.title': '法律',
+                'footer.legal.terms': '使用条款',
+                'footer.legal.privacy': '隐私政策',
+                'footer.legal.security': '安全',
+                'footer.legal.faq': '常见问题',
+                'footer.contact.title': '联系我们',
+                'footer.contact.email': 'support@binanceplus.com',
+                'footer.contact.phone': '+1 (555) 123-4567',
+                'footer.contact.address': '纽约, 美国',
+                'footer.copyright': '© 2023 币安 Plus. 保留所有权利。'
+            }
         };
 
-        // Redirect to login/register pages
-        function redirectToAuthPage() {
-            window.location.href = 'login.html';
-        }
-
-        // Initialize auth redirects for all buttons
-        document.addEventListener('DOMContentLoaded', function() {
-            // Login button
-            const loginBtn = document.getElementById('loginBtn');
-            if (loginBtn) {
-                loginBtn.addEventListener('click', function() {
-                    redirectToAuthPage();
-                });
-            }
-            
-            // Signup button
-            const signupBtn = document.getElementById('signupBtn');
-            if (signupBtn) {
-                signupBtn.addEventListener('click', function() {
-                    redirectToAuthPage();
-                });
-            }
-            
-            // All auth buttons
-            const authButtons = document.querySelectorAll('.auth-btn');
-            authButtons.forEach(button => {
-                button.addEventListener('click', function() {
-                    redirectToAuthPage();
-                });
-            });
-        });
-
-        // داده‌های تابلو قیمت - تعداد بیشتر شده
-        const priceData = [
-            { symbol: "BTC", price: "$۴۳,۲۱۵", change: "+۲.۳۴%", isPositive: true },
-            { symbol: "ETH", price: "$۲,۵۸۰", change: "+۱.۸۷%", isPositive: true },
-            { symbol: "BNB", price: "$۳۱۰", change: "-۰.۵۶%", isPositive: false },
-            { symbol: "XRP", price: "$۰.۵۸", change: "+۰.۲۳%", isPositive: true },
-            { symbol: "ADA", price: "$۰.۴۲", change: "-۱.۲۵%", isPositive: false },
-            { symbol: "SOL", price: "$۹۸", change: "+۳.۴۵%", isPositive: true },
-            { symbol: "DOT", price: "$۶.۸۹", change: "+۰.۷۸%", isPositive: true },
-            { symbol: "DOGE", price: "$۰.۰۸", change: "-۰.۳۴%", isPositive: false },
-            { symbol: "MATIC", price: "$۰.۷۵", change: "+۱.۱۲%", isPositive: true },
-            { symbol: "LTC", price: "$۶۸", change: "+۰.۴۵%", isPositive: true },
-            { symbol: "AVAX", price: "$۲۱", change: "-۰.۸۹%", isPositive: false },
-            { symbol: "LINK", price: "$۱۴.۵۰", change: "+۲.۱۰%", isPositive: true },
-            { symbol: "ATOM", price: "$۹.۲۵", change: "+۰.۶۷%", isPositive: true },
-            { symbol: "UNI", price: "$۵.۸۰", change: "-۱.۳۴%", isPositive: false },
-            { symbol: "XLM", price: "$۰.۱۲", change: "+۰.۲۳%", isPositive: true }
+        // ========== مدیریت زبان ==========
+        const languages = [
+            { code: 'en', name: 'English', flag: '🇺🇸', dir: 'ltr' },
+            { code: 'fa', name: 'فارسی', flag: '🇮🇷', dir: 'rtl' },
+            { code: 'ar', name: 'العربية', flag: '🇸🇦', dir: 'rtl' },
+            { code: 'tr', name: 'Türkçe', flag: '🇹🇷', dir: 'ltr' },
+            { code: 'ru', name: 'Русский', flag: '🇷🇺', dir: 'ltr' },
+            { code: 'zh', name: '中文', flag: '🇨🇳', dir: 'ltr' }
         ];
 
-        // داده‌های تابلو کاربران
+        let currentLanguage = 'en';
+
+        // تابع تغییر زبان
+        function changeLanguage(langCode) {
+            currentLanguage = langCode;
+            const lang = languages.find(l => l.code === langCode);
+            
+            // تغییر جهت صفحه
+            document.documentElement.dir = lang.dir;
+            document.documentElement.lang = langCode;
+            
+            // ترجمه متن‌ها
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[langCode] && translations[langCode][key]) {
+                    element.textContent = translations[langCode][key];
+                }
+            });
+            
+            // به‌روزرسانی نمایش زبان فعلی
+            document.getElementById('headerCurrentLanguage').textContent = lang.name;
+            document.getElementById('headerCurrentFlag').textContent = lang.flag;
+            
+            // ذخیره در localStorage
+            localStorage.setItem('preferredLanguage', langCode);
+            
+            // بستن منوی dropdown
+            document.getElementById('headerLanguageDropdown').classList.remove('show');
+        }
+
+        // تابع مقداردهی اولیه
+        function initLanguage() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'en';
+            changeLanguage(savedLang);
+            
+            // پر کردن منوی زبان‌ها
+            const dropdown = document.getElementById('headerLanguageDropdown');
+            languages.forEach(lang => {
+                const option = document.createElement('div');
+                option.className = `header-language-option ${lang.code === savedLang ? 'active' : ''}`;
+                option.innerHTML = `
+                    <span class="language-flag">${lang.flag}</span>
+                    <span>${lang.name}</span>
+                `;
+                option.addEventListener('click', () => changeLanguage(lang.code));
+                dropdown.appendChild(option);
+            });
+        }
+
+        // مدیریت باز و بسته شدن منوی زبان
+        document.getElementById('headerLanguageToggle').addEventListener('click', function(e) {
+            e.stopPropagation();
+            document.getElementById('headerLanguageDropdown').classList.toggle('show');
+        });
+
+        // بستن منوی زبان با کلیک خارج
+        document.addEventListener('click', function() {
+            document.getElementById('headerLanguageDropdown').classList.remove('show');
+        });
+
+        // جلوگیری از بستن منو هنگام کلیک روی خود منو
+        document.getElementById('headerLanguageDropdown').addEventListener('click', function(e) {
+            e.stopPropagation();
+        });
+
+        // ========== تابلوهای روان پیوسته ==========
+        const priceData = [
+            { symbol: "BTC", price: "$43,215", change: "+2.34%", isPositive: true },
+            { symbol: "ETH", price: "$2,580", change: "+1.87%", isPositive: true },
+            { symbol: "BNB", price: "$310", change: "-0.56%", isPositive: false },
+            { symbol: "XRP", price: "$0.58", change: "+0.23%", isPositive: true },
+            { symbol: "ADA", price: "$0.42", change: "-1.25%", isPositive: false },
+            { symbol: "SOL", price: "$98", change: "+3.45%", isPositive: true },
+            { symbol: "DOT", price: "$6.89", change: "+0.78%", isPositive: true },
+            { symbol: "DOGE", price: "$0.08", change: "-0.34%", isPositive: false },
+            { symbol: "MATIC", price: "$0.75", change: "+1.12%", isPositive: true },
+            { symbol: "LTC", price: "$68", change: "+0.45%", isPositive: true },
+            { symbol: "AVAX", price: "$21", change: "-0.89%", isPositive: false },
+            { symbol: "LINK", price: "$14.50", change: "+2.10%", isPositive: true },
+            { symbol: "ATOM", price: "$9.25", change: "+0.67%", isPositive: true },
+            { symbol: "UNI", price: "$5.80", change: "-1.34%", isPositive: false },
+            { symbol: "XLM", price: "$0.12", change: "+0.23%", isPositive: true }
+        ];
+
         const usersData = [
-            { name: "محمد ر.", profit: "+$۱,۲۵۰" },
-            { name: "سارا م.", profit: "+$۸۵۰" },
-            { name: "علی ک.", profit: "+$۲,۱۰۰" },
-            { name: "فاطمه و.", profit: "+$۱,۷۵۰" },
-            { name: "احمد ت.", profit: "+$۳,۲۰۰" },
-            { name: "زهرا ر.", profit: "+$۹۵۰" },
-            { name: "مهدی ل.", profit: "+$۱,۵۰۰" },
-            { name: "نرگس ب.", profit: "+$۲,۸۰۰" },
-            { name: "رضا س.", profit: "+$۱,۱۰۰" },
-            { name: "نازنین ف.", profit: "+$۲,۴۰۰" },
-            { name: "حسین م.", profit: "+$۳,۵۰۰" },
-            { name: "لیلا ک.", profit: "+$۱,۸۰۰" }
+            { name: "John D.", profit: "+$1,250" },
+            { name: "Sarah M.", profit: "+$850" },
+            { name: "Alex K.", profit: "+$2,100" },
+            { name: "Emma W.", profit: "+$1,750" },
+            { name: "Mike T.", profit: "+$3,200" },
+            { name: "Lisa R.", profit: "+$950" },
+            { name: "David L.", profit: "+$1,500" },
+            { name: "Anna B.", profit: "+$2,800" },
+            { name: "Robert S.", profit: "+$1,100" },
+            { name: "Olivia F.", profit: "+$2,400" },
+            { name: "James M.", profit: "+$3,500" },
+            { name: "Sophia K.", profit: "+$1,800" }
         ];
 
         // تابع برای ایجاد تابلو روان پیوسته
@@ -1278,8 +1925,8 @@
             const priceTickerWrapper = document.getElementById('priceTickerWrapper');
             priceTickerWrapper.innerHTML = '';
             
-            // ایجاد دو کپی از داده‌ها برای انیمیشن روان و پیوسته
-            for (let i = 0; i < 2; i++) {
+            // ایجاد سه کپی از داده‌ها برای انیمیشن روان و پیوسته
+            for (let i = 0; i < 3; i++) {
                 priceData.forEach(coin => {
                     const tickerItem = document.createElement('div');
                     tickerItem.className = 'ticker-item';
@@ -1296,8 +1943,8 @@
             const usersTickerWrapper = document.getElementById('usersTickerWrapper');
             usersTickerWrapper.innerHTML = '';
             
-            // ایجاد دو کپی از داده‌ها برای انیمیشن روان و پیوسته
-            for (let i = 0; i < 2; i++) {
+            // ایجاد سه کپی از داده‌ها برای انیمیشن روان و پیوسته
+            for (let i = 0; i < 3; i++) {
                 usersData.forEach(user => {
                     const userItem = document.createElement('div');
                     userItem.className = 'user-item';
@@ -1310,15 +1957,50 @@
             }
         }
 
-        // ایجاد تابلوها هنگام لود صفحه
-        document.addEventListener('DOMContentLoaded', function() {
-            createContinuousTicker();
-            
-            // همچنین بعد از رندر کامل صفحه دوباره ایجاد کن
-            setTimeout(createContinuousTicker, 100);
+        // ========== مدیریت صفحه لودینگ ==========
+        window.addEventListener('load', function() {
+            setTimeout(() => {
+                const loadingScreen = document.getElementById('loadingScreen');
+                if (loadingScreen) {
+                    loadingScreen.style.opacity = '0';
+                    setTimeout(() => {
+                        loadingScreen.style.display = 'none';
+                    }, 500);
+                }
+            }, 1000);
         });
 
-        // انیمیشن‌های اسکرول
+        // ========== مدیریت ریدایرکت ==========
+        function redirectToAuthPage() {
+            window.location.href = 'login.html';
+        }
+
+        // ========== مقداردهی اولیه ==========
+        document.addEventListener('DOMContentLoaded', function() {
+            // مقداردهی اولیه زبان
+            initLanguage();
+            
+            // ایجاد تابلوهای روان
+            createContinuousTicker();
+            
+            // مدیریت ریدایرکت دکمه‌ها
+            const loginBtn = document.getElementById('loginBtn');
+            if (loginBtn) {
+                loginBtn.addEventListener('click', redirectToAuthPage);
+            }
+            
+            const signupBtn = document.getElementById('signupBtn');
+            if (signupBtn) {
+                signupBtn.addEventListener('click', redirectToAuthPage);
+            }
+            
+            const authButtons = document.querySelectorAll('.auth-btn');
+            authButtons.forEach(button => {
+                button.addEventListener('click', redirectToAuthPage);
+            });
+        });
+
+        // ========== انیمیشن‌های اسکرول ==========
         const observerOptions = {
             threshold: 0.1,
             rootMargin: '0px 0px -50px 0px'
@@ -1341,9 +2023,9 @@
             observer.observe(card);
         });
 
-        // مدیریت استیکر پشتیبانی
+        // ========== مدیریت استیکر پشتیبانی ==========
         document.querySelector('.support-btn').addEventListener('click', function() {
-            alert('پشتیبانی آنلاین: لطفاً با شماره +1 (555) 123-4567 تماس بگیرید');
+            alert('Online Support: Please call +1 (555) 123-4567');
         });
     </script>
 </body>
