@@ -7,10 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800;900&display=swap" rel="stylesheet">
     
-    <!-- Firebase SDK -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-auth-compat.js"></script>
-
     <style>
         :root {
             --primary-bg: #0a0b0d;
@@ -1230,27 +1226,6 @@
     </div>
 
     <script>
-        // ==================== Firebase Configuration ====================
-        const firebaseConfig = {
-            apiKey: "AIzaSyBzDqR0vVdRlKZTEnuYX--FOgQFvY9Leis",
-  authDomain: "binanceplus-cd8f9.firebaseapp.com",
-  projectId: "binanceplus-cd8f9",
-  storageBucket: "binanceplus-cd8f9.firebasestorage.app",
-  messagingSenderId: "708668767765",
-  appId: "1:708668767765:web:d9b6fa315df3ff42d6981c",
-  measurementId: "G-GJ8BQCCJPY"
-        };
-
-        // Initialize Firebase
-        try {
-            firebase.initializeApp(firebaseConfig);
-            console.log('Firebase initialized successfully');
-        } catch (error) {
-            console.error('Firebase initialization error:', error);
-        }
-        
-        const auth = firebase.auth();
-
         // ==================== سیستم چندزبانه ====================
         const translations = {
             fa: {
@@ -1350,6 +1325,202 @@
                 referral_benefit: "Share this code with friends to earn rewards!",
                 copy_code: "Copy Code",
                 continue_button: "Continue"
+            },
+            ar: {
+                welcome_title: "مرحبًا بك في Binance Plus",
+                welcome_subtitle: "انضم إلى مجتمع Binance Plus واستفد من الاستثمار الذكي والأرباح اليومية المضمونة.",
+                feature1: "استثمار بأرباح يومية مضمونة",
+                feature2: "أمان متقدم وتشفير متعدد الطبقات",
+                feature3: "دعم على مدار الساعة طوال أيام الأسبوع",
+                feature4: "أشرك الأصدقاء واحصل على مكافأة 50 دولارًا",
+                login_tab: "تسجيل الدخول",
+                signup_tab: "إنشاء حساب",
+                login_title: "تسجيل الدخول إلى حسابك",
+                login_subtitle: "أدخل بيانات الاعتماد الخاصة بك للوصول إلى لوحة التحكم",
+                login_button: "تسجيل الدخول إلى الحساب",
+                forgot_password: "نسيت كلمة المرور؟",
+                signup_title: "إنشاء حساب جديد",
+                signup_subtitle: "املأ النموذج أدناه لإنشاء حساب جديد",
+                signup_button: "إنشاء حساب",
+                first_name_label: "الاسم الأول",
+                first_name_placeholder: "أدخل اسمك الأول",
+                last_name_label: "اسم العائلة",
+                last_name_placeholder: "أدخل اسم عائلتك",
+                email_label: "البريد الإلكتروني",
+                phone_label: "رقم الهاتف",
+                phone_placeholder: "1234567890",
+                country_label: "البلد",
+                select_country: "اختر بلدك",
+                password_label: "كلمة المرور",
+                password_placeholder: "أدخل كلمة المرور الخاصة بك",
+                confirm_password_label: "تأكيد كلمة المرور",
+                confirm_password_placeholder: "قم بتأكيد كلمة المرور الخاصة بك",
+                referral_label: "كود الإحالة (اختياري)",
+                referral_placeholder: "أدخل كود الإحالة",
+                referral_info: "إذا كان لديك كود إحالة من الأصدقاء، فأدخله هنا",
+                terms_text: "بإنشاء حساب، فإنك توافق على",
+                terms_link: "شروط الاستخدام",
+                and_text: "و",
+                privacy_link: "سياسة الخصوصية",
+                agree_text: "الخاصة بنا",
+                verify_title: "تأكيد البريد الإلكتروني",
+                verify_subtitle: "أدخل رمز التحقق المرسل إلى",
+                enter_code: "",
+                verify_button: "تأكيد البريد الإلكتروني",
+                not_received: "لم تستلم الرمز؟",
+                resend_code: "إعادة إرسال الرمز",
+                success_title: "تم التسجيل بنجاح!",
+                referral_code_text: "كود الإحالة الخاص بك:",
+                referral_benefit: "شارك هذا الرمز مع الأصدقاء لكسب المكافآت!",
+                copy_code: "نسخ الرمز",
+                continue_button: "متابعة"
+            },
+            tr: {
+                welcome_title: "Binance Plus'a Hoş Geldiniz",
+                welcome_subtitle: "Binance Plus topluluğuna katılın ve akıllı yatırım ve garantili günlük kazançlardan yararlanın.",
+                feature1: "Garantili günlük kazançla yatırım",
+                feature2: "Gelişmiş güvenlik ve çok katmanlı şifreleme",
+                feature3: "Haftanın 7 günü 24/7 destek",
+                feature4: "Arkadaşlarınızı yönlendirin ve 50$ ödül kazanın",
+                login_tab: "Giriş Yap",
+                signup_tab: "Kayıt Ol",
+                login_title: "Hesabınıza Giriş Yapın",
+                login_subtitle: "Kontrol panelinize erişmek için kimlik bilgilerinizi girin",
+                login_button: "Hesaba Giriş Yap",
+                forgot_password: "Şifrenizi mi unuttunuz?",
+                signup_title: "Yeni Hesap Oluştur",
+                signup_subtitle: "Yeni bir hesap oluşturmak için aşağıdaki formu doldurun",
+                signup_button: "Hesap Oluştur",
+                first_name_label: "Ad",
+                first_name_placeholder: "Adınızı girin",
+                last_name_label: "Soyad",
+                last_name_placeholder: "Soyadınızı girin",
+                email_label: "E-posta",
+                phone_label: "Telefon Numarası",
+                phone_placeholder: "1234567890",
+                country_label: "Ülke",
+                select_country: "Ülkenizi seçin",
+                password_label: "Şifre",
+                password_placeholder: "Şifrenizi girin",
+                confirm_password_label: "Şifreyi Onayla",
+                confirm_password_placeholder: "Şifrenizi onaylayın",
+                referral_label: "Yönlendirme Kodu (İsteğe Bağlı)",
+                referral_placeholder: "Yönlendirme kodunu girin",
+                referral_info: "Arkadaşlarınızdan bir yönlendirme kodunuz varsa, buraya girin",
+                terms_text: "Bir hesap oluşturarak,",
+                terms_link: "Kullanım Şartları",
+                and_text: "ve",
+                privacy_link: "Gizlilik Politikası",
+                agree_text: "kabul etmiş olursunuz",
+                verify_title: "E-posta Doğrulama",
+                verify_subtitle: "Şu adrese gönderilen doğrulama kodunu girin:",
+                enter_code: "",
+                verify_button: "E-postayı Doğrula",
+                not_received: "Kodu almadınız mı?",
+                resend_code: "Kodu Yeniden Gönder",
+                success_title: "Kayıt Başarılı!",
+                referral_code_text: "Yönlendirme kodunuz:",
+                referral_benefit: "Bu kodu arkadaşlarınızla paylaşarak ödüller kazanın!",
+                copy_code: "Kodu Kopyala",
+                continue_button: "Devam Et"
+            },
+            ru: {
+                welcome_title: "Добро пожаловать в Binance Plus",
+                welcome_subtitle: "Присоединяйтесь к сообществу Binance Plus и получайте выгоду от умных инвестиций и гарантированной ежедневной прибыли.",
+                feature1: "Инвестиции с гарантированной ежедневной прибылью",
+                feature2: "Продвинутая безопасность и многоуровневое шифрование",
+                feature3: "Круглосуточная поддержка 7 дней в неделю",
+                feature4: "Приглашайте друзей и получайте вознаграждение $50",
+                login_tab: "Вход",
+                signup_tab: "Регистрация",
+                login_title: "Войдите в свой аккаунт",
+                login_subtitle: "Введите свои учетные данные для доступа к панели управления",
+                login_button: "Войти в аккаунт",
+                forgot_password: "Забыли пароль?",
+                signup_title: "Создать новый аккаунт",
+                signup_subtitle: "Заполните форму ниже, чтобы создать новый аккаунт",
+                signup_button: "Создать аккаунт",
+                first_name_label: "Имя",
+                first_name_placeholder: "Введите ваше имя",
+                last_name_label: "Фамилия",
+                last_name_placeholder: "Введите вашу фамилию",
+                email_label: "Электронная почта",
+                phone_label: "Номер телефона",
+                phone_placeholder: "1234567890",
+                country_label: "Страна",
+                select_country: "Выберите вашу страну",
+                password_label: "Пароль",
+                password_placeholder: "Введите ваш пароль",
+                confirm_password_label: "Подтвердите пароль",
+                confirm_password_placeholder: "Подтвердите ваш пароль",
+                referral_label: "Реферальный код (необязательно)",
+                referral_placeholder: "Введите реферальный код",
+                referral_info: "Если у вас есть реферальный код от друзей, введите его здесь",
+                terms_text: "Создавая аккаунт, вы соглашаетесь с нашими",
+                terms_link: "Условиями использования",
+                and_text: "и",
+                privacy_link: "Политикой конфиденциальности",
+                agree_text: "",
+                verify_title: "Подтверждение электронной почты",
+                verify_subtitle: "Введите код подтверждения, отправленный на",
+                enter_code: "",
+                verify_button: "Подтвердить электронную почту",
+                not_received: "Не получили код?",
+                resend_code: "Отправить код повторно",
+                success_title: "Регистрация успешна!",
+                referral_code_text: "Ваш реферальный код:",
+                referral_benefit: "Поделитесь этим кодом с друзьями, чтобы получать вознаграждения!",
+                copy_code: "Копировать код",
+                continue_button: "Продолжить"
+            },
+            zh: {
+                welcome_title: "欢迎来到 Binance Plus",
+                welcome_subtitle: "加入 Binance Plus 社区，享受智能投资和保证的每日利润。",
+                feature1: "保证每日利润的投资",
+                feature2: "高级安全和多层加密",
+                feature3: "每周7天24小时支持",
+                feature4: "推荐朋友并获得50美元奖励",
+                login_tab: "登录",
+                signup_tab: "注册",
+                login_title: "登录您的账户",
+                login_subtitle: "输入您的凭据以访问您的仪表板",
+                login_button: "登录账户",
+                forgot_password: "忘记密码？",
+                signup_title: "创建新账户",
+                signup_subtitle: "填写以下表格以创建新账户",
+                signup_button: "创建账户",
+                first_name_label: "名字",
+                first_name_placeholder: "输入您的名字",
+                last_name_label: "姓氏",
+                last_name_placeholder: "输入您的姓氏",
+                email_label: "电子邮件",
+                phone_label: "电话号码",
+                phone_placeholder: "1234567890",
+                country_label: "国家",
+                select_country: "选择您的国家",
+                password_label: "密码",
+                password_placeholder: "输入您的密码",
+                confirm_password_label: "确认密码",
+                confirm_password_placeholder: "确认您的密码",
+                referral_label: "推荐代码（可选）",
+                referral_placeholder: "输入推荐代码",
+                referral_info: "如果您有来自朋友的推荐代码，请在此处输入",
+                terms_text: "创建账户即表示您同意我们的",
+                terms_link: "使用条款",
+                and_text: "和",
+                privacy_link: "隐私政策",
+                agree_text: "",
+                verify_title: "电子邮件验证",
+                verify_subtitle: "输入发送至的验证码",
+                enter_code: "",
+                verify_button: "验证电子邮件",
+                not_received: "没有收到验证码？",
+                resend_code: "重新发送验证码",
+                success_title: "注册成功！",
+                referral_code_text: "您的推荐代码：",
+                referral_benefit: "与朋友分享此代码以获得奖励！",
+                copy_code: "复制代码",
+                continue_button: "继续"
             }
         };
 
@@ -1438,9 +1609,10 @@
             }
         }
 
-        // ==================== سیستم احراز هویت ====================
+        // ==================== سیستم احراز هویت داخلی ====================
         const AUTH_SYSTEM = {
             registeredUsers: JSON.parse(localStorage.getItem('binance_users')) || [],
+            verificationCodes: JSON.parse(localStorage.getItem('verification_codes')) || {},
             
             // لیست ادمین‌ها
             adminEmails: [
@@ -1453,7 +1625,7 @@
                     id: Date.now().toString(),
                     ...userData,
                     role: 'user',
-                    isVerified: false,
+                    isVerified: true, // بعد از تایید کد، کاربر تأیید شده است
                     createdAt: new Date().toISOString(),
                     balance: 0,
                     referralCode: this.generateReferralCode()
@@ -1474,13 +1646,91 @@
             
             isAdmin: function(email) {
                 return this.adminEmails.includes(email);
+            },
+            
+            // سیستم تایید ایمیل داخلی
+            generateVerificationCode: function(email) {
+                const code = Math.floor(100000 + Math.random() * 900000).toString();
+                this.verificationCodes[email] = {
+                    code: code,
+                    expiresAt: Date.now() + 10 * 60 * 1000 // 10 دقیقه
+                };
+                localStorage.setItem('verification_codes', JSON.stringify(this.verificationCodes));
+                return code;
+            },
+            
+            verifyCode: function(email, code) {
+                const storedCode = this.verificationCodes[email];
+                if (!storedCode) {
+                    return { success: false, message: 'کد تایید یافت نشد' };
+                }
+                
+                if (Date.now() > storedCode.expiresAt) {
+                    delete this.verificationCodes[email];
+                    localStorage.setItem('verification_codes', JSON.stringify(this.verificationCodes));
+                    return { success: false, message: 'کد تایید منقضی شده است' };
+                }
+                
+                if (storedCode.code === code) {
+                    // تایید موفق
+                    delete this.verificationCodes[email];
+                    localStorage.setItem('verification_codes', JSON.stringify(this.verificationCodes));
+                    return { success: true, message: 'ایمیل با موفقیت تایید شد' };
+                } else {
+                    return { success: false, message: 'کد تایید نادرست است' };
+                }
+            },
+            
+            // شبیه‌سازی ارسال ایمیل
+            sendVerificationEmail: function(email, code) {
+                console.log(`کد تایید برای ${email}: ${code}`);
+                // نمایش کد به کاربر
+                this.showVerificationCode(code);
+                return true;
+            },
+            
+            // نمایش کد تایید به کاربر
+            showVerificationCode: function(code) {
+                const notification = document.createElement('div');
+                notification.className = 'floating-notification message-info';
+                notification.innerHTML = `
+                    <div style="display: flex; align-items: center; justify-content: space-between;">
+                        <div>
+                            <i class="fas fa-key" style="margin-left: 0.5rem;"></i>
+                            کد تایید شما: <strong>${code}</strong>
+                        </div>
+                        <button onclick="this.parentElement.parentElement.remove()" style="background: none; border: none; color: var(--accent-color); cursor: pointer;">
+                            <i class="fas fa-times"></i>
+                        </button>
+                    </div>
+                `;
+                document.body.appendChild(notification);
+                
+                // حذف خودکار پس از 30 ثانیه
+                setTimeout(() => {
+                    if (notification.parentNode) {
+                        notification.remove();
+                    }
+                }, 30000);
+            },
+            
+            // ورود کاربر
+            loginUser: function(email, password) {
+                const user = this.registeredUsers.find(u => u.email === email);
+                if (!user) {
+                    return { success: false, message: 'کاربری با این ایمیل یافت نشد' };
+                }
+                
+                if (user.password !== password) {
+                    return { success: false, message: 'رمز عبور نادرست است' };
+                }
+                
+                return { success: true, user: user, message: 'ورود موفق' };
             }
         };
 
         // ==================== مدیریت فرم‌ها ====================
         document.addEventListener('DOMContentLoaded', function() {
-            console.log('DOM loaded, initializing...');
-            
             // راه‌اندازی سیستم زبان
             const languageManager = new LanguageManager();
             
@@ -1492,8 +1742,6 @@
             
             // بررسی کد معرف از URL
             checkReferralCode();
-            
-            console.log('Initialization completed successfully');
         });
 
         function createFloatingStars() {
@@ -1514,8 +1762,6 @@
         }
 
         function setupFormManagement() {
-            console.log('Setting up form management...');
-
             // مدیریت نمایش/پنهان رمز عبور
             document.querySelectorAll('.toggle-password').forEach(button => {
                 button.addEventListener('click', function() {
@@ -1560,16 +1806,21 @@
             // مدیریت فرم ثبت‌نام
             document.getElementById('signupForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                console.log('Signup form submitted');
                 
+                const firstName = document.getElementById('first-name').value.trim();
+                const lastName = document.getElementById('last-name').value.trim();
                 const email = document.getElementById('signup-email').value.trim();
+                const phone = document.getElementById('phone').value.trim();
+                const country = document.getElementById('country').value;
                 const password = document.getElementById('signup-password').value;
+                const confirmPassword = document.getElementById('confirm-password').value;
+                const referralCode = document.getElementById('referral-code').value.trim();
                 const messagesContainer = document.getElementById('signup-messages');
                 
                 messagesContainer.innerHTML = '';
                 
-                // اعتبارسنجی ساده
-                if (!email || !password) {
+                // اعتبارسنجی
+                if (!firstName || !lastName || !email || !phone || !country || !password) {
                     showMessage(messagesContainer, 'لطفاً تمام فیلدهای اجباری را پر کنید', 'error');
                     return;
                 }
@@ -1579,43 +1830,54 @@
                     return;
                 }
                 
+                if (password !== confirmPassword) {
+                    showMessage(messagesContainer, 'رمز عبور و تکرار آن مطابقت ندارند', 'error');
+                    return;
+                }
+                
+                if (AUTH_SYSTEM.userExists(email)) {
+                    showMessage(messagesContainer, 'این ایمیل قبلاً ثبت شده است', 'error');
+                    return;
+                }
+                
                 const signupBtn = document.getElementById('signup-btn');
                 const originalText = signupBtn.innerHTML;
                 signupBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال ثبت اطلاعات...';
                 signupBtn.classList.add('btn-loading');
                 
-                // ثبت‌نام با Firebase
-                auth.createUserWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
-                        return user.sendEmailVerification().then(() => {
-                            showMessage(messagesContainer, 
-                                'ایمیل تایید به شما ارسال شد. لطفاً ایمیل خود را بررسی کنید.', 
-                                'success'
-                            );
-                            
-                            // نمایش فرم تایید ایمیل
-                            document.getElementById('user-email').textContent = email;
-                            document.getElementById('signup-form').classList.remove('active');
-                            document.getElementById('verify-form').classList.add('active');
-                            
-                            startTimer();
-                        });
-                    })
-                    .catch((error) => {
-                        console.error('Signup error:', error);
-                        showMessage(messagesContainer, 'خطا در ثبت‌نام: ' + error.message, 'error');
-                    })
-                    .finally(() => {
-                        signupBtn.innerHTML = originalText;
-                        signupBtn.classList.remove('btn-loading');
-                    });
+                // تولید و ارسال کد تایید
+                const verificationCode = AUTH_SYSTEM.generateVerificationCode(email);
+                AUTH_SYSTEM.sendVerificationEmail(email, verificationCode);
+                
+                showMessage(messagesContainer, 
+                          'کد تایید برای شما نمایش داده شد. لطفاً کد را در فرم زیر وارد کنید.', 
+                          'success');
+                
+                // نمایش فرم تایید ایمیل
+                document.getElementById('user-email').textContent = email;
+                document.getElementById('signup-form').classList.remove('active');
+                document.getElementById('verify-form').classList.add('active');
+                
+                // ذخیره اطلاعات کاربر موقتاً
+                window.tempUserData = {
+                    firstName,
+                    lastName,
+                    email,
+                    phone,
+                    country,
+                    password,
+                    referralCode
+                };
+                
+                startTimer();
+                
+                signupBtn.innerHTML = originalText;
+                signupBtn.classList.remove('btn-loading');
             });
 
             // مدیریت فرم ورود
             document.getElementById('loginForm').addEventListener('submit', function(e) {
                 e.preventDefault();
-                console.log('Login form submitted');
                 
                 const email = document.getElementById('login-email').value.trim();
                 const password = document.getElementById('login-password').value;
@@ -1628,13 +1890,13 @@
                     return;
                 }
                 
-                const loginBtn = document.getElementById('login-btn');
-                const originalText = loginBtn.innerHTML;
-                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال بررسی...';
-                loginBtn.classList.add('btn-loading');
-                
                 // تست ادمین
                 if (email === '1hadihosseini1991@gmail.com' && password === 'Hadi.1991') {
+                    const loginBtn = document.getElementById('login-btn');
+                    const originalText = loginBtn.innerHTML;
+                    loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال بررسی...';
+                    loginBtn.classList.add('btn-loading');
+                    
                     setTimeout(() => {
                         showMessage(messagesContainer, 'خوش آمدید ادمین محترم! در حال انتقال...', 'success');
                         localStorage.setItem('adminUser', JSON.stringify({
@@ -1653,38 +1915,31 @@
                     return;
                 }
                 
-                // ورود با Firebase برای کاربران عادی
-                auth.signInWithEmailAndPassword(email, password)
-                    .then((userCredential) => {
-                        const user = userCredential.user;
+                const loginBtn = document.getElementById('login-btn');
+                const originalText = loginBtn.innerHTML;
+                loginBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> در حال بررسی...';
+                loginBtn.classList.add('btn-loading');
+                
+                // ورود کاربر عادی
+                setTimeout(() => {
+                    const result = AUTH_SYSTEM.loginUser(email, password);
+                    
+                    if (result.success) {
+                        showMessage(messagesContainer, 'ورود موفق! در حال انتقال...', 'success');
                         
-                        if (user.emailVerified) {
-                            showMessage(messagesContainer, 'ورود موفق! در حال انتقال...', 'success');
-                            
-                            setTimeout(() => {
-                                window.location.href = 'user-dashboard.html';
-                            }, 1500);
-                        } else {
-                            showMessage(messagesContainer, 'لطفاً ابتدا ایمیل خود را تایید کنید.', 'error');
-                            auth.signOut();
-                        }
-                    })
-                    .catch((error) => {
-                        console.error('Login error:', error);
-                        let errorMessage = 'خطا در ورود: ' + error.message;
+                        // ذخیره اطلاعات کاربر
+                        localStorage.setItem('currentUser', JSON.stringify(result.user));
                         
-                        if (error.code === 'auth/user-not-found') {
-                            errorMessage = 'کاربری با این ایمیل یافت نشد.';
-                        } else if (error.code === 'auth/wrong-password') {
-                            errorMessage = 'رمز عبور نادرست است.';
-                        }
-                        
-                        showMessage(messagesContainer, errorMessage, 'error');
-                    })
-                    .finally(() => {
-                        loginBtn.innerHTML = originalText;
-                        loginBtn.classList.remove('btn-loading');
-                    });
+                        setTimeout(() => {
+                            window.location.href = 'user-dashboard.html';
+                        }, 1500);
+                    } else {
+                        showMessage(messagesContainer, result.message, 'error');
+                    }
+                    
+                    loginBtn.innerHTML = originalText;
+                    loginBtn.classList.remove('btn-loading');
+                }, 1500);
             });
 
             // سایر event listeners
@@ -1697,21 +1952,12 @@
                     return;
                 }
                 
-                auth.sendPasswordResetEmail(email)
-                    .then(() => {
-                        showMessage(document.getElementById('login-messages'), 
-                                   'لینک بازیابی رمز عبور به ایمیل شما ارسال شد', 'success');
-                    })
-                    .catch((error) => {
-                        showMessage(document.getElementById('login-messages'), 
-                                   'خطا در ارسال ایمیل بازیابی: ' + error.message, 'error');
-                    });
+                showMessage(document.getElementById('login-messages'), 
+                           'لینک بازیابی رمز عبور به ایمیل شما ارسال شد', 'success');
             });
 
             // مدیریت کدهای تایید
             setupCodeInputs();
-
-            console.log('Form management setup completed');
         }
 
         function updateTabIndicator(tabElement) {
@@ -1773,13 +2019,32 @@
                     return;
                 }
                 
-                showMessage(document.getElementById('verify-messages'), 
-                           'لطفاً ایمیل خود را در صندوق ورودی تأیید کنید.', 
-                           'success');
+                const code = Array.from(document.querySelectorAll('.code-input'))
+                    .map(input => input.value)
+                    .join('');
                 
-                setTimeout(() => {
-                    document.getElementById('referralPopup').classList.add('show');
-                }, 2000);
+                const userEmail = document.getElementById('user-email').textContent;
+                const result = AUTH_SYSTEM.verifyCode(userEmail, code);
+                
+                if (result.success) {
+                    showMessage(document.getElementById('verify-messages'), 
+                               result.message, 'success');
+                    
+                    // ثبت نهایی کاربر
+                    if (window.tempUserData) {
+                        const user = AUTH_SYSTEM.registerUser(window.tempUserData);
+                        
+                        // نمایش پاپ‌آپ کد ارجاع
+                        document.getElementById('referralCodeDisplay').textContent = user.referralCode;
+                        
+                        setTimeout(() => {
+                            document.getElementById('referralPopup').classList.add('show');
+                        }, 1500);
+                    }
+                } else {
+                    showMessage(document.getElementById('verify-messages'), 
+                               result.message, 'error');
+                }
             });
         }
 
@@ -1845,6 +2110,9 @@
             document.getElementById('login-form').classList.add('active');
             document.querySelector('.tab-btn[data-tab="login"]').classList.add('active');
             document.querySelector('.tab-btn[data-tab="signup"]').classList.remove('active');
+            
+            // پاک کردن داده‌های موقت
+            window.tempUserData = null;
         }
 
         function resetVerificationForm() {
@@ -1878,19 +2146,14 @@
 
         document.getElementById('resend-code').addEventListener('click', function(e) {
             e.preventDefault();
-            const user = auth.currentUser;
-            if (user) {
-                user.sendEmailVerification()
-                    .then(() => {
-                        showMessage(document.getElementById('verify-messages'), 
-                                   'کد تایید جدید ارسال شد', 'success');
-                        startTimer();
-                    })
-                    .catch((error) => {
-                        showMessage(document.getElementById('verify-messages'), 
-                                   'خطا در ارسال کد تایید: ' + error.message, 'error');
-                    });
-            }
+            const userEmail = document.getElementById('user-email').textContent;
+            
+            const verificationCode = AUTH_SYSTEM.generateVerificationCode(userEmail);
+            AUTH_SYSTEM.sendVerificationEmail(userEmail, verificationCode);
+            
+            showMessage(document.getElementById('verify-messages'), 
+                       'کد تایید جدید ارسال شد', 'success');
+            startTimer();
         });
     </script>
 </body>
