@@ -2160,7 +2160,7 @@
                             <div class="form-group">
                                 <label class="form-label" data-translate="yourReferralLink">لینک دعوت شما</label>
                                 <div class="referral-link-container">
-                                    <div class="referral-link" id="referralLink">https://binanceplus.com/ref/BP-USER-12345</div>
+                                    <div class="referral-link" id="referralLink">https://your-website.com/ref/BP-USER-12345</div>
                                     <button class="copy-btn" onclick="copyReferralLink()"><i class="fas fa-copy"></i> <span data-translate="copy">کپی</span></button>
                                 </div>
                             </div>
@@ -3716,7 +3716,7 @@ minimumDeposit: "Minimum deposit",
             });
             
             // Update referral link
-            document.getElementById('referralLink').textContent = `https://binanceplus.com/ref/${state.user.referralCode}`;
+            document.getElementById('referralLink').textContent = `https://your-website.com/ref/${state.user.referralCode}`;
         }
 
         // ========== Data Rendering ==========
@@ -4173,40 +4173,54 @@ minimumDeposit: "Minimum deposit",
 
         // ========== ثبت درخواست واریز ==========
         function submitDeposit() {
-    const networkSelect = document.getElementById('networkSelect');
-    const depositAmount = document.getElementById('depositAmount');
-    const fileInput = document.getElementById('receiptFile');
-    
-    if (!networkSelect.value) {
-        alert('لطفا شبکه را انتخاب کنید');
-        return;
-    }
-    
-    if (!depositAmount.value || parseFloat(depositAmount.value) < 10) {
-        alert('لطفا مبلغ معتبر وارد کنید (حداقل 10 دلار)');
-        return;
-    }
-    
-    if (!fileInput.files[0]) {
-        alert('لطفا فیش واریزی را آپلود کنید');
-        return;
-    }
-    
-    const network = networkSelect.options[networkSelect.selectedIndex].text;
-    const amount = parseFloat(depositAmount.value);
-    
-    // شبیه‌سازی ارسال درخواست
-    alert(`درخواست واریز $${amount} تتر ثبت شد\nپس از تایید ادمین، موجودی شما شارژ خواهد شد`);
-    
-    closeModal('depositModal');
-    
-    // ریست فرم
-    networkSelect.value = '';
-    depositAmount.value = '';
-    document.getElementById('walletAddress').textContent = 'پس از انتخاب شبکه، آدرس نمایش داده می‌شود';
-    document.getElementById('fileName').textContent = 'هیچ فایلی انتخاب نشده';
-    fileInput.value = '';
-}
+            const networkSelect = document.getElementById('networkSelect');
+            const depositAmount = document.getElementById('depositAmount');
+            const fileInput = document.getElementById('receiptFile');
+            
+            if (!networkSelect.value) {
+                alert('لطفا شبکه را انتخاب کنید');
+                return;
+            }
+            
+            if (!depositAmount.value || parseFloat(depositAmount.value) < 10) {
+                alert('لطفا مبلغ معتبر وارد کنید (حداقل 10 دلار)');
+                return;
+            }
+            
+            if (!fileInput.files[0]) {
+                alert('لطفا فیش واریزی را آپلود کنید');
+                return;
+            }
+            
+            const network = networkSelect.options[networkSelect.selectedIndex].text;
+            const amount = parseFloat(depositAmount.value);
+            
+            // افزودن تراکنش به تاریخچه
+            const transaction = {
+                type: 'واریز',
+                detail: `واریز ${amount} USDT از طریق ${network}`,
+                amount: `$${amount}`,
+                status: 'در انتظار تایید',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            state.transactions.push(transaction);
+            
+            // شبیه‌سازی ارسال درخواست
+            alert(`درخواست واریز $${amount} تتر ثبت شد\nپس از تایید ادمین، موجودی شما شارژ خواهد شد`);
+            
+            closeModal('depositModal');
+            
+            // ریست فرم
+            networkSelect.value = '';
+            depositAmount.value = '';
+            document.getElementById('walletAddress').textContent = 'پس از انتخاب شبکه، آدرس نمایش داده می‌شود';
+            document.getElementById('fileName').textContent = 'هیچ فایلی انتخاب نشده';
+            fileInput.value = '';
+            
+            // به‌روزرسانی تاریخچه معاملات
+            renderTransactions();
+        }
 
         // ========== ثبت درخواست برداشت ==========
         function submitWithdrawal() {
@@ -4242,6 +4256,17 @@ minimumDeposit: "Minimum deposit",
                 return;
             }
             
+            // افزودن تراکنش به تاریخچه
+            const transaction = {
+                type: 'برداشت',
+                detail: `برداشت ${amount} ${coinName} به آدرس ${addressInput.value.substring(0, 15)}...`,
+                amount: `$${amount}`,
+                status: 'در انتظار تایید',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            state.transactions.push(transaction);
+            
             // شبیه‌سازی ارسال درخواست
             alert(`درخواست برداشت $${amount} ${coinName} ثبت شد\nپس از تایید ادمین، به آدرس شما واریز خواهد شد`);
             
@@ -4251,6 +4276,9 @@ minimumDeposit: "Minimum deposit",
             document.querySelector('#withdrawCoinOptions .coin-option.selected')?.classList.remove('selected');
             amountInput.value = '';
             addressInput.value = '';
+            
+            // به‌روزرسانی تاریخچه معاملات
+            renderTransactions();
         }
 
         // ========== انجام معامله ==========
@@ -4288,6 +4316,17 @@ minimumDeposit: "Minimum deposit",
                 return;
             }
             
+            // افزودن تراکنش به تاریخچه
+            const transaction = {
+                type: 'معامله',
+                detail: `تبدیل ${amount} USDT به ${toCurrency}`,
+                amount: `$${amount}`,
+                status: 'تکمیل شده',
+                date: new Date().toLocaleDateString('fa-IR')
+            };
+            
+            state.transactions.push(transaction);
+            
             // شبیه‌سازی معامله
             alert(`معامله ${amount} USDT به ${toCurrency} با موفقیت انجام شد`);
             
@@ -4298,6 +4337,9 @@ minimumDeposit: "Minimum deposit",
             document.getElementById('tradeAmount').value = '';
             document.getElementById('tradeRate').textContent = 'پس از انتخاب ارزها نمایش داده می‌شود';
             document.getElementById('tradeResult').textContent = '--';
+            
+            // به‌روزرسانی تاریخچه معاملات
+            renderTransactions();
         }
 
         // ========== خرید و فروش ==========
@@ -4319,6 +4361,17 @@ minimumDeposit: "Minimum deposit",
                     alert('موجودی USDT کافی نیست');
                     return;
                 }
+                
+                // افزودن تراکنش به تاریخچه
+                const transaction = {
+                    type: 'خرید',
+                    detail: `خرید ${amount} ${coinSymbol}`,
+                    amount: `$${cost.toFixed(2)}`,
+                    status: 'تکمیل شده',
+                    date: new Date().toLocaleDateString('fa-IR')
+                };
+                
+                state.transactions.push(transaction);
                 alert(`خرید ${amount} ${coinSymbol} با موفقیت انجام شد`);
             } else {
                 // فروش
@@ -4326,11 +4379,25 @@ minimumDeposit: "Minimum deposit",
                     alert(`موجودی ${coinSymbol} کافی نیست`);
                     return;
                 }
+                
+                // افزودن تراکنش به تاریخچه
+                const transaction = {
+                    type: 'فروش',
+                    detail: `فروش ${amount} ${coinSymbol}`,
+                    amount: `$${(amount * coin.price).toFixed(2)}`,
+                    status: 'تکمیل شده',
+                    date: new Date().toLocaleDateString('fa-IR')
+                };
+                
+                state.transactions.push(transaction);
                 alert(`فروش ${amount} ${coinSymbol} با موفقیت انجام شد`);
             }
             
             closeModal('buySellModal');
             document.getElementById('buySellAmount').value = '';
+            
+            // به‌روزرسانی تاریخچه معاملات
+            renderTransactions();
         }
 
         // ========== برداشت سود استیک ==========
@@ -4434,9 +4501,9 @@ minimumDeposit: "Minimum deposit",
         document.getElementById('networkSelect').onchange = function() {
             if (this.value) {
                 const addresses = {
-                    'erc20': '0x71C7656EC7ab88b098defB751B7401B5f6d8976F',
-                    'trc20': 'TBaGynA43mD9Sgq4xrY5a1fNFRJg2uVB6S',
-                    'bep20': '0x71C7656EC7ab88b098defB751B7401B5f6d8976F'
+                    'erc20': '0x6923ad7a1ae760c0d1f1fc427befb982b452f101',
+                    'trc20': 'TGcus67reBoC2KDCmcQjfgffL7uFcA7J2K',
+                    'bep20': '0x6923ad7a1ae760c0d1f1fc427befb982b452f101'
                 };
                 document.getElementById('walletAddress').textContent = addresses[this.value] || 'آدرس نامعتبر';
             } else {
