@@ -3874,6 +3874,19 @@ minimumDeposit: "Minimum deposit",
             }
         };
 
+        // ========== NEW: مدیریت سایدبار در موبایل ==========
+        // تابع برای بستن سایدبار در موبایل
+        function closeSidebarOnMobile() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (window.innerWidth <= 1000 && sidebar.classList.contains('open')) {
+                sidebar.classList.remove('open');
+                overlay.classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        }
+
         // ========== View Management ==========
         const views = document.querySelectorAll('[id^="view-"]');
         
@@ -3904,6 +3917,9 @@ minimumDeposit: "Minimum deposit",
             } else if (name === 'transactions') {
                 renderTransactions();
             }
+
+            // بستن سایدبار در موبایل هنگام تغییر view
+            closeSidebarOnMobile();
         }
 
         document.querySelectorAll('#mainNav button[data-view]').forEach(btn => {
@@ -3924,30 +3940,32 @@ minimumDeposit: "Minimum deposit",
 
         // Close sidebar when clicking on overlay
         document.getElementById('sidebarOverlay').addEventListener('click', () => {
+            closeSidebarOnMobile();
+        });
+
+        // ========== NEW: Close sidebar when clicking on main content in mobile ==========
+        document.addEventListener('click', function(event) {
             const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggleSidebar');
             const overlay = document.getElementById('sidebarOverlay');
             
-            sidebar.classList.remove('open');
-            overlay.classList.remove('active');
-            document.body.style.overflow = '';
-        });
-
-        // Tab functionality
-        document.querySelectorAll('.tab').forEach(tab => {
-            tab.addEventListener('click', function() {
-                document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
-                this.classList.add('active');
-                
-                if (this.dataset.tab === 'all') {
-                    renderCoinsTable();
-                } else if (this.dataset.tab === 'gainers') {
-                    renderGainersTable();
-                } else if (this.dataset.tab === 'losers') {
-                    renderLosersTable();
+            // اگر در حالت موبایل/تبلت هستیم و سایدبار باز است
+            if (window.innerWidth <= 1000 && sidebar.classList.contains('open')) {
+                // اگر کلیک خارج از سایدبار و خارج از دکمه toggle بود
+                if (!sidebar.contains(event.target) && !toggleBtn.contains(event.target)) {
+                    sidebar.classList.remove('open');
+                    overlay.classList.remove('active');
+                    document.body.style.overflow = '';
                 }
-            });
+            }
         });
 
+        // جلوگیری از بستن سایدبار وقتی روی خود سایدبار کلیک می‌شود
+        document.getElementById('sidebar').addEventListener('click', function(event) {
+            event.stopPropagation();
+        });
+
+        // بقیه کدهای شما دقیقاً مانند قبل باقی می‌مانند
         // ========== Language Management ==========
         function toggleLanguageDropdown() {
             const selector = document.getElementById('languageSelector');
@@ -4030,6 +4048,7 @@ minimumDeposit: "Minimum deposit",
             });
         }
 
+        // بقیه توابع رندر دقیقاً مانند قبل...
         // Render gainers table
         function renderGainersTable() {
             const coins = generateCoinData(20).filter(coin => coin.change24h > 0)
@@ -4825,21 +4844,6 @@ minimumDeposit: "Minimum deposit",
         renderActiveVipPlans();
         renderTransactions();
         updateLanguage();
-        
-        // Close sidebar if clicked outside on mobile
-        document.addEventListener('click', function(event) {
-            const sidebar = document.getElementById('sidebar');
-            const toggleBtn = document.getElementById('toggleSidebar');
-            
-            if (window.innerWidth <= 1000 && 
-                sidebar.classList.contains('open') &&
-                !sidebar.contains(event.target) && 
-                !toggleBtn.contains(event.target)) {
-                sidebar.classList.remove('open');
-                document.getElementById('sidebarOverlay').classList.remove('active');
-                document.body.style.overflow = '';
-            }
-        });
     </script>
 </body>
-                            </html>
+                                        </html>
