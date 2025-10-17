@@ -44,7 +44,7 @@
         
         /* استایل اسکرول بار */
         ::-webkit-scrollbar {
-            width: 8px;
+            width: 6px;
         }
         
         ::-webkit-scrollbar-track {
@@ -82,10 +82,13 @@
             display: flex; 
             flex-direction: column; 
             gap: 1rem; 
-            position: sticky; 
+            position: fixed; 
             top: 0; 
+            right: 0;
             height: 100vh;
             overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s ease;
         }
         
         .brand {
@@ -311,6 +314,7 @@
             gap: 1rem; 
             min-height: 100vh;
             overflow-x: hidden;
+            margin-right: 260px;
         }
         
         .grid {
@@ -442,6 +446,7 @@
             max-height: 600px;
             overflow-y: auto;
             border-radius: 10px;
+            overflow-x: auto;
         }
         
         .coin-row {
@@ -727,13 +732,14 @@
             align-items: center;
             justify-content: center;
             z-index: 10000;
+            padding: 1rem;
         }
         
         .modal-content {
             background: linear-gradient(180deg, #0f1316, #0b0f12);
             border-radius: 12px;
-            padding: 2rem;
-            width: 90%;
+            padding: 1.5rem;
+            width: 100%;
             max-width: 500px;
             border: 1px solid rgba(255,255,255,0.1);
             max-height: 90vh;
@@ -916,6 +922,7 @@
             margin-bottom: 1rem;
             border-bottom: 1px solid rgba(255,255,255,0.05);
             padding-bottom: 0.5rem;
+            overflow-x: auto;
         }
         
         .tab {
@@ -923,6 +930,7 @@
             border-radius: 6px;
             cursor: pointer;
             transition: all 0.3s ease;
+            white-space: nowrap;
         }
         
         .tab.active {
@@ -1185,14 +1193,22 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
         }
         
-        /* Responsive */
+        /* ========== RESPONSIVE DESIGN ========== */
+        
+        /* تبلت - صفحه‌های کوچکتر از 1000px */
         @media (max-width: 1000px) {
             .sidebar {
-                display: none;
+                transform: translateX(100%);
+                width: 280px;
             }
             
-            .app {
-                flex-direction: column;
+            .sidebar.open {
+                transform: translateX(0);
+            }
+            
+            .main {
+                margin-right: 0;
+                width: 100%;
             }
             
             .grid {
@@ -1207,6 +1223,10 @@
                 padding: 0 .6rem;
             }
             
+            .search {
+                min-width: 200px;
+            }
+            
             .staking-cards, .premium-plans {
                 grid-template-columns: 1fr;
             }
@@ -1217,8 +1237,231 @@
                 left: 10px;
                 bottom: 80px;
             }
+            
+            .stats-cards {
+                grid-template-columns: repeat(2, 1fr);
+            }
+            
+            table {
+                font-size: 0.85rem;
+            }
+            
+            table th, table td {
+                padding: 0.5rem 0.3rem;
+            }
         }
         
+        /* موبایل - صفحه‌های کوچکتر از 768px */
+        @media (max-width: 768px) {
+            .main {
+                padding: 0.5rem;
+            }
+            
+            .card {
+                padding: 0.8rem;
+            }
+            
+            .grid {
+                grid-template-columns: repeat(1, 1fr);
+                gap: 0.8rem;
+            }
+            
+            .col-3, .col-4, .col-6, .col-8, .col-9, .col-12 {
+                grid-column: span 1;
+            }
+            
+            .topbar {
+                height: auto;
+                padding: 0.5rem;
+                flex-wrap: wrap;
+                gap: 0.5rem;
+            }
+            
+            .search {
+                min-width: 100%;
+                order: 3;
+            }
+            
+            .top-actions {
+                gap: 0.3rem;
+            }
+            
+            .language-selector {
+                display: none;
+            }
+            
+            .stats-cards {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+            
+            .stat-card {
+                padding: 0.8rem;
+            }
+            
+            .stat-value {
+                font-size: 1.3rem;
+            }
+            
+            .balance-amount {
+                font-size: 1.3rem;
+            }
+            
+            h3 {
+                font-size: 0.95rem;
+            }
+            
+            .muted, .tiny {
+                font-size: 0.8rem;
+            }
+            
+            .staking-card, .premium-plan {
+                height: auto;
+                min-height: 250px;
+            }
+            
+            .vip-plan-box {
+                padding: 1rem;
+            }
+            
+            .vip-plan-profit {
+                font-size: 1.6rem;
+            }
+            
+            .modal-content {
+                padding: 1rem;
+                margin: 1rem;
+            }
+            
+            .referral-link-container {
+                flex-direction: column;
+            }
+            
+            .copy-btn {
+                padding: 0.8rem;
+            }
+            
+            .chat-container {
+                width: calc(100% - 40px);
+                left: 20px;
+                right: 20px;
+            }
+        }
+        
+        /* موبایل‌های کوچک - صفحه‌های کوچکتر از 480px */
+        @media (max-width: 480px) {
+            .main {
+                padding: 0.3rem;
+            }
+            
+            .card {
+                padding: 0.6rem;
+                border-radius: 8px;
+            }
+            
+            .topbar {
+                padding: 0.3rem;
+            }
+            
+            .btn {
+                padding: 0.4rem 0.6rem;
+                font-size: 0.85rem;
+            }
+            
+            .stat-value {
+                font-size: 1.1rem;
+            }
+            
+            .balance-amount {
+                font-size: 1.1rem;
+            }
+            
+            .staking-card, .premium-plan {
+                padding: 0.8rem;
+            }
+            
+            .vip-plan-box {
+                padding: 0.8rem;
+            }
+            
+            .vip-plan-profit {
+                font-size: 1.4rem;
+            }
+            
+            .modal-content {
+                padding: 0.8rem;
+                margin: 0.5rem;
+            }
+            
+            .form-select, .form-input {
+                padding: 0.6rem;
+            }
+            
+            .submit-btn {
+                padding: 0.8rem;
+            }
+            
+            .chat-container {
+                width: calc(100% - 20px);
+                left: 10px;
+                right: 10px;
+                height: 350px;
+            }
+            
+            .support-chat {
+                bottom: 10px;
+                left: 10px;
+            }
+            
+            .chat-button {
+                width: 50px;
+                height: 50px;
+                font-size: 1.2rem;
+            }
+            
+            /* بهبود tables برای موبایل */
+            .coin-table-container {
+                font-size: 0.75rem;
+            }
+            
+            table th, table td {
+                padding: 0.3rem 0.2rem;
+                font-size: 0.75rem;
+            }
+            
+            /* مخفی کردن ستون‌های کم اهمیت در tables */
+            table th:nth-child(4), /* تغییر 24h */
+            table td:nth-child(4),
+            table th:nth-child(5), /* تغییر 7d */
+            table td:nth-child(5),
+            table th:nth-child(6), /* حجم بازار */
+            table td:nth-child(6) {
+                display: none;
+            }
+        }
+        
+        /* بهبود برای حالت landscape موبایل */
+        @media (max-height: 500px) and (orientation: landscape) {
+            .sidebar {
+                overflow-y: auto;
+            }
+            
+            .modal-content {
+                max-height: 80vh;
+            }
+            
+            .chat-container {
+                height: 300px;
+            }
+        }
+        
+        /* بهبود برای صفحه‌های با DPI بالا */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .card {
+                border-width: 0.5px;
+            }
+        }
+
         /* Animations */
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
@@ -1228,9 +1471,28 @@
         .fade-in {
             animation: fadeIn 0.5s ease forwards;
         }
+        
+        /* Overlay برای وقتی sidebar باز است */
+        .sidebar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            z-index: 999;
+            display: none;
+        }
+        
+        .sidebar-overlay.active {
+            display: block;
+        }
     </style>
 </head>
 <body>
+    <!-- Overlay برای sidebar در موبایل -->
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+
     <!-- مودال واریز -->
     <div id="depositModal" class="modal" style="display: none;">
         <div class="modal-content">
@@ -1262,13 +1524,13 @@
                 </select>
             </div>
 
-<div class="form-group">
-    <label class="form-label" data-translate="depositAmount">مبلغ واریز</label>
-    <input type="number" id="depositAmount" class="form-input" data-translate-placeholder="enterDepositAmount" placeholder="مبلغ واریز را وارد کنید">
-    <div class="tiny muted" style="margin-top: 0.5rem;">
-        <span data-translate="minimumDeposit">حداقل واریز:</span> $10
-    </div>
-</div>
+            <div class="form-group">
+                <label class="form-label" data-translate="depositAmount">مبلغ واریز</label>
+                <input type="number" id="depositAmount" class="form-input" data-translate-placeholder="enterDepositAmount" placeholder="مبلغ واریز را وارد کنید">
+                <div class="tiny muted" style="margin-top: 0.5rem;">
+                    <span data-translate="minimumDeposit">حداقل واریز:</span> $10
+                </div>
+            </div>
             
             <div class="wallet-address">
                 <label class="form-label" data-translate="walletAddress">آدرس کیف پول</label>
@@ -1645,7 +1907,7 @@
 
                 <!-- Coins Market -->
                 <div id="view-coins" class="card" style="display:none">
-                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:1rem; flex-wrap: wrap; gap: 1rem;">
                         <div>
                             <h3 data-translate="cryptocurrencyMarket">بازار ارزهای دیجیتال</h3>
                             <div class="muted tiny" data-translate="topCoinsByMarketCap">150 ارز برتر بر اساس حجم بازار</div>
@@ -1709,9 +1971,9 @@
                         </div>
                     </div>
                     
-                    <div style="display:flex; gap:1rem; margin-top:1rem">
-                        <button class="btn btn-gold" style="flex:1" onclick="openDepositModal()"><i class="fa-solid fa-arrow-down"></i> <span data-translate="deposit">واریز</span></button>
-                        <button class="btn" style="flex:1; background:transparent;border:1px solid rgba(255,255,255,0.03)" onclick="openWithdrawModal()"><i class="fa-solid fa-arrow-up"></i> <span data-translate="withdraw">برداشت</span></button>
+                    <div style="display:flex; gap:1rem; margin-top:1rem; flex-wrap: wrap;">
+                        <button class="btn btn-gold" style="flex:1; min-width: 120px;" onclick="openDepositModal()"><i class="fa-solid fa-arrow-down"></i> <span data-translate="deposit">واریز</span></button>
+                        <button class="btn" style="flex:1; min-width: 120px; background:transparent;border:1px solid rgba(255,255,255,0.03)" onclick="openWithdrawModal()"><i class="fa-solid fa-arrow-up"></i> <span data-translate="withdraw">برداشت</span></button>
                     </div>
                     
                     <div class="card" style="margin-top:1.5rem">
@@ -3650,8 +3912,24 @@ minimumDeposit: "Minimum deposit",
 
         // Sidebar toggle for mobile
         document.getElementById('toggleSidebar').addEventListener('click', () => {
-            const sb = document.getElementById('sidebar');
-            sb.style.display = sb.style.display === 'none' || !sb.style.display ? 'flex' : 'none';
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+            
+            // Prevent body scroll when sidebar is open
+            document.body.style.overflow = sidebar.classList.contains('open') ? 'hidden' : '';
+        });
+
+        // Close sidebar when clicking on overlay
+        document.getElementById('sidebarOverlay').addEventListener('click', () => {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            sidebar.classList.remove('open');
+            overlay.classList.remove('active');
+            document.body.style.overflow = '';
         });
 
         // Tab functionality
@@ -4547,6 +4825,21 @@ minimumDeposit: "Minimum deposit",
         renderActiveVipPlans();
         renderTransactions();
         updateLanguage();
+        
+        // Close sidebar if clicked outside on mobile
+        document.addEventListener('click', function(event) {
+            const sidebar = document.getElementById('sidebar');
+            const toggleBtn = document.getElementById('toggleSidebar');
+            
+            if (window.innerWidth <= 1000 && 
+                sidebar.classList.contains('open') &&
+                !sidebar.contains(event.target) && 
+                !toggleBtn.contains(event.target)) {
+                sidebar.classList.remove('open');
+                document.getElementById('sidebarOverlay').classList.remove('active');
+                document.body.style.overflow = '';
+            }
+        });
     </script>
 </body>
-</html>
+                            </html>
